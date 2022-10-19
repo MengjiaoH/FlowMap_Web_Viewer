@@ -22,7 +22,7 @@ import PipelineTap from './components/PipelineTap'
 import Filter from './components/Filter'
 import SeedPlacement from './components/SeedPlacement';
 import ColorOptions from './components/ColorOptions';
-
+import ParticleTracing from './components/ParticleTracing';
 
 const LeftPanel = () => {
     const store = useContext(Store);
@@ -95,6 +95,7 @@ const LeftPanel = () => {
                     <Divider/>
                     <SeedPlacement/>
                     <ColorOptions/>
+                    <ParticleTracing/>
                 </TabPanel>
                 <TabPanel value="2">
                     <PipelineTap/>

@@ -56,6 +56,7 @@ const SeedBox = () => {
         store.seedBoxStore.AddOneSeedBox(dims[0], dims[1], dims[2], pos[0], pos[1], pos[2]);
         // add to pipeline
         const index = store.seedBoxStore.num_seed_boxes;
+        console.log("num of seed boxes", index)
         store.AddToPipeline("Seed Box " + index, dims, pos);
     };
 

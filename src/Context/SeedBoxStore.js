@@ -74,7 +74,7 @@ export class SeedBoxStore {
         this.seed_box_pos.splice(id, 1);
         this.seed_box_color.splice(id, 1);
         this.seed_box_visibility.splice(id, 1);
-        this.num_seed_boxes = this.num_seed_box - 1;
+        this.num_seed_boxes = this.num_seed_boxes - 1;
     }
 
     Reset(){

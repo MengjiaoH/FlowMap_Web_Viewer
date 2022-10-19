@@ -88,6 +88,7 @@ function RenderSeeds() {
                 // console.log("color array in render seeds", color_array_temp)
                 seeds.forEach((seed, i) =>{
                     const color = new THREE.Color(color_array_temp[i]);
+                    console.log("color array in render seeds", color_array_temp[i])
                     // console.log(color.r, color.g, color.b)
                     particles[(i + current) * 3] = seed[0];
                     particles[(i + current) * 3 + 1] = seed[1];

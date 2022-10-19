@@ -61,6 +61,7 @@ export class ModelStore {
         this.interval = interval;
         this.step_size = step_size;
         this.num_fm = (stop - start) / interval;
+        this.rootStore.renderStore.num_fm = this.num_fm;
     }
     TrainingBounds(lower_x, upper_x, lower_y, upper_y, lower_z, upper_z){
         this.trainingBbox = [lower_x, lower_y, lower_z, upper_x, upper_y, upper_z];

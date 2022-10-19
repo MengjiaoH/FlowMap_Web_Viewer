@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import {evaluate_cmap} from '../js-colormaps.js'
+import Store from "./RootStore.js";
 
 function ColorToHex(color) {
     var hexadecimal = color.toString(16);
@@ -21,8 +22,10 @@ export class RenderStore {
     total_num_seeds;
     render_num_seeds;
     initial_color;
+    render_num_fm;
 
     seeds_update;
+    trajs_update;
 
     constructor(rootstore) {
         this.rootStore = rootstore;
@@ -35,8 +38,9 @@ export class RenderStore {
         this.render_num_seeds = 0;
         this.initial_color = '#277BC0';
         this.seeds_update = false;
+        this.trajs_update = false;
+        this.render_num_fm = 0;
     
-
         makeAutoObservable(this);
     }
 
@@ -44,6 +48,8 @@ export class RenderStore {
         this.seeds.push([]);
         this.render_seeds.push([]);
         this.colors.push([]);
+        this.trajs.push([]);
+        this.render_trajs.push([]);
     }
 
     add_seeds(pos, index){
@@ -52,17 +58,31 @@ export class RenderStore {
         }
         this.seeds[index].push(pos);
         this.render_seeds[index].push(pos);
+        this.trajs[index].push([pos]);
+        this.render_trajs[index].push([pos]);
         this.colors[index].push(this.initial_color);
         this.total_num_seeds += 1;
         this.render_num_seeds += 1;
-        console.log("render seeds:", this.render_seeds)
+        // console.log("render seeds:", this.render_seeds)
+    }
+
+    add_trajs(pos, seed_index, pipeline_index){
+        if (pipeline_index === -1){
+            pipeline_index = 0
+        }
+        this.trajs[pipeline_index][seed_index].push(pos);
+        this.render_trajs[pipeline_index][seed_index].push(pos);
     }
 
     DeleteASeedBox(id){
+        const num = this.seeds[id].length;
         this.seeds.splice(id, 1);
-        // TODO: update render seeds 
         this.render_seeds.splice(id, 1);
         this.colors.splice(id, 1);
+        this.trajs.splice(id, 1);
+        this.render_trajs.splice(id, 1);
+        this.render_num_seeds = this.render_num_seeds - num;
+        this.total_num_seeds = this.total_num_seeds - num;
     }
 
     DeleteSeeds(id){
@@ -115,7 +135,6 @@ export class RenderStore {
             // store.renderStore.addColorToArray(ConvertRGBtoHex(color[0], color[1], color[2]), id, v);
         })
         this.seeds_update = !this.seeds_update;
-
     }
 
     SetSeedsInVisible(id, clickedVisibility){
@@ -126,11 +145,14 @@ export class RenderStore {
             if (id === 0){
                 this.seeds.forEach((seeds, s)=>{
                     this.render_seeds[s] = [...seeds];
-
                 });
                 this.render_num_seeds = this.total_num_seeds;
+                this.trajs.forEach((trajs, t) =>{
+                    this.render_trajs[t] = [...trajs];
+                })
             }else{
                 this.render_seeds[id] = this.seeds[id];
+                this.render_trajs[id] = this.trajs[id];
                 this.render_num_seeds = this.render_num_seeds + this.render_seeds[id].length;
             }
         }else{
@@ -138,17 +160,32 @@ export class RenderStore {
                 this.render_seeds = this.render_seeds.map(()=>{
                     return [];
                 })
+                this.render_trajs = this.render_trajs.map(()=>{
+                    return [];
+                })
                 this.render_num_seeds = 0;
             }else{
                 this.render_seeds[id] = [];
+                this.render_trajs[id] = [];
                 this.render_num_seeds = this.render_num_seeds - this.seeds[id].length;
             }
         }
+        // console.log("render_seeds in invisibe:", this.render_seeds);    
+    }
 
-        console.log("render_seeds in invisibe:", this.render_seeds)
+    Update_Trajs(){
+        this.trajs_update = !this.trajs_update;
+    }
 
-        
-        
+    Update_NumFM(new_fm){
+        this.render_num_fm = new_fm;
+        let id = this.rootStore.pipeline_selected;
+        if (id === -1){
+            id = 0;
+        }
+        this.render_trajs[id] = this.trajs[id].map((trajs, j) =>{
+            return trajs.slice(0, new_fm);
+        })
     }
     
 

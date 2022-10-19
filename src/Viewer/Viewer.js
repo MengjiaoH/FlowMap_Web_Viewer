@@ -6,9 +6,10 @@ import { observer } from "mobx-react";
 import Store from '../Context/RootStore'
 import RenderSeedBox from './components/RenderSeedBox'
 import RenderSeeds from './components/RenderSeeds'
+import RenderTrajs from './components/RenderTrajs';
 
 const Render = ({dims, pos, bbox_color, bbox_visibiliity}) =>{
-  const store = useContext(Store);
+  // const store = useContext(Store);
   
 
   return (
@@ -26,6 +27,7 @@ const Render = ({dims, pos, bbox_color, bbox_visibiliity}) =>{
           </GizmoHelper>
         </group>
         <RenderSeeds/>
+        <RenderTrajs/>
         
           <color attach="background" args={['#f0f0f0']} />
             <>
