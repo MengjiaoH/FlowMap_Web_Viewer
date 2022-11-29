@@ -33,8 +33,8 @@ const ParticleTracing = () => {
     }
 
     useEffect(() => {
-        setNumFM(store.modelStore.num_fm);
-    }, [store.modelStore.num_fm])
+        setNumFM(store.modelStore.total_num_fm);
+    }, [store.modelStore.total_num_fm])
 
     const changeNumFM = (event) =>{
         setNumFM(event.target.value);

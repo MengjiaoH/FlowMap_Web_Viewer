@@ -18,11 +18,11 @@ const SingleLine = (props) =>{
         // console.log("update position color")
 
         const color = new THREE.Color(props.color);
-        console.log("data in props", props.data)
+        // console.log("data in props", props.data)
         // console.log("data color", props.color)
         
         const particles = new Array(props.data.length).fill().map((_, i) => {
-                return [props.data[i][0], props.data[i][1], props.data[i][2]];
+                return [props.data[i][0] - store.modelStore.global_domain[0], props.data[i][1] - store.modelStore.global_domain[1], props.data[i][2] - store.modelStore.global_domain[2]];
         });
         const color_array = new Array(props.data.length).fill().map((_, i) =>{
             return [color.r, color.g, color.b];
@@ -51,7 +51,7 @@ const SingleLine = (props) =>{
                     points={points}
                     color='white'
                     vertexColors={colors}
-                    lineWidth={1}
+                    lineWidth={2}
 
             />
     )

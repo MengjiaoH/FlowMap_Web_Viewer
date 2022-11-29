@@ -9,7 +9,7 @@ function GenSeeds(store)
 
     if(store.pipeline_selected === -1 || store.pipeline_selected === 0){
         // there is not a selected pipeline or select the global domain === place seeds in the global domain 
-        const boundings = store.modelStore.dataBounds;
+        const boundings = store.modelStore.global_domain;
         upper = [boundings[3] - offset, boundings[4] - offset, boundings[5] - offset];
         lower = [boundings[0] + offset, boundings[1] + offset, boundings[2] + offset];
     }else{
@@ -31,7 +31,7 @@ function GenSeeds(store)
         const num_seeds = store.placeSeedsStore.num_random_seeds;
         add_new_seeds = num_seeds;
         // console.log("seeding area", upper, lower)
-        // console.log(num_seeds)
+        console.log("num_seeds", num_seeds)
         for(let s = 0; s < num_seeds; ++s){
             const x = Math.random() * (upper[0] - lower[0]) +  lower[0];
             const y = Math.random() * (upper[1] - lower[1]) +  lower[1];

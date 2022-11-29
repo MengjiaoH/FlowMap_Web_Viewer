@@ -15,23 +15,27 @@ const InfoTap = () => {
     const [stop_cycle, setStop] = useState(0);
     const [interval, setInterval] = useState(0);
     const [step_size, setStepSize] = useState(0);
+    const [mode, setMode] = useState('');
+    const [num_models, setNumModels] = useState(0);
+
 
 
 
     useEffect(() => {
-        const dataBounds = store.modelStore.dataBounds;
+        const dataBounds = store.modelStore.global_domain;
         setBoundX([dataBounds[0], dataBounds[3]]);
         setBoundY([dataBounds[1], dataBounds[4]]);
         setBoundZ([dataBounds[2], dataBounds[5]]);
 
-    }, [store.modelStore.dataBounds])
+    }, [store.modelStore.global_domain])
 
     useEffect(() =>{
-        setStart(store.modelStore.start_cycle);
+        setStart(store.modelStore.start_cycles[0]);
     }, [store.modelStore.start_cycle])
 
     useEffect(() =>{
-        setStop(store.modelStore.stop_cycle);
+        const last = store.modelStore.stop_cycles.length;
+        setStop(store.modelStore.stop_cycles[last-1]);
     }, [store.modelStore.stop_cycle])
 
     useEffect(() =>{
@@ -41,6 +45,14 @@ const InfoTap = () => {
     useEffect(() =>{
         setStepSize(store.modelStore.step_size);
     }, [store.modelStore.step_size])
+
+    useEffect(() =>{
+        setNumModels(store.modelStore.num_models);
+    }, [store.modelStore.num_models])
+
+    // useEffect(() =>{
+    //     setMode(store.modelStore.mode);
+    // }, [store.modelStore.mode])
 
     return (
         <Typography component="div">
@@ -61,6 +73,8 @@ const InfoTap = () => {
                 <Typography variant="body1" fontFamily='sans-serif'>Stop Cycle:  {stop_cycle}</Typography>
                 <Typography variant="body1" fontFamily='sans-serif'>Interval:    {interval}</Typography>
                 <Typography variant="body1" fontFamily='sans-serif'>Step Size:   {step_size}</Typography>
+                <Typography variant="body1" fontFamily='sans-serif'>Number of Models:   {num_models}</Typography>
+                {/* <Typography variant="body1" fontFamily='sans-serif'>Training Data Approach:   {step_size}</Typography> */}
             </Box>
         </Typography>
         

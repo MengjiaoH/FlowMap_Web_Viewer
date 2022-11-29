@@ -43,6 +43,9 @@ const ColorByAttributes = () => {
           const dataArray = source.getPointData().getScalars() || source.getPointData().getArrays()[0];
           store.colorOptionsStore.setAttributeData = dataArray;
         //   console.log("attribute data array", dataArray.getNumberOfValues())
+        // console.log("dimensions", source.getDimensions())
+        const dims = source.getDimensions();
+        store.colorOptionsStore.setAttributeDims = dims;
           const dataRange = dataArray.getRange();
           setMin(dataRange[0].toFixed(2));
           setMax(dataRange[1].toFixed(2));

@@ -9,41 +9,49 @@ import {InferenceSession, Tensor} from 'onnxruntime-web';
 
 
 const JsonLoader = (store, jsondata) => {
+    const mode = jsondata.mode;
+    store.modelStore.Mode = mode;
+    // number of models 
+    const num_models = jsondata.num_models;
+    store.modelStore.SetNumModels = num_models;
+    // console.log("number of models: ", num_models, store.modelStore.num_models);
     // dimension
-    const lower_x = +jsondata.bbox_x_lower;
-    const lower_y = +jsondata.bbox_y_lower;
-    const lower_z = +jsondata.bbox_z_lower;
-    const upper_x = +jsondata.bbox_x_upper;
-    const upper_y = +jsondata.bbox_y_upper;
-    const upper_z = +jsondata.bbox_z_upper;
-    // start/ stop cycle
-    const start_cycle = +jsondata.start_cycle;
-    const stop_cycle = +jsondata.stop_cycle;
-    // interval and step size
-    const interval = +jsondata.interval;
-    const step_size = +jsondata.step_size;
-    // training data bounding box 
-    const b0 = +jsondata.bounding_0;
-    const b1 = +jsondata.bounding_1;
-    const b2 = +jsondata.bounding_2;
-    const b3 = +jsondata.bounding_3;
-    const b4 = +jsondata.bounding_4;
-    const b5 = +jsondata.bounding_5;
-    // global view uniformed dimensions
-    const d0 = +jsondata.global_uniformed_dim_x;
-    const d1 = +jsondata.global_uniformed_dim_y;
-    const d2 = +jsondata.global_uniformed_dim_z;
-    
+    const lower_x = jsondata.bbox_x_lower;
+    const lower_y = jsondata.bbox_y_lower;
+    const lower_z = jsondata.bbox_z_lower;
+    const upper_x = jsondata.bbox_x_upper;
+    const upper_y = jsondata.bbox_y_upper;
+    const upper_z = jsondata.bbox_z_upper;
     store.modelStore.DataBounds(lower_x, upper_x, lower_y, upper_y, lower_z, upper_z);
-    store.modelStore.FlowMapProps(start_cycle, stop_cycle, interval, step_size);
-    store.modelStore.TrainingBounds(b0, b1, b2, b3, b4, b5);
-    store.modelStore.GlobalUnifomedDims(d0, d1, d2); 
-    // console.log("training boundings: ", b0, b1, b2, b3, b4, b5)
-    // store.modelStore.SeedBoxDims((upper_x - lower_x) * 0.5, (upper_y - lower_y) * 0.5, (upper_z - lower_z) * 0.5);
-    // store.modelStore.setSeedBoxPos((upper_x - lower_x) * 0.5, (upper_y - lower_y) * 0.5, (upper_z - lower_z) * 0.5);
-    // store.modelStore.setSeedsPlaneDims(store.dataDims);
-    // store.controlStore.ShowNumFM = (stop_cycle - start_cycle) / interval;
-    // store.renderStore.RenderNumFM = (stop_cycle - start_cycle) / interval;
+
+    store.modelStore.StepSize = jsondata.step_size;
+    store.modelStore.Interval = jsondata.interval;
+
+    for(let i = 0; i < num_models; i++){
+        const model_info = jsondata.models[i];
+        const model_dir = model_info.filename;
+        // start/ stop cycle
+        const start_cycle = model_info.start_cycle;
+        const stop_cycle = model_info.stop_cycle;
+        // training data bounding box 
+        const b0 = model_info.bounding_0;
+        const b1 = model_info.bounding_1;
+        const b2 = model_info.bounding_2;
+        const b3 = model_info.bounding_3;
+        const b4 = model_info.bounding_4;
+        const b5 = model_info.bounding_5;
+        store.modelStore.AddOneModelDir(model_dir);
+        store.modelStore.AddStartStopCycles(start_cycle, stop_cycle);
+        store.modelStore.TrainingBounds(b0, b1, b2, b3, b4, b5, i);
+        console.log("training boundings: ", i, b0, b1, b2, b3, b4, b5)
+    }
+    // console.log(store.modelStore.model_dirs)
+   
+    // global view uniformed dimensions
+    // const d0 = jsondata.global_uniformed_dim_x;
+    // const d1 = jsondata.global_uniformed_dim_y;
+    // const d2 = jsondata.global_uniformed_dim_z;
+    // store.modelStore.GlobalUnifomedDims(d0, d1, d2); 
 };
 
 const ModelLoader = () => {
@@ -74,33 +82,48 @@ const ModelLoader = () => {
                 console.error(e);
             }
         }
-        const load_model = async (model_dir) => {
-            console.log("loading onnx model " + model_dir);
+        const load_model = async (model_dir, index) => {
+            console.log("loading onnx model " + model_dir, index);
             const session = await InferenceSession.create(model_dir, {executionProviders: ['wasm']});
             await warmupModel(session);
-            store.modelStore.LoadModel = session;
+            store.modelStore.LoadModel(session, index);
             store.modelStore.ModelLoadDone = true;
             // console.log("store.pipeline", store.pipeline_browser);
         }
        
-        if (dataset === "ABC"){
-            const model_dir = "./models/" + dataset + "/models/" + dataset + ".onnx";
-            load_model(model_dir).then(() =>{
-                console.log("Load done");
-            });
+       if(dataset !== ''){
+            
             // Load data infomation
             const json_dir = "./models/" + dataset + "/" + dataset + ".json";
             fetch(json_dir).then(response => {return response.json();})
-                           .then(jsondata => {
+                            .then(jsondata => {
                                 JsonLoader(store, jsondata);   
                                 // add global domain into pipeline browser
-                                store.AddToPipeline("Global Domain", store.modelStore.dataDims, store.modelStore.dataCenter);       
-             });
-        }
+                                // console.log(store.modelStore.global_dimensions, store.modelStore.global_domain, store.modelStore.global_center)
+                                store.AddToPipeline("Global Domain", store.modelStore.global_dimensions, store.modelStore.global_center);       
+            }).then(() =>{
+                console.log("number of models", store.modelStore.num_models);
+                for(let i = 0; i < store.modelStore.num_models; i++){
+                    const model_dir = "./models/" + dataset + "/models/" + store.modelStore.model_dirs[i];
+                    load_model(model_dir, i).then(() =>{
+                        console.log("Load done", i);
+                    });
+                }
+            });
+       } 
+       
+        
       }, [dataset, store]);
 
+    //   useEffect(()=>{
+
+    //     if (store.modelStore.num_models !== 0){
+    //         console.log("num of models", store.modelStore.num_models);
+    //     }
+    //   }, [store.modelStore.num_models])
+
     return (
-        <FormControl variant="filled" sx={{ m: 1, minWidth: 150}}>
+        <FormControl variant="filled" sx={{ m: 1, fullWidth:true}}>
             <InputLabel id="demo-simple-select-label">Model</InputLabel>
             <Select
                 labelId="demo-simple-select-label"
@@ -109,6 +132,9 @@ const ModelLoader = () => {
                 label="Model"
                 onChange={handleChangeDataset}
             >
+                
+                <MenuItem value={"isabel"}>Hurricane</MenuItem>
+                <MenuItem value={"scalarflow"}>ScalarFlow</MenuItem>
                 <MenuItem value={"ABC"}>ABC</MenuItem>
             </Select>
         </FormControl>

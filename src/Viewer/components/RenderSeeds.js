@@ -13,7 +13,7 @@ const particles = Array.from({ length: MAX_POINTS * 3 }, () => (1))
 
 const color_array = Array.from({ length: MAX_POINTS * 3 }, () => (1))
 
-const size_array = Array.from({ length: MAX_POINTS}, () => (20))
+const size_array = Array.from({ length: MAX_POINTS}, () => (10))
 
 class DotMaterial extends THREE.ShaderMaterial {
     constructor() {
@@ -79,6 +79,7 @@ function RenderSeeds() {
 
     const [points, colors, sizes] = useMemo(() => {
         let num_seeds = store.renderStore.render_num_seeds;
+        const lower = [store.modelStore.global_domain[0], store.modelStore.global_domain[1], store.modelStore.global_domain[2]]
         if (num_seeds > 0){
             let current = 0;
             // console.log("colorchanged")
@@ -90,9 +91,12 @@ function RenderSeeds() {
                     const color = new THREE.Color(color_array_temp[i]);
                     console.log("color array in render seeds", color_array_temp[i])
                     // console.log(color.r, color.g, color.b)
-                    particles[(i + current) * 3] = seed[0];
-                    particles[(i + current) * 3 + 1] = seed[1];
-                    particles[(i + current) * 3 + 2] = seed[2];
+                    particles[(i + current) * 3] = seed[0] - lower[0];
+                    particles[(i + current) * 3 + 1] = seed[1] - lower[1];
+                    particles[(i + current) * 3 + 2] = seed[2] - lower[2];
+                    // particles[(i + current) * 3] = seed[0];
+                    // particles[(i + current) * 3 + 1] = seed[1] - store.modelStore.global_center[1];
+                    // particles[(i + current) * 3 + 2] = seed[2] - store.modelStore.global_center[2];
                     color_array[(i + current) * 3] = color.r;
                     color_array[(i + current) * 3 + 1] = color.g;
                     color_array[(i + current) * 3 + 2] = color.b;

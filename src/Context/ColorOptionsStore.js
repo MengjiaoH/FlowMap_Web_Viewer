@@ -32,6 +32,10 @@ export class ColorOptionsStore {
         this.data_range = range;
     }
 
+    set setAttributeDims(dims){
+        this.attribute_dims = dims;
+    }
+
 
     Reset(){
         this.constant_color = '#277BC0';

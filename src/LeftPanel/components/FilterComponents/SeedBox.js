@@ -41,12 +41,12 @@ const SeedBox = () => {
     }
 
     useEffect(() => {
-        const bounds = store.modelStore.dataBounds;
+        const bounds = store.modelStore.global_domain;
         setBboxX([bounds[0], bounds[3]]);
         setBboxY([bounds[1], bounds[4]]);
         setBboxZ([bounds[2], bounds[5]]);
 
-    }, [store.modelStore.dataBounds])
+    }, [store.modelStore.global_domain])
 
     const addOneSeedBox = () => {
         // console.log("add a seed box");
@@ -86,11 +86,12 @@ const SeedBox = () => {
 
     return (
         
-        <Box sx={{ width: 400, p:1}}>
+        <Box sx={{ width: 450, p:1}}>
             <Stack direction="row" alignItems="center" gap={0.5}>
                 <Typography variant="body1">X Bounds: </Typography>
-                <FormControl onChange={changeLowerX}>
+                <FormControl onChange={changeLowerX} sx={{ minWidth:50}}>
                         <TextField
+                        sx={{ width: 85}}
                             value = {range_x[0]}
                             id="filled-number"
                             label="lower"
@@ -99,8 +100,9 @@ const SeedBox = () => {
                             variant="filled"
                         />
                 </FormControl>
-                <FormControl onChange={changeUpperX}>
+                <FormControl onChange={changeUpperX} sx={{ minWidth:50}}>
                         <TextField
+                        sx={{ width: 85}}
                             value = {range_x[1]}
                             id="filled-number"
                             label="upper"
@@ -112,8 +114,9 @@ const SeedBox = () => {
             </Stack>
             <Stack direction="row" alignItems="center" gap={0.5}>
                 <Typography variant="body1">Y Bounds: </Typography>
-                <FormControl onChange={changeLowerY}>
+                <FormControl onChange={changeLowerY} sx={{ minWidth:50}}>
                         <TextField
+                        sx={{ width: 85}}
                             value = {range_y[0]}
                             id="filled-number"
                             label="lower"
@@ -122,8 +125,9 @@ const SeedBox = () => {
                             variant="filled"
                         />
                 </FormControl>
-                <FormControl onChange={changeUpperY}>
+                <FormControl onChange={changeUpperY} sx={{ minWidth:50}}>
                         <TextField
+                        sx={{ width: 85}}
                             value = {range_y[1]}
                             id="filled-number"
                             label="upper"
@@ -139,10 +143,11 @@ const SeedBox = () => {
                     <UpdateIcon />
                 </IconButton>
             </Stack>
-            <Stack direction="row" alignItems="center" gap={0.5}>
+            <Stack direction="row" alignItems="center" gap={0.5} >
                 <Typography variant="body1">Z Bounds: </Typography>
-                <FormControl onChange={changeLowerZ}>
+                <FormControl onChange={changeLowerZ} sx={{ minWidth:50}}>
                         <TextField
+                        sx={{ width: 85}}
                             value = {range_z[0]}
                             id="filled-number"
                             label="lower"
@@ -151,8 +156,9 @@ const SeedBox = () => {
                             variant="filled"
                         />
                 </FormControl>
-                <FormControl onChange={changeUpperZ}>
+                <FormControl onChange={changeUpperZ} sx={{ minWidth:50}}>
                         <TextField
+                        sx={{ width: 85}}
                             value = {range_z[1]}
                             id="filled-number"
                             label="upper"

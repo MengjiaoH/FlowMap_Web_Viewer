@@ -13,9 +13,9 @@ const Render = ({dims, pos, bbox_color, bbox_visibiliity}) =>{
   
 
   return (
-    <div style={{ width:'100%', height:900}}> 
+    <div style={{ width:'100%', height:1100}}> 
         <Canvas shadows >
-        <PerspectiveCamera makeDefault position={[5, 5, 30]} />
+        <PerspectiveCamera makeDefault position={[125, 125, 1000]} />
         <group position={[0, 0, 0]}>
           {bbox_visibiliity && (<Box args={dims} position={pos} >
             <meshPhongMaterial color= {bbox_color} wireframe />
@@ -42,7 +42,7 @@ const Render = ({dims, pos, bbox_color, bbox_visibiliity}) =>{
 
 const Default = () => {
   return (
-    <div style={{ width:'100%', height:900}}> 
+    <div style={{ width:'100%', height:1100}}> 
         <Canvas shadows >
         <PerspectiveCamera makeDefault position={[5, 5, 30]} />
           <color attach="background" args={['#f0f0f0']} />
@@ -75,9 +75,10 @@ const Viewer = () => {
   }, [store.modelStore.model_load])
 
   useEffect(() => {
-    setPos(store.modelStore.dataCenter);
-    setDims(store.modelStore.dataDims);
-  }, [store.modelStore.dataDims, store.modelStore.dataCenter])
+    
+    setPos(store.modelStore.global_center);
+    setDims(store.modelStore.global_dimensions);
+  }, [store.modelStore.global_dimensions, store.modelStore.global_center])
 
   useEffect(() => {
     setBboxVisibility(store.bboxStore.is_visible);

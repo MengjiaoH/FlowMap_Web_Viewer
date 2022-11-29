@@ -1,0 +1,72 @@
+{
+    "mode": "short",
+    "num_models": 5,
+    "bbox_x_upper": 99,
+    "bbox_x_lower": 0,
+    "bbox_y_upper": 177,
+    "bbox_y_lower": 0,
+    "bbox_z_upper": 99,
+    "bbox_z_lower": 0,
+    "interval": 1,
+    "step_size": 1,
+    "models":[{
+        "filename": "scalarflow0.onnx",
+        "start_cycle": 0,
+        "stop_cycle": 30,
+        "bounding_0": -2.213609963655471802e-02,
+        "bounding_1": 9.903859710693359375e+01,
+        "bounding_2": -5.873730182647705078e-01,
+        "bounding_3": 1.770000000000000000e+02,
+        "bounding_4": -2.429090067744255066e-02,
+        "bounding_5": 9.903209686279296875e+01
+    },
+    
+    {
+        "filename": "scalarflow1.onnx",
+        "start_cycle": 30,
+        "stop_cycle": 60,
+        "bounding_0": -1.848660036921501160e-02,
+        "bounding_1": 9.904969787597656250e+01,
+        "bounding_2": -8.243960142135620117e-01,
+        "bounding_3": 1.770010070800781250e+02,
+        "bounding_4": -2.846850082278251648e-02,
+        "bounding_5": 9.904570007324218750e+01
+    },
+
+    {
+        "filename": "scalarflow2.onnx",
+        "start_cycle": 60,
+        "stop_cycle": 90,
+        "bounding_0": -2.485159970819950104e-02,
+        "bounding_1": 9.906130218505859375e+01,
+        "bounding_2": -9.296159744262695312e-01,
+        "bounding_3": 1.770090026855468750e+02,
+        "bounding_4": -7.259070128202438354e-02,
+        "bounding_5": 9.908940124511718750e+01
+    },
+
+    {
+        "filename": "scalarflow3.onnx",
+        "start_cycle": 90,
+        "stop_cycle": 120,
+        "bounding_0": -3.614040091633796692e-02,
+        "bounding_1": 9.907180023193359375e+01,
+        "bounding_2": -7.043970227241516113e-01,
+        "bounding_3": 1.770310058593750000e+02,
+        "bounding_4": -1.703100055456161499e-01,
+        "bounding_5": 9.915989685058593750e+01
+    },
+    {
+        "filename": "scalarflow4.onnx",
+        "start_cycle": 120,
+        "stop_cycle": 150,
+        "bounding_0": -4.416549950838088989e-02,
+        "bounding_1": 9.908450317382812500e+01,
+        "bounding_2": -7.384639978408813477e-01,
+        "bounding_3": 1.770870056152343750e+02,
+        "bounding_4": -3.086259961128234863e-01,
+        "bounding_5": 9.940750122070312500e+01
+    }
+]
+
+}

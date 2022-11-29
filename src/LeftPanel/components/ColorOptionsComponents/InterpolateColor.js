@@ -47,7 +47,7 @@ function interpolate_color(store)
     if (id === -1){
         id = 0;
     }
-    const boundings = store.modelStore.dataBounds;
+    const boundings = store.modelStore.global_domain;
     const dims = store.colorOptionsStore.attribute_dims;
     const lower = [boundings[0], boundings[1], boundings[2]];
     const x_interval = (boundings[3] - boundings[0]) / (dims[0] - 1)

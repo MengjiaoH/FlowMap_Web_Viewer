@@ -56,13 +56,14 @@ const PlaceSeeds = () => {
         store.placeSeedsStore.UniformSeedsDimY = event.target.value;
     }
     const handleChangeSeedX = (event) =>{
-        setSeedX(event.target.value);
+        console.log(event.target.value)
+        setSeedX(+event.target.value);
     }
     const handleChangeSeedY = (event) =>{
-        setSeedY(event.target.value);
+        setSeedY(+event.target.value);
     }
     const handleChangeSeedZ = (event) =>{
-        setSeedZ(event.target.value);
+        setSeedZ(+event.target.value);
     }
 
     const handleUploadSeedFile = (event) =>{
@@ -89,7 +90,8 @@ const PlaceSeeds = () => {
     }, [num_seeds_uniformed_x, num_seeds_uniformed_y, num_seeds_uniformed_z, store.placeSeedsStore])
 
     useEffect(() => {
-        store.placeSeedsStore.SetManualSeedPos = [insert_seed_x, insert_seed_y, insert_seed_z];
+        // console.log(insert_seed_x, insert_seed_y, insert_seed_z)
+        store.placeSeedsStore.SetManualSeedPos([insert_seed_x, insert_seed_y, insert_seed_z]);
     }, [insert_seed_x, insert_seed_y, insert_seed_z, store.placeSeedsStore])
 
     const AddSeeds = () =>{
@@ -163,7 +165,7 @@ const PlaceSeeds = () => {
                          <Stack direction="row" alignItems="center" spacing={0}>
 
                                 <FormControlLabel value="manually" control={<Radio />} label="Insert Manually" />
-                                <TextField type ="number" label="X" variant="outlined" size="small" inputProps={{ min: 0, style: { fontSize: 12 } }}
+                                <TextField label="X" variant="outlined" size="small" inputProps={{ min: 0, style: { fontSize: 12 } }}
                                     value={insert_seed_x} onChange={handleChangeSeedX} 
                                 />
                                 <TextField  type ="number"  label="Y" variant="outlined" size="small" inputProps={{ min: 0, style: { fontSize: 12 } }}
