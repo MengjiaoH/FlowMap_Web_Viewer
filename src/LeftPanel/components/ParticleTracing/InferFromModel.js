@@ -1,17 +1,17 @@
 import {Tensor} from 'onnxruntime-web';
 
 
-async function Trace(cur_fm, times, num_seeds, minval, maxval, lower, upper, store, model){
+async function Trace(cur_fm, times, num_seeds, num_fm, minval, maxval, lower, upper, store, model){
     const data_1 = Float32Array.from(cur_fm);
-    const input_1 = new Tensor( "float32", data_1, [parseInt(num_seeds), 3]);
+    const input_1 = new Tensor( "float32", data_1, [parseInt(num_seeds * num_fm), 3]);
     const data_2 = Float32Array.from(times)
-    const input_2 = new Tensor( "float32", data_2, [parseInt(num_seeds), 1]);
+    const input_2 = new Tensor( "float32", data_2, [parseInt(num_seeds * num_fm), 1]);
     // console.log(input_1)
     const feeds = { input_1: input_1, input_2: input_2};
     const outputMap = await model.run(feeds);
     
     const predictions = outputMap.output1.data
-    // console.log("prediction", predictions);
+    console.log("prediction", predictions.length);
     
     for(let f = 0; f < predictions.length / 3; f++){ // go over each seed
         // const pos = [predictions[3 * f + 0], predictions[3 * f + 1], predictions[3 * f + 2]];
@@ -19,7 +19,7 @@ async function Trace(cur_fm, times, num_seeds, minval, maxval, lower, upper, sto
         const y = (predictions[3 * f + 1] - minval) / (maxval - minval) * (upper[1] -lower[1]) + lower[1]
         const z = (predictions[3 * f + 2] - minval) / (maxval - minval) * (upper[2] -lower[2]) + lower[2]
         // store.renderStore.add_trajs([x, y, z], f + f_start);
-        store.renderStore.add_trajs([x, y, z], f, store.pipeline_selected);
+        store.renderStore.add_trajs([x, y, z], f / num_fm, store.pipeline_selected);
     }
 }
 
@@ -29,6 +29,7 @@ async function InferFromModel(store){
     const maxval = 1
     // console.log("trace", store._num_fm);
     // calculate trajectories
+    console.log("start tracing")
     var startTime = performance.now()
 
     // let num_seeds = store.renderStore.seeds.length;
@@ -48,7 +49,7 @@ async function InferFromModel(store){
     // predict trajs for all seeds 
     
     if (store.modelStore.mode === "long"){
-        
+        console.log("Long")
         if(store.pipeline_selected === -1 || store.pipeline_selected === 0){
             for(let m = 0; m < store.modelStore.num_models; m++){
                 const upper = [store.modelStore.trainingBbox[m][3], store.modelStore.trainingBbox[m][4], store.modelStore.trainingBbox[m][5]]
@@ -58,24 +59,23 @@ async function InferFromModel(store){
                 const start_fm = store.modelStore.start_cycles[m];
                 const stop_fm = store.modelStore.stop_cycles[m];
                 const num_fm = stop_fm - start_fm;
-                // console.log("here", num_fm)
+                console.log("here", num_fm)
                 const t_start = 1 * store.modelStore.interval * store.modelStore.step_size;
                 const t_end = num_fm * store.modelStore.step_size * store.modelStore.interval;
-                for(let i = 1; i < num_fm+1; ++i){
-                    let time = (i * store.modelStore.interval * store.modelStore.step_size - t_start) / (t_end - t_start) * (maxval - minval) +  minval
-                    let cur_fm = []
-                    let times = []
-                    store.renderStore.render_seeds[0].forEach((seed, i) =>{
-                        // console.log(seed)
-                            const x = (seed[0] - lower[0]) / (upper[0] - lower[0]) * (maxval - minval) + minval
-                            const y = (seed[1] - lower[1]) / (upper[1] - lower[1]) * (maxval - minval) + minval
-                            const z = (seed[2] - lower[2]) / (upper[2] - lower[2]) * (maxval - minval) + minval
-                            cur_fm.push(x, y, z);
-                            times.push(time);
-                    })  
-                    // console.log("debug", store.modelStore.models[m])
-                    Trace(cur_fm, times, store.renderStore.render_seeds[0].length, minval, maxval, lower, upper, store, store.modelStore.models[m]);
-                } 
+                let cur_fm = []
+                let times = []
+                store.renderStore.render_seeds[0].forEach((seed) =>{
+                    const x = (seed[0] - lower[0]) / (upper[0] - lower[0]) * (maxval - minval) + minval
+                    const y = (seed[1] - lower[1]) / (upper[1] - lower[1]) * (maxval - minval) + minval
+                    const z = (seed[2] - lower[2]) / (upper[2] - lower[2]) * (maxval - minval) + minval
+                        for(let i = 1; i < num_fm+1; ++i){
+                            let time = (i * store.modelStore.interval * store.modelStore.step_size - t_start) / (t_end - t_start) * (maxval - minval) +  minval
+                    
+                                cur_fm.push(x, y, z);
+                                times.push(time);
+                        } 
+                }) 
+                Trace(cur_fm, times, store.renderStore.render_seeds[0].length,num_fm, minval, maxval, lower, upper, store, store.modelStore.models[m]);
             }
             
         }else{
@@ -104,7 +104,7 @@ async function InferFromModel(store){
                             times.push(time);
                     })  
                     // console.log("debug", store.modelStore.models[m])
-                    Trace(cur_fm, times, store.renderStore.render_seeds[0].length, minval, maxval, lower, upper, store, store.modelStore.models[m]);
+                    Trace(cur_fm, times, store.renderStore.render_seeds[store.pipeline_selected].length, minval, maxval, lower, upper, store, store.modelStore.models[m]);
                 } 
             }
         }
@@ -126,20 +126,19 @@ async function InferFromModel(store){
                 const t_end = num_fm * store.modelStore.step_size * store.modelStore.interval;
 
                 if( m === 0){
-                    for(let i = 1; i < num_fm+1; ++i){
-                        let time = (i * store.modelStore.interval * store.modelStore.step_size - t_start) / (t_end - t_start) * (maxval - minval) +  minval
-                        let cur_fm = []
-                        let times = []
-                        store.renderStore.render_seeds[0].forEach((seed, i) =>{
-                            // console.log(seed)
-                            const x = (seed[0] - lower[0]) / (upper[0] - lower[0]) * (maxval - minval) + minval
-                            const y = (seed[1] - lower[1]) / (upper[1] - lower[1]) * (maxval - minval) + minval
-                            const z = (seed[2] - lower[2]) / (upper[2] - lower[2]) * (maxval - minval) + minval
+                    let cur_fm = []
+                    let times = []
+                    store.renderStore.render_seeds[0].forEach((seed, i) =>{
+                        const x = (seed[0] - lower[0]) / (upper[0] - lower[0]) * (maxval - minval) + minval
+                        const y = (seed[1] - lower[1]) / (upper[1] - lower[1]) * (maxval - minval) + minval
+                        const z = (seed[2] - lower[2]) / (upper[2] - lower[2]) * (maxval - minval) + minval
+                        for(let i = 1; i < num_fm+1; ++i){
+                            let time = (i * store.modelStore.interval * store.modelStore.step_size - t_start) / (t_end - t_start) * (maxval - minval) +  minval          
                             cur_fm.push(x, y, z);
                             times.push(time);
-                        })      
-                        await Trace(cur_fm, times, store.renderStore.render_seeds[0].length, minval, maxval, lower, upper, store, store.modelStore.models[m]);
-                    }
+                        }
+                    }) 
+                    await Trace(cur_fm, times, store.renderStore.render_seeds[0].length, num_fm,minval, maxval, lower, upper, store, store.modelStore.models[m]);
                     
                 }else{
                     const cur_trajs = store.renderStore.trajs[0];
@@ -147,22 +146,21 @@ async function InferFromModel(store){
                         // console.log("cur traj", traj.length)
                         return traj[traj.length - 1];
                     })
-                    console.log(m, cur_trajs.length)
-                    for(let i = 1; i < num_fm+1; ++i){
-                        let time = (i * store.modelStore.interval * store.modelStore.step_size - t_start) / (t_end - t_start) * (maxval - minval) +  minval
-                        let cur_fm = []
-                        let times = []
-                        cur_pos.forEach((pos, i) =>{
-                            // console.log(seed)
-                            const x = (pos[0] - lower[0]) / (upper[0] - lower[0]) * (maxval - minval) + minval
-                            const y = (pos[1] - lower[1]) / (upper[1] - lower[1]) * (maxval - minval) + minval
-                            const z = (pos[2] - lower[2]) / (upper[2] - lower[2]) * (maxval - minval) + minval
+                    let cur_fm = []
+                    let times = []
+
+                    cur_pos.forEach((pos, ) =>{
+
+                        const x = (pos[0] - lower[0]) / (upper[0] - lower[0]) * (maxval - minval) + minval
+                        const y = (pos[1] - lower[1]) / (upper[1] - lower[1]) * (maxval - minval) + minval
+                        const z = (pos[2] - lower[2]) / (upper[2] - lower[2]) * (maxval - minval) + minval
+                        for(let i = 1; i < num_fm+1; ++i){
+                            let time = (i * store.modelStore.interval * store.modelStore.step_size - t_start) / (t_end - t_start) * (maxval - minval) +  minval
                             cur_fm.push(x, y, z);
                             times.push(time);
-                                
-                        })  
-                        await Trace(cur_fm, times, store.renderStore.render_seeds[0].length, minval, maxval, lower, upper, store, store.modelStore.models[m]);
-                    }
+                        }
+                    })  
+                    await Trace(cur_fm, times, store.renderStore.render_seeds[0].length, num_fm, minval, maxval, lower, upper, store, store.modelStore.models[m]);
                     
                 }
             } // end of for models   

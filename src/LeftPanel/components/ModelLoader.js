@@ -5,8 +5,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import { observer } from "mobx-react";
 import Store from '../../Context/RootStore'
-import {InferenceSession, Tensor} from 'onnxruntime-web';
-
+import {InferenceSession, Tensor, Env} from 'onnxruntime-web';
+// import * as ort from 'onnxruntime-web';
+// const ort = require('onnxruntime-web');
 
 const JsonLoader = (store, jsondata) => {
     const mode = jsondata.mode;
@@ -84,8 +85,10 @@ const ModelLoader = () => {
         }
         const load_model = async (model_dir, index) => {
             console.log("loading onnx model " + model_dir, index);
-            const session = await InferenceSession.create(model_dir, {executionProviders: ['wasm']});
-            await warmupModel(session);
+            const session = await InferenceSession.create(model_dir, {executionProviders: ['webgl'], interOpNumThreads: 20,
+            intraOpNumThreads: 20,});
+
+            // await warmupModel(session);
             store.modelStore.LoadModel(session, index);
             store.modelStore.ModelLoadDone = true;
             // console.log("store.pipeline", store.pipeline_browser);
@@ -102,13 +105,20 @@ const ModelLoader = () => {
                                 // console.log(store.modelStore.global_dimensions, store.modelStore.global_domain, store.modelStore.global_center)
                                 store.AddToPipeline("Global Domain", store.modelStore.global_dimensions, store.modelStore.global_center);       
             }).then(() =>{
+                
                 console.log("number of models", store.modelStore.num_models);
                 for(let i = 0; i < store.modelStore.num_models; i++){
                     const model_dir = "./models/" + dataset + "/models/" + store.modelStore.model_dirs[i];
+                    var startTime = performance.now()
+                    console.log("start", startTime)
                     load_model(model_dir, i).then(() =>{
                         console.log("Load done", i);
+                        var endTime = performance.now() 
+                        console.log("endTime", endTime)
+                        console.log(`Call to Loading model took ${endTime - startTime} milliseconds`)
                     });
                 }
+                
             });
        } 
        
