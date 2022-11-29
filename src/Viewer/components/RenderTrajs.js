@@ -14,6 +14,7 @@ const SingleLine = (props) =>{
     const line_ref = useRef();
     // const update_temp = true;
 
+    // console.time("construct data")
     const [points, colors] = useMemo(() =>{
         // console.log("update position color")
 
@@ -32,7 +33,7 @@ const SingleLine = (props) =>{
         return [particles, color_array];
 
     }, [props.data, props.color, store.renderStore.trajs_update])
-
+    // console.timeEnd("construct data");
     // useFrame(()=>{
     //     if (line_ref.current){
     //         // console.log(line_ref.current)
@@ -72,13 +73,15 @@ function RenderLines(){
     const [data, setData] = useState([]);
     const [color_data, setColorData] = useState([]);
     
+
     useEffect(() => {
-        console.log("data changed!!!")
+        // console.log("data changed!!!")
         setData(store.renderStore.render_trajs);
         setColorData(store.renderStore.colors);
       
     }, [store.renderStore.render_trajs, store.renderStore.colors, store.renderStore.trajs_update])
     
+    console.time("renderlines")
     const lines = data.map((trajs, i) => 
         // console.log("trajs in render lines", trajs, color_data[i])
         {
@@ -87,6 +90,7 @@ function RenderLines(){
         }
         
     )
+    console.timeEnd("renderlines")
     return lines;
 }
 

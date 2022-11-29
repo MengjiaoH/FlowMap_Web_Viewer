@@ -11,7 +11,7 @@ async function Trace(cur_fm, times, num_seeds, num_fm, minval, maxval, lower, up
     const outputMap = await model.run(feeds);
     
     const predictions = outputMap.output1.data
-    console.log("prediction", predictions.length);
+    // console.log("prediction", predictions.length);
     
     for(let f = 0; f < predictions.length / 3; f++){ // go over each seed
         // const pos = [predictions[3 * f + 0], predictions[3 * f + 1], predictions[3 * f + 2]];
@@ -29,8 +29,8 @@ async function InferFromModel(store){
     const maxval = 1
     // console.log("trace", store._num_fm);
     // calculate trajectories
-    console.log("start tracing")
-    var startTime = performance.now()
+    // console.log("start tracing")
+    // var startTime = performance.now()
 
     // let num_seeds = store.renderStore.seeds.length;
     // let f_start = 0;
@@ -51,6 +51,7 @@ async function InferFromModel(store){
     if (store.modelStore.mode === "long"){
         console.log("Long")
         if(store.pipeline_selected === -1 || store.pipeline_selected === 0){
+            console.time("predict")
             for(let m = 0; m < store.modelStore.num_models; m++){
                 const upper = [store.modelStore.trainingBbox[m][3], store.modelStore.trainingBbox[m][4], store.modelStore.trainingBbox[m][5]]
                 const lower = [store.modelStore.trainingBbox[m][0], store.modelStore.trainingBbox[m][1], store.modelStore.trainingBbox[m][2]]
@@ -77,6 +78,7 @@ async function InferFromModel(store){
                 }) 
                 Trace(cur_fm, times, store.renderStore.render_seeds[0].length,num_fm, minval, maxval, lower, upper, store, store.modelStore.models[m]);
             }
+            console.timeEnd("predict")
             
         }else{
             // only predict trajs for seeds in a seed box 
@@ -218,22 +220,22 @@ async function InferFromModel(store){
                     }
                     
                 }
-            } // end of for models   
+            }// end of for models   
         }
     }
         
    
 
     // store.renderStore.set_cur_index();
-    console.log("trajs: ", store.renderStore.trajs)
+    // console.log("trajs: ", store.renderStore.trajs)
     // const traj = store.renderStore.trajs[0][0];
     // console.log("traj", traj)
     // traj.forEach(pos =>{
     //     console.log(pos)
     // })
-    console.log("traj leghth:", store.renderStore.trajs.length, store.renderStore.trajs[0][0].length)
-    var endTime = performance.now() 
-    console.log(`Call to inference took ${endTime - startTime} milliseconds`)
+    // console.log("traj leghth:", store.renderStore.trajs.length, store.renderStore.trajs[0][0].length)
+    // var endTime = performance.now() 
+    // console.log(`Call to inference took ${endTime - startTime} milliseconds`)
     // store.renderStore.CopyToRenderTrajs();
 }
 

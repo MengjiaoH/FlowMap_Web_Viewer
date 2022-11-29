@@ -85,8 +85,7 @@ const ModelLoader = () => {
         }
         const load_model = async (model_dir, index) => {
             console.log("loading onnx model " + model_dir, index);
-            const session = await InferenceSession.create(model_dir, {executionProviders: ['webgl'], interOpNumThreads: 20,
-            intraOpNumThreads: 20,});
+            const session = await InferenceSession.create(model_dir, {executionProviders: ['wasm'], numThreads:40});
 
             // await warmupModel(session);
             store.modelStore.LoadModel(session, index);
