@@ -81,16 +81,16 @@ function RenderLines(){
       
     }, [store.renderStore.render_trajs, store.renderStore.colors, store.renderStore.trajs_update])
     
-    console.time("renderlines")
+    // console.time("renderlines")
     const lines = data.map((trajs, i) => 
         // console.log("trajs in render lines", trajs, color_data[i])
         {
-            console.log("lenght", i, trajs.length)
+            // console.log("lenght", i, trajs.length)
             return SetLines(trajs, color_data[i])
         }
         
     )
-    console.timeEnd("renderlines")
+    // console.timeEnd("renderlines")
     return lines;
 }
 

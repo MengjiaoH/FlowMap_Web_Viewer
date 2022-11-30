@@ -70,7 +70,7 @@ export class RootStore {
             this.pipeline_selected = -1;
         }
 
-        console.log("update_selected_id", this.pipeline_selected)
+        // console.log("update_selected_id", this.pipeline_selected)
     }
 
     UpdatePipelineBoxPos(id, pos){

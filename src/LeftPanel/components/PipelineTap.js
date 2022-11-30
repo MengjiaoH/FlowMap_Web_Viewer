@@ -29,7 +29,7 @@ const Pipeline = (props) => {
             store.seedBoxStore.UpdateSeedBoxVisibility(props.id - 1, clickedVisibility);
             store.renderStore.SetSeedsInVisible(props.id, clickedVisibility);
         }
-        console.log(store.renderStore.render_seeds);
+        // console.log(store.renderStore.render_seeds);
     }
     
     const handleClick = () =>{

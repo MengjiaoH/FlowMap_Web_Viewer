@@ -68,7 +68,7 @@ function interpolate_color(store)
         const index_5 = [index[0] + 1, index[1], index[2] + 1]
         const index_6 = [index[0] + 1, index[1] + 1, index[2] + 1]
         const index_7 = [index[0], index[1] + 1, index[2] + 1]
-        console.log("index", index_0, index_1, index_2, index_3, index_4, index_5, index_6, index_7)
+        // console.log("index", index_0, index_1, index_2, index_3, index_4, index_5, index_6, index_7)
         const i_0 = dims[0] * dims[1] * index_0[2] + dims[0] * index_0[1] + index_0[0]
         const i_1 = dims[0] * dims[1] * index_1[2] + dims[0] * index_1[1] + index_1[0]
         const i_2 = dims[0] * dims[1] * index_2[2] + dims[0] * index_2[1] + index_2[0]
@@ -77,7 +77,7 @@ function interpolate_color(store)
         const i_5 = dims[0] * dims[1] * index_5[2] + dims[0] * index_5[1] + index_5[0]
         const i_6 = dims[0] * dims[1] * index_6[2] + dims[0] * index_6[1] + index_6[0] 
         const i_7 = dims[0] * dims[1] * index_7[2] + dims[0] * index_7[1] + index_7[0]
-        console.log("i", i_0, i_1, i_2, i_3, i_4, i_5, i_6, i_7)
+        // console.log("i", i_0, i_1, i_2, i_3, i_4, i_5, i_6, i_7)
         const c000 = store.colorOptionsStore.attribute_data.getValue(i_0)
         const c001 = store.colorOptionsStore.attribute_data.getValue(i_3)
         const c010 = store.colorOptionsStore.attribute_data.getValue(i_4)
@@ -86,7 +86,7 @@ function interpolate_color(store)
         const c101 = store.colorOptionsStore.attribute_data.getValue(i_2)
         const c110 = store.colorOptionsStore.attribute_data.getValue(i_5)
         const c111 = store.colorOptionsStore.attribute_data.getValue(i_6)
-        console.log("value", c000, c001, c010, c011)
+        // console.log("value", c000, c001, c010, c011)
         const grid_lower = [intervals[0] * index_0[0], intervals[1] * index_0[1], intervals[2] * index_0[2]]
         const grid_upper = [intervals[0] * index_6[0], intervals[1] * index_6[1], intervals[2] * index_6[2]]
         return trilinear_interpolation(seed, c000, c001, c010, c011, c100, c101, c110, c111, grid_lower, grid_upper);

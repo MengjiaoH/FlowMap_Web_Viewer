@@ -22,7 +22,7 @@ function GenSeeds(store)
             const dims = store.pipeline_box_dims[store.pipeline_selected];
             upper = [+pos[0] + +dims[0] / 2, +pos[1] + +dims[1] / 2, +pos[2] + +dims[2] / 2 ];
             lower = [+pos[0] - +dims[0] / 2, +pos[1] - +dims[1] / 2, +pos[2] - +dims[2] / 2 ];
-            console.log("upper lower", upper, lower)
+            // console.log("upper lower", upper, lower)
         }
         //TODO: If pipeline is plane 
     }
@@ -31,7 +31,7 @@ function GenSeeds(store)
         const num_seeds = store.placeSeedsStore.num_random_seeds;
         add_new_seeds = num_seeds;
         // console.log("seeding area", upper, lower)
-        console.log("num_seeds", num_seeds)
+        // console.log("num_seeds", num_seeds)
         for(let s = 0; s < num_seeds; ++s){
             const x = Math.random() * (upper[0] - lower[0]) +  lower[0];
             const y = Math.random() * (upper[1] - lower[1]) +  lower[1];
@@ -77,8 +77,8 @@ function GenSeeds(store)
             store.renderStore.add_seeds([x, y, z], store.pipeline_selected);
         }
     }
-    console.log("seeds", store.renderStore.seeds)
-    console.log("colors", store.renderStore.colors);
+    // console.log("seeds", store.renderStore.seeds)
+    // console.log("colors", store.renderStore.colors);
     // Calculate the colors 
     // if(store.controlStore.color_by_constant || (store.controlStore.color_by_attribute && store.attribute_data === null) ){
     //     for(let i = 0; i < add_new_seeds; i++){

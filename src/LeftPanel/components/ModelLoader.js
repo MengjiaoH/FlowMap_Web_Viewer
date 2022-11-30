@@ -44,7 +44,7 @@ const JsonLoader = (store, jsondata) => {
         store.modelStore.AddOneModelDir(model_dir);
         store.modelStore.AddStartStopCycles(start_cycle, stop_cycle);
         store.modelStore.TrainingBounds(b0, b1, b2, b3, b4, b5, i);
-        console.log("training boundings: ", i, b0, b1, b2, b3, b4, b5)
+        // console.log("training boundings: ", i, b0, b1, b2, b3, b4, b5)
     }
     // console.log(store.modelStore.model_dirs)
    
@@ -83,9 +83,10 @@ const ModelLoader = () => {
                 console.error(e);
             }
         }
+
         const load_model = async (model_dir, index) => {
             console.log("loading onnx model " + model_dir, index);
-            const session = await InferenceSession.create(model_dir, {executionProviders: ['wasm'], numThreads:40});
+            const session = await InferenceSession.create(model_dir, {executionProviders: ['wasm'], intraOpNumThreads: 4, interOpNumThreads: 4, enableCpuMemArena:true});
 
             // await warmupModel(session);
             store.modelStore.LoadModel(session, index);
@@ -105,16 +106,17 @@ const ModelLoader = () => {
                                 store.AddToPipeline("Global Domain", store.modelStore.global_dimensions, store.modelStore.global_center);       
             }).then(() =>{
                 
-                console.log("number of models", store.modelStore.num_models);
+                // console.log("number of models", store.modelStore.num_models);
                 for(let i = 0; i < store.modelStore.num_models; i++){
                     const model_dir = "./models/" + dataset + "/models/" + store.modelStore.model_dirs[i];
-                    var startTime = performance.now()
-                    console.log("start", startTime)
+                    var startTime = performance.now();
+                    console.log("start time", startTime)
                     load_model(model_dir, i).then(() =>{
-                        console.log("Load done", i);
+                        // console.log("Load done", i);
                         var endTime = performance.now() 
                         console.log("endTime", endTime)
                         console.log(`Call to Loading model took ${endTime - startTime} milliseconds`)
+                        // console.timeEnd("load model")
                     });
                 }
                 

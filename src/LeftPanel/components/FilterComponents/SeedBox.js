@@ -56,12 +56,12 @@ const SeedBox = () => {
         store.seedBoxStore.AddOneSeedBox(dims[0], dims[1], dims[2], pos[0], pos[1], pos[2]);
         // add to pipeline
         const index = store.seedBoxStore.num_seed_boxes;
-        console.log("num of seed boxes", index)
+        // console.log("num of seed boxes", index)
         store.AddToPipeline("Seed Box " + index, dims, pos);
     };
 
     const updateSeedBox = () => {
-        console.log("update seed box");
+        // console.log("update seed box");
         const dims = [+range_x[1] - +range_x[0], +range_y[1] - +range_y[0], +range_z[1] - +range_z[0]];
         const pos = [+range_x[0] + dims[0]/ 2, +range_y[0] + dims[1]/2, +range_z[0] + dims[2]/2];
         // update seed box store for rendering seed box

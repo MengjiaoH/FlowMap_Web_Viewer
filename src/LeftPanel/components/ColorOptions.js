@@ -39,19 +39,19 @@ const ColorOptions = () => {
     }, [store.colorOptionsStore.constant_color])
 
     const handleColorChange = () =>{
-        console.log("value", value);
+        // console.log("value", value);
         if (value === '1'){
             if (constant_color.hex){
                 // console.log("color", constant_color.hex);
                 store.renderStore.SetConstantColor(constant_color.hex, store.pipeline_selected);
-                console.log("color_array", store.renderStore.colors);
+                // console.log("color_array", store.renderStore.colors);
             }
         }
         if (value === '2'){
             // color by attribute values
-            console.log("interpolate color")
+            // console.log("interpolate color")
             interpolate_color(store);
-            console.log("color_array", store.renderStore.colors)
+            // console.log("color_array", store.renderStore.colors)
         }
 
     }

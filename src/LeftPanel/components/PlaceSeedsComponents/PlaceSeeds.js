@@ -56,7 +56,7 @@ const PlaceSeeds = () => {
         store.placeSeedsStore.UniformSeedsDimY = event.target.value;
     }
     const handleChangeSeedX = (event) =>{
-        console.log(event.target.value)
+        // console.log(event.target.value)
         setSeedX(+event.target.value);
     }
     const handleChangeSeedY = (event) =>{
