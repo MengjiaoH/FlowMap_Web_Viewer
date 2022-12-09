@@ -27,8 +27,8 @@ const ParticleTracing = () => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const startTrace = () => {
-        InferFromModel(store);
+    const startTrace = async () => {
+        await InferFromModel(store);
         store.renderStore.Update_Trajs();
     }
 

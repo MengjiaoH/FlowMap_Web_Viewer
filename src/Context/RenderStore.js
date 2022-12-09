@@ -58,20 +58,23 @@ export class RenderStore {
         }
         this.seeds[index].push(pos);
         this.render_seeds[index].push(pos);
-        this.trajs[index].push([pos]);
-        this.render_trajs[index].push([pos]);
+        let temp_traj = new Array(this.render_num_fm).fill(pos);
+        // console.log("temp_traj", temp_traj)
+
+        this.trajs[index].push(temp_traj);
+        this.render_trajs[index].push(temp_traj);
         this.colors[index].push(this.initial_color);
         this.total_num_seeds += 1;
         this.render_num_seeds += 1;
         // console.log("render seeds:", this.render_seeds)
     }
 
-    add_trajs(pos, seed_index, pipeline_index){
+    add_trajs(pos, seed_index, pipeline_index, fc_index){
         if (pipeline_index === -1){
             pipeline_index = 0
         }
-        this.trajs[pipeline_index][seed_index].push(pos);
-        this.render_trajs[pipeline_index][seed_index].push(pos);
+        this.trajs[pipeline_index][seed_index][fc_index] = pos;
+        this.render_trajs[pipeline_index][seed_index][fc_index] = pos;
     }
 
     DeleteASeedBox(id){

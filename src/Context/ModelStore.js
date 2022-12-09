@@ -19,6 +19,8 @@ export class ModelStore {
     step_size;
     total_num_fm;
 
+    times;
+
     trainingBbox;
 
     globalUniformedDims;
@@ -41,6 +43,7 @@ export class ModelStore {
         this.step_size = 0;
         this.total_num_fm = 0;
         this.trainingBbox = [];
+        this.times = null;
         this.globalUniformedDims = [0, 0, 0];
         makeAutoObservable(this);
     }
@@ -86,8 +89,24 @@ export class ModelStore {
         this.start_cycles.push(start);
         this.stop_cycles.push(stop);
         this.total_num_fm = this.total_num_fm + (stop - start) / this.interval;
-        this.rootStore.renderStore.num_fm = this.num_fm;
+        this.rootStore.renderStore.render_num_fm = this.total_num_fm;
+        
+        
+        
     }
+
+    GenFileCycles(){
+        const t_start = 1 * this.interval * this.step_size;
+        const t_end = (this.total_num_fm / this.num_models) * this.step_size * this.interval;
+        console.log(t_start, t_end)
+        this.times = new Array(this.total_num_fm / this.num_models).fill(0).map((u, i) =>
+             ((i+1) * this.interval * this.step_size - t_start) / (t_end - t_start) * (1 - (-1)) +  (-1)
+            // console.log(i)
+            )
+        // console.log("this.time", this.times)
+
+    }
+
     TrainingBounds(lower_x, upper_x, lower_y, upper_y, lower_z, upper_z, index){
         this.trainingBbox[index] = [lower_x, lower_y, lower_z, upper_x, upper_y, upper_z];
     }

@@ -7,7 +7,7 @@ import { observer } from "mobx-react";
 import Store from '../../Context/RootStore'
 import {InferenceSession, Tensor, Env} from 'onnxruntime-web';
 // import * as ort from 'onnxruntime-web';
-// const ort = require('onnxruntime-web');
+const ort = require('onnxruntime-web');
 
 const JsonLoader = (store, jsondata) => {
     const mode = jsondata.mode;
@@ -46,6 +46,7 @@ const JsonLoader = (store, jsondata) => {
         store.modelStore.TrainingBounds(b0, b1, b2, b3, b4, b5, i);
         // console.log("training boundings: ", i, b0, b1, b2, b3, b4, b5)
     }
+    store.modelStore.GenFileCycles();
     // console.log(store.modelStore.model_dirs)
    
     // global view uniformed dimensions
@@ -74,8 +75,8 @@ const ModelLoader = () => {
     useEffect(() => {
         const warmupModel = async (model) =>{
             // const warmupTensor = new Tensor(new Float32Array(40), "float32", [10, 4])
-            const warmupTensor_1 = new Tensor("float32", new Float32Array(30), [10, 3]);
-            const warmupTensor_2 = new Tensor("float32", new Float32Array(10), [10, 1]);
+            const warmupTensor_1 = new Tensor("float32", new Float32Array(3000), [1000, 3]);
+            const warmupTensor_2 = new Tensor("float32", new Float32Array(1000), [1000, 1]);
             const feeds = { input_1: warmupTensor_1, input_2: warmupTensor_2};
             try {
                 await model.run(feeds);
@@ -86,11 +87,19 @@ const ModelLoader = () => {
 
         const load_model = async (model_dir, index) => {
             console.log("loading onnx model " + model_dir, index);
-            const session = await InferenceSession.create(model_dir, {executionProviders: ['wasm'], intraOpNumThreads: 4, interOpNumThreads: 4, enableCpuMemArena:true});
-
-            // await warmupModel(session);
-            store.modelStore.LoadModel(session, index);
-            store.modelStore.ModelLoadDone = true;
+            // ort.env.logLevel = "verbose";
+            ort.env.debug = false;
+            ort.env.wasm.numThreads = 20;
+            ort.env.wasm.simd = true;
+            const session = await InferenceSession.create(model_dir, {executionProviders: ['webgl']});
+            // , intraOpNumThreads: 4, interOpNumThreads: 4, enableCpuMemArena:true
+            await warmupModel(session).then(() =>{
+            //     console.log("done warm up")
+                store.modelStore.LoadModel(session, index);
+                store.modelStore.ModelLoadDone = true;
+            })
+            
+            
             // console.log("store.pipeline", store.pipeline_browser);
         }
        
