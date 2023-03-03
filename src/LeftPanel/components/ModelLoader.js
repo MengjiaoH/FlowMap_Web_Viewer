@@ -91,7 +91,7 @@ const ModelLoader = () => {
             ort.env.debug = false;
             ort.env.wasm.numThreads = 20;
             ort.env.wasm.simd = true;
-            const session = await InferenceSession.create(model_dir, {executionProviders: ['webgl']});
+            const session = await InferenceSession.create(model_dir, {executionProviders: ['wasm']});
             // , intraOpNumThreads: 4, interOpNumThreads: 4, enableCpuMemArena:true
             await warmupModel(session).then(() =>{
             //     console.log("done warm up")
