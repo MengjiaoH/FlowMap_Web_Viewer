@@ -34,7 +34,7 @@ async function TraceOneModel(model, store, index)
     // console.log("lower", lower)
     const start_fm = store.modelStore.start_cycles[index];
     const stop_fm = store.modelStore.stop_cycles[index];
-    const num_fm = stop_fm - start_fm;
+    const num_fm = (stop_fm - start_fm) / store.modelStore.interval;
                 
     // let cur_fm = store.renderStore.render_seeds[0].flatMap((seed) =>{
     //     const x = (seed[0] - lower[0]) / (upper[0] - lower[0]) * (maxval - minval) + minval
