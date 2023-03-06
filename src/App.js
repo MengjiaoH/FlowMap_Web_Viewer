@@ -1,12 +1,12 @@
 import './App.css';
-import LeftPanel from './LeftPanel/LeftPanel';
-import Viewer from './Viewer/Viewer'
+import "/node_modules/react-grid-layout/css/styles.css";
+import "/node_modules/react-resizable/css/styles.css"
+import MainViewLayout from "./Views/MainViewLayout";
 
 function App() {
   return (
     <div className="App">
-      <LeftPanel/>
-      <Viewer/>
+      <MainViewLayout/>
     </div>
   );
 }

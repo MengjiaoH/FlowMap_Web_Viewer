@@ -25,3 +25,4 @@ yarn-error.log*
 /data
 public/models/donot_push_to_git
 
+/.idea/
