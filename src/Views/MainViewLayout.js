@@ -1,39 +1,40 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import RGL, {WidthProvider} from "react-grid-layout";
 import IntegralLinesViewer from "./IntegralLinesViewer";
+import Navbar from "react-bootstrap/Navbar";
+import Container from 'react-bootstrap/Container';
 
-const ReactGridLayout = WidthProvider(RGL);
 
 function MainViewLayout(props) {
-    const [views, setViews] = useState([{x:0,y:0,w:4,h:3,id:'line_view'}])
-    const [layout, setLayout] = useState([])
-    const [cols, setCols] = useState(12)
-    const [rowHeight, setRowHeight] = useState(30)
-    const [onLayoutChange, setOnLayoutChange] = useState(function () {
-    })
+    const ReactGridLayout = useMemo(() => WidthProvider(RGL), []);
+    const views = useMemo(() => {
+        return [
+            <div key={'line_view'} data-grid={{x: 0, y: 0, w: 4, h: 4, isDraggable: false}}>
+                <IntegralLinesViewer/>
+            </div>,
+            <div key={'seed_config'} data-grid={{x: 4, y: 0, w: 1, h: 1}}>
+                <div style={{borderStyle: "solid", borderWidth: 1, width: "100%", height: "100%"}}>seed config</div>
+            </div>,
+            <div key={'line_style_config'} data-grid={{x: 4, y: 1, w: 1, h: 1}}>
+                <div style={{borderStyle: "solid", borderWidth: 1, width: "100%", height: "100%"}}>line style sconfig
+                </div>
+            </div>
+        ]
+    }, [])
 
-    useEffect(()=>{
-        setLayout(generateLayout())
-    },[])
+    useEffect(() => {
+    }, [])
 
-    const generateDom = function () {
-        return views.map((view,i)=>{
-            return <div key={view.id}>{view.id}</div>
-        })
-    }
-
-    const generateLayout = function () {
-        return views.map(view=>{
-            return {x:view.x,y:view.y,w:view.w,h:view.h, i:view.id}
-        })
-    }
-
-    return <ReactGridLayout
-        layout={layout}
-        onLayoutChange={onLayoutChange}
-    >
-        {generateDom()}
-    </ReactGridLayout>
+    return <>
+        <Navbar variant="dark" bg="secondary" expand="lg">
+            <Container fluid>
+                <Navbar.Brand>{"Pathline Viewer"}</Navbar.Brand>
+            </Container>
+        </Navbar>
+        <ReactGridLayout cols={12} margin={[0,0]}>
+            {views}
+        </ReactGridLayout>
+    </>
 }
 
 export default MainViewLayout
