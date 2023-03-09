@@ -19,8 +19,8 @@ async function Trace(cur_fm, times, num_seeds, num_fm, minval, maxval, lower, up
         const y = (predictions[3 * f + 1] - minval) / (maxval - minval) * (upper[1] -lower[1]) + lower[1]
         const z = (predictions[3 * f + 2] - minval) / (maxval - minval) * (upper[2] -lower[2]) + lower[2]
         // store.renderStore.add_trajs([x, y, z], f + f_start);
-        // console.log(f, index);
-        store.renderStore.add_trajs([x, y, z], f , store.pipeline_selected, index);
+        // console.log(f, index+1);
+        store.renderStore.add_trajs([x, y, z], f , store.pipeline_selected, index+1);
     }
 }
 

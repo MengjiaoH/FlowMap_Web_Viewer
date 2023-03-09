@@ -58,7 +58,7 @@ export class RenderStore {
         }
         this.seeds[index].push(pos);
         this.render_seeds[index].push(pos);
-        let temp_traj = new Array(this.render_num_fm).fill(pos);
+        let temp_traj = new Array(this.render_num_fm + 1).fill(pos);
         // console.log("temp_traj", temp_traj)
 
         this.trajs[index].push(temp_traj);
@@ -66,7 +66,8 @@ export class RenderStore {
         this.colors[index].push(this.initial_color);
         this.total_num_seeds += 1;
         this.render_num_seeds += 1;
-        // console.log("render seeds:", this.render_seeds)
+        console.log("render seeds:", this.render_seeds)
+        console.log("render trajs", this.trajs)
     }
 
     add_trajs(pos, seed_index, pipeline_index, fc_index){

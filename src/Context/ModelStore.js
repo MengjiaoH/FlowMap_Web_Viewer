@@ -5,7 +5,7 @@ export class ModelStore {
 
     num_models;
     dataset;
-    mode;
+    mode; // long or short 
     
     model_dirs;
     models; // a list of models

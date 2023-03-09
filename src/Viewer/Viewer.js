@@ -15,7 +15,7 @@ const Render = ({dims, pos, bbox_color, bbox_visibiliity}) =>{
   return (
     <div style={{ width:'100%', height:1100}}> 
         <Canvas shadows >
-        <PerspectiveCamera makeDefault position={[125, 125, 1000]} />
+        <PerspectiveCamera makeDefault position={[10, 10, 20]} />
         <group position={[0, 0, 0]}>
           {bbox_visibiliity && (<Box args={dims} position={pos} >
             <meshPhongMaterial color= {bbox_color} wireframe />
