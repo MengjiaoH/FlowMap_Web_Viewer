@@ -14,13 +14,13 @@
         {
             "filename": "ABC.onnx",
             "start_cycle": 0,
-            "stop_cycle": 60,
-            "bounding_0": -9.426629999999999399e+00,
-            "bounding_1": 1.572780000000000022e+01,
-            "bounding_2": -6.988199999999999967e+00,
-            "bounding_3": 1.326750000000000007e+01,
-            "bounding_4": -8.096339999999999648e+00,
-            "bounding_5": 1.440070000000000050e+01
+            "stop_cycle": 500,
+            "bounding_0": 0,
+            "bounding_1": 6.28,
+            "bounding_2": 0,
+            "bounding_3": 6.28,
+            "bounding_4": 0,
+            "bounding_5": 6.28
         }
     ],
    
