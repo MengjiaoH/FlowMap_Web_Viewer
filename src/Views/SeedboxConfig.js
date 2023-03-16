@@ -67,35 +67,35 @@ function SeedPlacement(props) {
         <FormLabel id="seed_placement_radio_group_label"><Typography>Size:</Typography></FormLabel>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
             {/*<Stack direction="row" alignItems="center" spacing={0}>*/}
-                <TextField type="number" id="seedbox-config-size-x" label="size_x" variant="outlined" size="small"
-                           inputProps={{min: 0, style: {fontSize: 12}}}
-                           value={config.size[0]} onChange={setSizeX}
-                />
-                <TextField type="number" id="seedbox-config-size-y" label="size_y" variant="outlined" size="small"
-                           inputProps={{min: 0, style: {fontSize: 12}}}
-                           value={config.size[1]} onChange={setSizeY}
-                />
-                <TextField type="number" id="seedbox-config-size-z" label="size_z" variant="outlined" size="small"
-                           inputProps={{min: 0, style: {fontSize: 12}}}
-                           value={config.size[2]} onChange={setSizeZ}
-                />
+            <TextField type="number" id="seedbox-config-size-x" label="size_x" variant="outlined" size="small"
+                       inputProps={{min: 0, style: {fontSize: 12}}}
+                       value={config.size[0]} onChange={setSizeX}
+            />
+            <TextField type="number" id="seedbox-config-size-y" label="size_y" variant="outlined" size="small"
+                       inputProps={{min: 0, style: {fontSize: 12}}}
+                       value={config.size[1]} onChange={setSizeY}
+            />
+            <TextField type="number" id="seedbox-config-size-z" label="size_z" variant="outlined" size="small"
+                       inputProps={{min: 0, style: {fontSize: 12}}}
+                       value={config.size[2]} onChange={setSizeZ}
+            />
             {/*</Stack>*/}
         </Box>
         <FormLabel id="seed_placement_radio_group_label"><Typography>Position:</Typography></FormLabel>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
             {/*<Stack direction="row" alignItems="center" spacing={0}>*/}
-                <TextField type="number" id="seedbox-config-position-x" label="position_x" variant="outlined" size="small"
-                           inputProps={{min: 0, style: {fontSize: 12}}}
-                           value={config.position[0]} onChange={setPositionX}
-                />
-                <TextField type="number" id="seedbox-config-position-y" label="position_y" variant="outlined" size="small"
-                           inputProps={{min: 0, style: {fontSize: 12}}}
-                           value={config.position[1]} onChange={setPositionY}
-                />
-                <TextField type="number" id="seedbox-config-position-z" label="position_z" variant="outlined" size="small"
-                           inputProps={{min: 0, style: {fontSize: 12}}}
-                           value={config.position[2]} onChange={setPositionZ}
-                />
+            <TextField type="number" id="seedbox-config-position-x" label="position_x" variant="outlined" size="small"
+                       inputProps={{style: {fontSize: 12}}}
+                       value={config.position[0]} onChange={setPositionX}
+            />
+            <TextField type="number" id="seedbox-config-position-y" label="position_y" variant="outlined" size="small"
+                       inputProps={{style: {fontSize: 12}}}
+                       value={config.position[1]} onChange={setPositionY}
+            />
+            <TextField type="number" id="seedbox-config-position-z" label="position_z" variant="outlined" size="small"
+                       inputProps={{style: {fontSize: 12}}}
+                       value={config.position[2]} onChange={setPositionZ}
+            />
             {/*</Stack>*/}
         </Box>
 

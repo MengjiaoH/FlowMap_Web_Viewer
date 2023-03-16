@@ -1,21 +1,22 @@
 import {createContext} from "react";
-import { makeAutoObservable } from 'mobx';
+import {makeAutoObservable} from 'mobx';
 import {SeedPlacementConfigData} from "./SeedPlacementConfigData";
 import {SeedboxConfigData} from "./SeedboxConfigData";
+import LineStyle from "./LineStyle";
 
 class DataContainer {
     domain
-    trajectories
 
-    seed_box_config
+    seedbox_config
 
     seed_placement_config
 
     constructor() {
         this.domain = {bounds: [0, 1, 0, 1, 0, 1]}
-        this.seedbox_config = new SeedboxConfigData()
-        this.seed_placement_config = new SeedPlacementConfigData()
-
+        this.seedbox_config = new SeedboxConfigData(this)
+        this.seed_placement_config = new SeedPlacementConfigData(this)
+        this.line_style_config = new LineStyle()
+        this.line_style_config.makeObservable()
         makeAutoObservable(this)
     }
 }

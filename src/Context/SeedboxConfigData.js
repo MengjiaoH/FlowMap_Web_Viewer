@@ -9,11 +9,12 @@ export class SeedboxConfigData {
 
     active
 
-    constructor() {
+    constructor(root) {
+        this.root = root
         this.size = [0.5, 0.5, 0.5]
         this.position = [0.25, 0.25, 0.25]
-        this.display = true
-        this.active = true
+        this.display = false
+        this.active = false
 
         makeAutoObservable(this)
     }

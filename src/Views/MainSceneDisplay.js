@@ -17,55 +17,29 @@ function MainSceneDisplay(props
     const camera_ref = useRef()
     const control_ref = useRef()
     const g_data = useContext(global_data)
-    const [domain_bounds, setDomainBounds] = useState(g_data.domain.bounds)
-    const [displaySeedbox, setDisplaySeedbox] = useState(g_data.seedbox_config.display)
-    const [activeSeedbox, setActiveSeedbox] = useState(g_data.seedbox_config.active)
-    const [seedboxPosition, setSeedboxPosition] = useState(g_data.seedbox_config.position)
-    const [seedboxSize, setSeedboxSize] = useState(g_data.seedbox_config.size)
-
-    useEffect(() => {
-        setDomainBounds(g_data.domain.bounds)
-    }, [g_data.domain.bounds])
-
-    useEffect(() => {
-        setDisplaySeedbox(g_data.seedbox_config.display)
-    }, [g_data.seedbox_config.display])
-
-    useEffect(() => {
-        setActiveSeedbox(g_data.seedbox_config.active)
-    }, [g_data.seedbox_config.active])
-
-    useEffect(() => {
-        setSeedboxPosition(g_data.seedbox_config.position)
-    }, [g_data.seedbox_config.position])
-
-    useEffect(() => {
-        setSeedboxSize(g_data.seedbox_config.size)
-    }, [g_data.seedbox_config.size])
-
 
     const [center, diag] = useMemo(() => {
-        const [x_min, x_max, y_min, y_max, z_min, z_max] = domain_bounds
+        const [x_min, x_max, y_min, y_max, z_min, z_max] = g_data.domain.bounds
         const sx = x_max + x_min
         const sy = y_max + y_min
         const sz = z_max + z_min
         const center = [sx / 2, sy / 2, sz / 2]
         const scene_diag = Math.sqrt((x_max - x_min) ** 2 + (y_max - y_min) ** 2 + (z_max - z_min) ** 2);
         return [center, scene_diag]
-    }, [domain_bounds])
+    }, [g_data.domain.bounds])
 
     const seed_box = useMemo(() => {
-        if (displaySeedbox) {
-            const color = activeSeedbox ? "rgb(255,0,0)" : "rgb(0,0,0)"
-            const [x_size, y_size, z_size] = seedboxSize
-            const bds = [seedboxPosition[0], x_size + seedboxPosition[0],
-                seedboxPosition[1], y_size + seedboxPosition[1],
-                seedboxPosition[2], z_size + seedboxPosition[2]]
+        if (g_data.seedbox_config.display) {
+            const color = g_data.seedbox_config.active ? "rgb(255,0,0)" : "rgb(0,0,0)"
+            const [x_size, y_size, z_size] = g_data.seedbox_config.size
+            const bds = [g_data.seedbox_config.position[0], x_size + g_data.seedbox_config.position[0],
+                g_data.seedbox_config.position[1], y_size + g_data.seedbox_config.position[1],
+                g_data.seedbox_config.position[2], z_size + g_data.seedbox_config.position[2]]
             return <CubeOutline bounds={bds} color={color}/>
         } else {
             return null
         }
-    }, [displaySeedbox, activeSeedbox, seedboxSize, seedboxPosition])
+    }, [g_data.seedbox_config.display, g_data.seedbox_config.active, g_data.seedbox_config.size, g_data.seedbox_config.position])
 
 
     return <Canvas ref={ref} onDoubleClick={function () {
