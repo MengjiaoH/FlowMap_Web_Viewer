@@ -1,22 +1,32 @@
 import {makeAutoObservable} from "mobx";
 
 export class SeedboxConfigData {
-    bounds
-
-    position
-
-    display
-
-    active
-
     constructor(root) {
         this.root = root
-        this.size = [0.5, 0.5, 0.5]
-        this.position = [0.25, 0.25, 0.25]
+        this.size = [0, 0, 0]
+        this.position = [0, 0, 0]
         this.display = false
         this.active = false
 
+        this.reset()
+
         makeAutoObservable(this)
+    }
+
+    getBounds() {
+        return [this.position[0], this.position[0] + this.size[0],
+            this.position[1], this.position[1] + this.size[1],
+            this.position[2], this.position[2] + this.size[2]]
+    }
+
+    reset() {
+        this.display = false
+        this.active = false
+        const [x_min, x_max, y_min, y_max, z_min, z_max] = this.root.domain.bounds
+
+        const [dx, dy, dz] = [x_max - x_min, y_max - y_min, z_max - z_min]
+        this.position = [dx / 4 + x_min, dy / 4 + y_min, dz / 4 + z_min]
+        this.size = [dx / 2, dy / 2, dz / 2]
     }
 
     setDisplay(v) {

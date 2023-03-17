@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useMemo} from 'react'
+import React, {useContext, useMemo} from 'react'
 import {observer} from "mobx-react";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -13,6 +13,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {global_data} from "../Context/DataContainer";
 import {Typography} from "@mui/material";
+import {manual_gen, random_gen, uniform_gen} from "./GenSeeds";
 
 function SeedPlacement(props) {
     const g_data = useContext(global_data)
@@ -25,13 +26,13 @@ function SeedPlacement(props) {
         config.setNRandomSeed(Number(event.target.value))
     }
 
-    const handleChangeUnifomedX = (event) => {
+    const handleChangeUniformedX = (event) => {
         config.setUniformX(Number(event.target.value))
     }
-    const handleChangeUnifomedY = (event) => {
+    const handleChangeUniformedY = (event) => {
         config.setUniformY(Number(event.target.value))
     }
-    const handleChangeUnifomedZ = (event) => {
+    const handleChangeUniformedZ = (event) => {
         config.setUniformZ(Number(event.target.value))
     }
     const handleChangeSeedX = (event) => {
@@ -65,6 +66,29 @@ function SeedPlacement(props) {
         reader.readAsText(event.target.files[0])
     }
 
+    const addSeeds = () => {
+        const activate_bounds = g_data.seedbox_config.active ? g_data.seedbox_config.getBounds() : g_data.domain.getBounds()
+        console.log("activate_bounds", activate_bounds)
+        let seeds = []
+        if (config.use_random_strategy) {
+            seeds = seeds.concat(random_gen(activate_bounds, config.n_random_seed))
+        }
+        if (config.use_uniform_strategy) {
+            seeds = seeds.concat(uniform_gen(activate_bounds, ...config.uniform))
+        }
+        if (config.use_manual_strategy) {
+            seeds = seeds.concat(manual_gen(activate_bounds, ...config.manual))
+        }
+
+        console.log(seeds)
+
+        g_data.trajectories.addSeeds(seeds)
+    }
+
+    const deleteSeeds = () => {
+        g_data.trajectories.reset()
+    }
+
     return <FormControl>
 
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
@@ -86,15 +110,15 @@ function SeedPlacement(props) {
                 } label="Uniform"/>
                 <TextField type="number" id="outlined-basic-x" label="X" variant="outlined" size="small"
                            inputProps={{min: 0, style: {fontSize: 12}}}
-                           value={config.uniform[0]} onChange={handleChangeUnifomedX}
+                           value={config.uniform[0]} onChange={handleChangeUniformedX}
                 />
                 <TextField type="number" id="outlined-basic-y" label="Y" variant="outlined" size="small"
                            inputProps={{min: 0, style: {fontSize: 12}}}
-                           value={config.uniform[1]} onChange={handleChangeUnifomedY}
+                           value={config.uniform[1]} onChange={handleChangeUniformedY}
                 />
                 <TextField type="number" id="outlined-basic-z" label="Z" variant="outlined" size="small"
                            inputProps={{min: 0, style: {fontSize: 12}}}
-                           value={config.uniform[2]} onChange={handleChangeUnifomedZ}
+                           value={config.uniform[2]} onChange={handleChangeUniformedZ}
                 />
             </Stack>
 
@@ -103,7 +127,7 @@ function SeedPlacement(props) {
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
             <Stack direction="row" alignItems="center" spacing={0}>
                 <FormControlLabel value="manual" control={
-                    <Switch checked={config.use_mannual_strategy} onChange={setManualStrategy}/>
+                    <Switch checked={config.use_manual_strategy} onChange={setManualStrategy}/>
                 } label="Insert Manually"/>
                 <TextField type="number" label="X" variant="outlined" size="small"
                            inputProps={{min: 0, style: {fontSize: 12}}}
@@ -134,11 +158,10 @@ function SeedPlacement(props) {
         >
             <Stack direction="row" alignItems="center" spacing={2}>
                 <Button component="label" variant="outlined" startIcon={<AddBoxIcon/>} size="small"
-                        onClick={function () {
-                        }}> Add Seeds
+                        onClick={addSeeds}> Add Seeds
                 </Button>
-                <Button component="label" variant="outlined" startIcon={<DeleteIcon/>} onClick={function () {
-                }} size="small"> Delete Seeds
+                <Button component="label" variant="outlined" startIcon={<DeleteIcon/>} onClick={deleteSeeds}
+                        size="small"> Delete Seeds
                 </Button>
             </Stack>
         </Box>

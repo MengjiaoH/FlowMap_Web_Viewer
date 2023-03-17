@@ -10,6 +10,7 @@ import {observer} from "mobx-react";
 import {Instance, PerspectiveCamera, TrackballControls, GizmoHelper, GizmoViewport} from "@react-three/drei";
 import {global_data} from "../Context/DataContainer";
 import CubeOutline from "./CubeOutline";
+import Seeds from "./SeedsMesh";
 
 function MainSceneDisplay(props
 ) {
@@ -17,6 +18,9 @@ function MainSceneDisplay(props
     const camera_ref = useRef()
     const control_ref = useRef()
     const g_data = useContext(global_data)
+    const seeds = useMemo(()=>{
+        return g_data.trajectories.getSeeds()
+    },[g_data.trajectories.seeds])
 
     const [center, diag] = useMemo(() => {
         const [x_min, x_max, y_min, y_max, z_min, z_max] = g_data.domain.bounds
@@ -49,6 +53,7 @@ function MainSceneDisplay(props
         <group>
             <CubeOutline bounds={g_data.domain.bounds} color={"rgb(200,200,200)"}/>
             {seed_box}
+            <Seeds seeds={seeds}/>
             <GizmoHelper alignment={'bottom-right'} margin={[80, 80]}>
                 <GizmoViewport {...{
                     axisColors: ['orange', 'yellow', 'cyan'],

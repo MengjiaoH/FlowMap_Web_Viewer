@@ -2,33 +2,21 @@ import {makeAutoObservable} from "mobx";
 
 export class SeedPlacementConfigData {
 
-    root
-
-    use_random_strategy
-    n_random_seed
-
-    use_uniform_strategy
-
-    uniform
-
-    use_mannual_strategy
-
-    manual
 
     constructor(root) {
         this.root = root
         this.use_random_strategy = false
         this.n_random_seed = 10
         this.use_uniform_strategy = false
-        this.uniform = [10, 10, 10]
-        this.use_mannual_strategy = false
+        this.uniform = [1, 1, 1]
+        this.use_manual_strategy = false
         this.manual = [0, 0, 0]
 
         makeAutoObservable(this)
     }
 
     setUseManualStrategy(v) {
-        this.use_mannual_strategy = v
+        this.use_manual_strategy = v
     }
 
     setUseUniformStrategy(v) {

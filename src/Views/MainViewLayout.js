@@ -11,7 +11,6 @@ import LineStyleConfig from "./LineStyleConfig";
 
 function MainViewLayout(props) {
     const ReactGridLayout = useMemo(() => WidthProvider(Responsive), []);
-    const [layout, setLaytout] = useState([])
 
     const views = useMemo(() => {
         return [

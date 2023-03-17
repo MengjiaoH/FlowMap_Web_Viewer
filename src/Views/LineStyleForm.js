@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useMemo} from 'react'
+import React, {useContext, useMemo} from 'react'
 import {observer} from "mobx-react";
 import {global_data} from "../Context/DataContainer";
 import Box from "@mui/material/Box";
@@ -20,10 +20,6 @@ function LineStyleForm(props) {
         return g_data.line_style_config
     }, [g_data.line_style_config])
 
-    const setShowSeeds = (e) => {
-        config.setShowSeed(e.target.checked)
-    }
-
     const setSeedColor = (e) => {
         config.setSeedColor(e.target.value)
     }
@@ -40,22 +36,19 @@ function LineStyleForm(props) {
         config.setLineColor(e.target.value)
     }
 
+    const applyColor = (e) => {
+        g_data.trajectories.applyStyle()
+    }
+
 
     return <FormControl>
         <FormLabel id="seed_placement_radio_group_label"><Typography>Seeds:</Typography></FormLabel>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
-            <Stack direction="row" spacing={5}>
-                <FormControlLabel value="show_seed" control={
-                    <Switch checked={config.show_seed} onChange={setShowSeeds}/>
-                } label="Show Seeds"/>
-
-                <FormControlLabel control={<Form.Control
+                <Form.Control
                     type="color"
                     value={config.seed_color}
                     onChange={setSeedColor}
-                />} label={"Seed Color"}/>
-
-            </Stack>
+                />
         </Box>
         <FormLabel id="seed_placement_radio_group_label"><Typography>Lines:</Typography></FormLabel>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
@@ -79,7 +72,7 @@ function LineStyleForm(props) {
                     variant="outlined"
                     startIcon={<CheckIcon/>}
                     size="small"
-                    onClick={function () {}}>
+                    onClick={applyColor}>
                 Apply Color
             </Button>
         </Box>
