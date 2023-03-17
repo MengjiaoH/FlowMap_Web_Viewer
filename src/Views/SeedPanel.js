@@ -24,7 +24,7 @@ function TabPanel(props) {
     );
 }
 
-function SeedConfig(props) {
+function SeedPanel(props) {
     const [value, setValue] = useState(0)
 
     const tabChange = useMemo(() => {
@@ -51,4 +51,4 @@ function SeedConfig(props) {
     );
 }
 
-export default SeedConfig
+export default SeedPanel

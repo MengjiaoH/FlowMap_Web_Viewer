@@ -1,13 +1,13 @@
 import React, {useEffect, useMemo, useState} from "react";
 import {Responsive, WidthProvider} from "react-grid-layout";
-import MainSceneDisplay from "./MainSceneDisplay";
+import MainSceneDisplay from "./PrimaryRenderer";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from 'react-bootstrap/Container';
 import Paper from '@mui/material/Paper';
-import SeedConfig from "./SeedConfig";
-import LineStyleConfig from "./LineStyleConfig";
+import SeedPanel from "./SeedPanel";
+import LineStylePanel from "./LineStylePanel";
 import ModelPanel from "./ModelPanel";
 
 function MainViewLayout(props) {
@@ -20,19 +20,22 @@ function MainViewLayout(props) {
                     <MainSceneDisplay/>
                 </Paper>
             </div>,
-            <div key={'model_panel'} data-grid={{x: 16, y: 0, w: 4, h: 8}}>
+            <div key={'model_panel'} data-grid={{x: 16, y: 0, w: 4, h: 4}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <ModelPanel />
                 </Paper>
             </div>,
+            <div key={'volume_panel'} data-grid={{x:16,y:4,w:4,h:4}}>
+                <Paper elevation={5} style={{width:"100%", height: "100%"}}>Volume panel</Paper>
+            </div>,
             <div key={'seed_config'} data-grid={{x: 20, y: 0, w: 4, h: 4}} >
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
-                    <SeedConfig/>
+                    <SeedPanel/>
                 </Paper>
             </div>,
             <div key={'line_style_config'} data-grid={{x: 20, y: 4, w: 4, h: 4}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
-                    <LineStyleConfig />
+                    <LineStylePanel />
                 </Paper>
             </div>
         ]

@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 
-export class SeedboxConfigData {
+export default class SeedboxConfigData {
     constructor(root) {
         this.root = root
         this.size = [0, 0, 0]

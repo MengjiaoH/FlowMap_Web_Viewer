@@ -151,8 +151,7 @@ function SeedPlacement(props) {
                 </Button>
             </Stack>
         </Box>
-        <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off"
-        >
+        <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
             <Stack direction="row" alignItems="center" spacing={2}>
                 <Button component="label" variant="outlined" startIcon={<AddBoxIcon/>} size="small"
                         onClick={addSeeds}> Add Seeds

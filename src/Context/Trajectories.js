@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 
-export class Trajectries {
+export default class Trajectories {
 
     constructor(root) {
         this.root = root

@@ -8,6 +8,8 @@ import Stack from '@mui/material/Stack';
 import {global_data} from "../Context/DataContainer";
 import {Slider, Typography} from "@mui/material";
 import FormLabel from "@mui/material/FormLabel";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 function SeedPlacement(props) {
     const g_data = useContext(global_data)
@@ -110,8 +112,8 @@ function SeedPlacement(props) {
 
 
     return <FormControl>
-        <Box component="form" sx={{'& > :not(style)': {p: 1, width: '100%'},}} noValidate autoComplete="off">
-            <Stack direction="row" alignItems="center" spacing={0}>
+        <Box component="form" sx={{'& > :not(style)': {p: 0, width: '100%'},}} noValidate autoComplete="off">
+            <Stack direction="row" alignItems="center" spacing={5}>
                 <FormControlLabel value="display" control={
                     <Switch checked={config.display} onChange={setDisplay}/>
                 } label="Display"/>
@@ -130,6 +132,15 @@ function SeedPlacement(props) {
                         value={position[0]}
                         onChange={setPositionX}
                 />
+                <TextField disabled={disable_pos_x} value={position[0]} size={'small'} alignItem={'center'}
+                           inputProps={{min: min_pos_x, max: max_pos_x, style: {fontSize: 12}}}
+                           onChange={function (e) {
+                               let v = Number(e.target.value)
+                               if (Number.isNaN(v)) v = min_pos_x
+                               if (v < min_pos_x) v = min_pos_x
+                               if (v > max_pos_x) v = max_pos_x
+                               config.setPositionX(v)
+                           }}/>
             </Stack>
 
             <Stack direction="row" alignItems="center" spacing={5}>
@@ -139,6 +150,15 @@ function SeedPlacement(props) {
                         step={(max_pos_y - min_pos_y) / 100}
                         value={position[1]}
                         onChange={setPositionY}/>
+                <TextField disabled={disable_pos_y} value={position[1]} size={'small'} alignItem={'center'}
+                           inputProps={{min: min_pos_y, max: max_pos_y, style: {fontSize: 12}}}
+                           onChange={function (e) {
+                               let v = Number(e.target.value)
+                               if (Number.isNaN(v)) v = min_pos_y
+                               if (v < min_pos_y) v = min_pos_y
+                               if (v > max_pos_y) v = max_pos_y
+                               config.setPositionY(v)
+                           }}/>
             </Stack>
 
             <Stack direction="row" alignItems="center" spacing={5}>
@@ -148,6 +168,15 @@ function SeedPlacement(props) {
                         step={(max_pos_z - min_pos_z) / 100}
                         value={position[2]}
                         onChange={setPositionZ}/>
+                <TextField disabled={disable_pos_z} value={position[2]} size={'small'} alignItem={'center'}
+                           inputProps={{min: min_pos_z, max: max_pos_z, style: {fontSize: 12}}}
+                           onChange={function (e) {
+                               let v = Number(e.target.value)
+                               if (Number.isNaN(v)) v = min_pos_z
+                               if (v < min_pos_z) v = min_pos_z
+                               if (v > max_pos_z) v = max_pos_z
+                               config.setPositionZ(v)
+                           }}/>
             </Stack>
         </Box>
         <Box component="form" sx={{'& > :not(style)': {p: 1, width: '100%'},}} noValidate autoComplete="off">
@@ -159,15 +188,33 @@ function SeedPlacement(props) {
                         value={size[0]}
                         onChange={setSizeX}
                 />
+                <TextField disabled={disable_size_x} value={size[0]} size={'small'} alignItem={'center'}
+                           inputProps={{min: min_size_x, max: max_size_x, style: {fontSize: 12}}}
+                           onChange={function (e) {
+                               let v = Number(e.target.value)
+                               if (Number.isNaN(v)) v = min_size_x
+                               if (v < min_size_x) v = min_size_x
+                               if (v > max_size_x) v = max_size_x
+                               config.setSizeX(v)
+                           }}/>
             </Stack>
 
             <Stack direction="row" alignItems="center" spacing={5}>
                 <FormLabel>size_y</FormLabel>
                 <Slider valueLabelDisplay={'auto'} min={min_size_y} max={max_size_y}
                         disabled={disable_size_y}
-                        step={(max_size_y - min_size_y) / 100}
+                        step={(max_size_y - min_size_y) / 1000}
                         value={size[1]}
                         onChange={setSizeY}/>
+                <TextField disabled={disable_size_x} value={size[0]} size={'small'} alignItem={'center'}
+                           inputProps={{min: min_size_y, max: max_size_y, style: {fontSize: 12}}}
+                           onChange={function (e) {
+                               let v = Number(e.target.value)
+                               if (Number.isNaN(v)) v = min_size_y
+                               if (v < min_size_y) v = min_size_y
+                               if (v > max_size_y) v = max_size_y
+                               config.setSizeY(v)
+                           }}/>
             </Stack>
 
             <Stack direction="row" alignItems="center" spacing={5}>
@@ -177,6 +224,15 @@ function SeedPlacement(props) {
                         step={(max_size_z - min_size_z) / 100}
                         value={size[2]}
                         onChange={setSizeZ}/>
+                <TextField disabled={disable_size_x} value={size[0]} size={'small'} alignItem={'center'}
+                           inputProps={{min: min_size_z, max: max_size_z, style: {fontSize: 12}}}
+                           onChange={function (e) {
+                               let v = Number(e.target.value)
+                               if (Number.isNaN(v)) v = min_size_z
+                               if (v < min_size_z) v = min_size_z
+                               if (v > max_size_z) v = max_size_z
+                               config.setSizeZ(v)
+                           }}/>
             </Stack>
         </Box>
     </FormControl>

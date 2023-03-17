@@ -9,7 +9,7 @@ export default class DomainSpec {
 
     constructor(root) {
         this.root = root
-        this.setBounds([0, 1, 0, 1, 0, 1])
+        this.setBounds([-1, 1, -1, 1, -1, 1])
         makeAutoObservable(this)
     }
 

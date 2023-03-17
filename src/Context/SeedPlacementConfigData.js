@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 
-export class SeedPlacementConfigData {
+export default class SeedPlacementConfigData {
 
 
     constructor(root) {

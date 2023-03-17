@@ -13,7 +13,7 @@ import CubeOutline from "./CubeOutline";
 import Seeds from "./SeedsMesh";
 import PathlineMesh from "./PathlineMesh";
 
-function MainSceneDisplay(props
+function PrimaryRenderer(props
 ) {
     const ref = useRef()
     const camera_ref = useRef()
@@ -77,4 +77,4 @@ function MainSceneDisplay(props
     </Canvas>
 }
 
-export default observer(MainSceneDisplay)
+export default observer(PrimaryRenderer)

@@ -19,7 +19,7 @@ function TabPanel(props) {
         </div>);
 }
 
-function LineStyleConfig(props) {
+function LineStylePanel(props) {
     const [value, setValue] = useState(0)
 
     const tabChange = useMemo(() => {
@@ -42,4 +42,4 @@ function LineStyleConfig(props) {
 
 }
 
-export default LineStyleConfig
+export default LineStylePanel
