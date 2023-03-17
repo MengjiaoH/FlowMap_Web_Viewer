@@ -15,9 +15,7 @@ function Pathline(props) {
     </mesh>
 }
 
-function FlowMapMesh(props) {
-
-    console.log(props.paths)
+function PathlineMesh(props) {
 
     return props.paths.map((path, i) => {
         if (path.path) {
@@ -29,4 +27,4 @@ function FlowMapMesh(props) {
     })
 }
 
-export default FlowMapMesh
+export default PathlineMesh

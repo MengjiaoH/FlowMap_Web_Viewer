@@ -31,7 +31,7 @@ function LineStyleConfig(props) {
     return (<div>
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs value={value} onChange={tabChange} aria-label="basic tabs example" className="drag-handle">
-                    <Tab label="Flow Map Style Config" id={'line_style_config_tab_0'}
+                    <Tab label="Line Style Config" id={'line_style_config_tab_0'}
                          aria-controls={'line_style_config_tab_panel_0'}/>
                 </Tabs>
             </Box>

@@ -14,34 +14,39 @@ export default class ParticleTraceConfig {
     }
 
     fakeTrace(seedpos) {
-        const center = [0.5,0.5,0.5]
-        const n_steps = this.n_flow_map
+        const center = this.root.domain.center
+        const shortest = this.root.domain.shortest_side
+        const n_steps = 18
 
-        const step = Math.PI * 2 / 36
+        const [vx, vy] = [(Math.random() - 0.5) * shortest, (Math.random() - 0.5) * shortest]
+        console.log(center, shortest, vx,vy)
+        const step = Math.PI * 2 / 6
 
-        const dx = seedpos[0] - center[0]
-        const dy = seedpos[1] - center[1]
+        const dx = seedpos[0] - (center[0] + vx)
+        const dy = seedpos[1] - (center[1] + vy)
         const radius = Math.sqrt(dx * dx + dy * dy)
 
         const path = []
         let starting_theta
-        if (radius !== 0){
+        if (radius !== 0) {
             starting_theta = Math.asin(dy / radius)
-            const x0 = radius * Math.cos(starting_theta ) + center[0]
-            if (Math.abs(x0 - seedpos[0])>1e-4){
+            const x0 = radius * Math.cos(starting_theta) + center[0] + vx
+            if (Math.abs(x0 - seedpos[0]) > 1e-4) {
                 starting_theta = Math.PI - starting_theta
             }
 
         }
 
+        const rand_v = (Math.random() * 10 + 20)
+        const z_factor =  (Math.random()<0.5)?-rand_v:rand_v
+        console.log(z_factor)
 
-        const z_factor = (Math.random() * 1000 -500)
 
         for (let i = 0; i < n_steps; ++i) {
             let x, y, z
             if (radius !== 0) {
-                x = radius * Math.cos(starting_theta + step * i) + center[0]
-                y = radius * Math.sin(starting_theta + step * i) + center[1]
+                x = radius * Math.cos(starting_theta + step * i) + center[0] + vx
+                y = radius * Math.sin(starting_theta + step * i) + center[1] + vy
             } else {
                 x = seedpos[0]
                 y = seedpos[1]

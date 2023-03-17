@@ -11,7 +11,7 @@ import {Instance, PerspectiveCamera, TrackballControls, GizmoHelper, GizmoViewpo
 import {global_data} from "../Context/DataContainer";
 import CubeOutline from "./CubeOutline";
 import Seeds from "./SeedsMesh";
-import FlowMapMesh from "./FlowMapMesh";
+import PathlineMesh from "./PathlineMesh";
 
 function MainSceneDisplay(props
 ) {
@@ -44,7 +44,7 @@ function MainSceneDisplay(props
     }, [g_data.seedbox_config.display, g_data.seedbox_config.active, g_data.seedbox_config.size, g_data.seedbox_config.position])
 
     const paths = useMemo(() => {
-        return <FlowMapMesh paths={g_data.trajectories.paths}/>
+        return <PathlineMesh paths={g_data.trajectories.paths}/>
     }, [g_data.trajectories.paths])
 
 

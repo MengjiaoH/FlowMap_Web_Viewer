@@ -41,7 +41,7 @@ function MainViewLayout(props) {
     return <>
         <Navbar variant="dark" bg="secondary" expand="lg">
             <Container fluid>
-                <Navbar.Brand>{"Neural Flow Map Web Viewer"}</Navbar.Brand>
+                <Navbar.Brand>{"Neural Flow Web Viewer"}</Navbar.Brand>
                 <Navbar.Collapse id="dataset_dropdown">
                     <Nav>
                         <NavDropdown
