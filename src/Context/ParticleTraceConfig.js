@@ -35,7 +35,7 @@ export default class ParticleTraceConfig {
         }
 
 
-        const z_factor = (Math.random() * 200 - 100 + 50)
+        const z_factor = (Math.random() * 1000 -500)
 
         for (let i = 0; i < n_steps; ++i) {
             let x, y, z

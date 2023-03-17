@@ -5,14 +5,24 @@ export class SeedPlacementConfigData {
 
     constructor(root) {
         this.root = root
-        this.use_random_strategy = false
+        this.use_random_strategy = true
         this.n_random_seed = 10
         this.use_uniform_strategy = false
         this.uniform = [1, 1, 1]
         this.use_manual_strategy = false
         this.manual = [0, 0, 0]
-
+        this.reset()
         makeAutoObservable(this)
+    }
+
+    reset(){
+        const bounds = this.root.domain.bounds
+        this.use_random_strategy = true
+        this.n_random_seed = 10
+        this.use_uniform_strategy = false
+        this.uniform = [1, 1, 1]
+        this.use_manual_strategy = false
+        this.manual = [bounds[0], bounds[2], bounds[4]]
     }
 
     setUseManualStrategy(v) {
