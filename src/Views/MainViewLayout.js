@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Paper from '@mui/material/Paper';
 import SeedConfig from "./SeedConfig";
 import LineStyleConfig from "./LineStyleConfig";
+import ModelPanel from "./ModelPanel";
 
 function MainViewLayout(props) {
     const ReactGridLayout = useMemo(() => WidthProvider(Responsive), []);
@@ -21,7 +22,7 @@ function MainViewLayout(props) {
             </div>,
             <div key={'model_panel'} data-grid={{x: 16, y: 0, w: 4, h: 8}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
-                    <div>model_panel</div>
+                    <ModelPanel />
                 </Paper>
             </div>,
             <div key={'seed_config'} data-grid={{x: 20, y: 0, w: 4, h: 4}} >

@@ -5,6 +5,7 @@ import {SeedboxConfigData} from "./SeedboxConfigData";
 import LineStyle from "./LineStyle";
 import DomainSpec from "./DomainSpec";
 import {Trajectries} from "./Trajectries";
+import ParticleTraceConfig from "./ParticleTraceConfig";
 
 class DataContainer {
 
@@ -14,6 +15,8 @@ class DataContainer {
         this.seed_placement_config = new SeedPlacementConfigData(this)
         this.line_style_config = new LineStyle(this)
         this.line_style_config.makeObservable()
+
+        this.particle_trace_config = new ParticleTraceConfig(this)
 
         this.trajectories = new Trajectries(this)
 

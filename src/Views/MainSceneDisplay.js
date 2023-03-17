@@ -11,6 +11,7 @@ import {Instance, PerspectiveCamera, TrackballControls, GizmoHelper, GizmoViewpo
 import {global_data} from "../Context/DataContainer";
 import CubeOutline from "./CubeOutline";
 import Seeds from "./SeedsMesh";
+import FlowMapMesh from "./FlowMapMesh";
 
 function MainSceneDisplay(props
 ) {
@@ -25,14 +26,12 @@ function MainSceneDisplay(props
 
 
     const seeds = useMemo(() => {
-        if (g_data.trajectories.seeds.length > 0){
-            return <Seeds seeds={g_data.trajectories.seeds} radius={g_data.domain.shortest_side/100}/>
-        }else{
+        if (g_data.trajectories.seeds.length > 0) {
+            return <Seeds seeds={g_data.trajectories.seeds} radius={g_data.domain.shortest_side / 100}/>
+        } else {
             return null
         }
     }, [g_data.trajectories.seeds])
-
-
 
     const seed_box = useMemo(() => {
         if (g_data.seedbox_config.display) {
@@ -44,6 +43,10 @@ function MainSceneDisplay(props
         }
     }, [g_data.seedbox_config.display, g_data.seedbox_config.active, g_data.seedbox_config.size, g_data.seedbox_config.position])
 
+    const paths = useMemo(() => {
+        return <FlowMapMesh paths={g_data.trajectories.paths}/>
+    }, [g_data.trajectories.paths])
+
 
     return <Canvas ref={ref} onDoubleClick={function () {
         control_ref.current.reset()
@@ -53,6 +56,7 @@ function MainSceneDisplay(props
             <CubeOutline bounds={g_data.domain.bounds} color={"rgb(200,200,200)"}/>
             {seed_box}
             {seeds}
+            {paths}
             <GizmoHelper alignment={'bottom-right'} margin={[80, 80]}>
                 <GizmoViewport {...{
                     axisColors: ['orange', 'yellow', 'cyan'],
@@ -69,7 +73,7 @@ function MainSceneDisplay(props
             />
         </PerspectiveCamera>
         <TrackballControls ref={control_ref} camera={camera_ref.current} target0={center}
-                           target={center} maxDistance={4 * diag} minDistance={0.05 * diag}/>
+                           target={center} maxDistance={10 * diag} minDistance={0.05 * diag}/>
     </Canvas>
 }
 

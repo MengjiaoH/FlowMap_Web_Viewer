@@ -29,7 +29,7 @@ export class Trajectries {
     traceParticles(trace_function) {
         this.paths = [...this.paths.map((path, i) => {
             return {
-                path: path.path ? path.path : trace_function(this.seeds[i]),
+                path: path.path ? path.path : trace_function(this.seeds[i].seed),
                 style: path.style
             }
         })]
