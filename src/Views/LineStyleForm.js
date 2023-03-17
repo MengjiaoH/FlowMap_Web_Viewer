@@ -24,6 +24,10 @@ function LineStyleForm(props) {
         config.setSeedColor(e.target.value)
     }
 
+    const setSeedScale = (e) =>{
+        config.setSeedScale(Number(e.target.value))
+    }
+
     const setLineSegments = (e) => {
         config.setLineSegments(Number(e.target.value))
     }
@@ -44,6 +48,10 @@ function LineStyleForm(props) {
     return <FormControl>
         <FormLabel id="seed_placement_radio_group_label"><Typography>Seeds:</Typography></FormLabel>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
+            <TextField type="number" id="seedbox-config-size-y" label="seed scale" variant="outlined" size="small"
+                       inputProps={{min: 0, style: {fontSize: 12}}}
+                       value={config.seed_scale} onChange={setSeedScale}
+            />
                 <Form.Control
                     type="color"
                     value={config.seed_color}
@@ -73,7 +81,7 @@ function LineStyleForm(props) {
                     startIcon={<CheckIcon/>}
                     size="small"
                     onClick={applyColor}>
-                Apply Color
+                Apply Style
             </Button>
         </Box>
 

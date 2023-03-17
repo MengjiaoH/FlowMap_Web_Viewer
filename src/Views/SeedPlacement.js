@@ -68,7 +68,7 @@ function SeedPlacement(props) {
 
     const addSeeds = () => {
         const activate_bounds = g_data.seedbox_config.active ? g_data.seedbox_config.getBounds() : g_data.domain.getBounds()
-        console.log("activate_bounds", activate_bounds)
+
         let seeds = []
         if (config.use_random_strategy) {
             seeds = seeds.concat(random_gen(activate_bounds, config.n_random_seed))
@@ -79,9 +79,6 @@ function SeedPlacement(props) {
         if (config.use_manual_strategy) {
             seeds = seeds.concat(manual_gen(activate_bounds, ...config.manual))
         }
-
-        console.log(seeds)
-
         g_data.trajectories.addSeeds(seeds)
     }
 

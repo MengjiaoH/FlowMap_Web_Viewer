@@ -19,9 +19,9 @@ function MainViewLayout(props) {
                     <MainSceneDisplay/>
                 </Paper>
             </div>,
-            <div key={'info_panel'} data-grid={{x: 16, y: 0, w: 4, h: 8}}>
+            <div key={'model_panel'} data-grid={{x: 16, y: 0, w: 4, h: 8}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
-                    <div>info_panel</div>
+                    <div>model_panel</div>
                 </Paper>
             </div>,
             <div key={'seed_config'} data-grid={{x: 20, y: 0, w: 4, h: 4}} >

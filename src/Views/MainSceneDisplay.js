@@ -18,27 +18,26 @@ function MainSceneDisplay(props
     const camera_ref = useRef()
     const control_ref = useRef()
     const g_data = useContext(global_data)
-    const seeds = useMemo(()=>{
-        return g_data.trajectories.getSeeds()
-    },[g_data.trajectories.seeds])
 
     const [center, diag] = useMemo(() => {
-        const [x_min, x_max, y_min, y_max, z_min, z_max] = g_data.domain.bounds
-        const sx = x_max + x_min
-        const sy = y_max + y_min
-        const sz = z_max + z_min
-        const center = [sx / 2, sy / 2, sz / 2]
-        const scene_diag = Math.sqrt((x_max - x_min) ** 2 + (y_max - y_min) ** 2 + (z_max - z_min) ** 2);
-        return [center, scene_diag]
+        return [g_data.domain.center, g_data.domain.diag]
     }, [g_data.domain.bounds])
+
+
+    const seeds = useMemo(() => {
+        if (g_data.trajectories.seeds.length > 0){
+            return <Seeds seeds={g_data.trajectories.seeds} radius={g_data.domain.shortest_side/100}/>
+        }else{
+            return null
+        }
+    }, [g_data.trajectories.seeds])
+
+
 
     const seed_box = useMemo(() => {
         if (g_data.seedbox_config.display) {
             const color = g_data.seedbox_config.active ? "rgb(255,0,0)" : "rgb(0,0,0)"
-            const [x_size, y_size, z_size] = g_data.seedbox_config.size
-            const bds = [g_data.seedbox_config.position[0], x_size + g_data.seedbox_config.position[0],
-                g_data.seedbox_config.position[1], y_size + g_data.seedbox_config.position[1],
-                g_data.seedbox_config.position[2], z_size + g_data.seedbox_config.position[2]]
+            const bds = g_data.seedbox_config.getBounds()
             return <CubeOutline bounds={bds} color={color}/>
         } else {
             return null
@@ -53,7 +52,7 @@ function MainSceneDisplay(props
         <group>
             <CubeOutline bounds={g_data.domain.bounds} color={"rgb(200,200,200)"}/>
             {seed_box}
-            <Seeds seeds={seeds}/>
+            {seeds}
             <GizmoHelper alignment={'bottom-right'} margin={[80, 80]}>
                 <GizmoViewport {...{
                     axisColors: ['orange', 'yellow', 'cyan'],

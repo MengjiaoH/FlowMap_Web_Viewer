@@ -1,19 +1,34 @@
 import {makeAutoObservable} from "mobx";
 
 export default class LineStyle {
-    constructor() {
+    constructor(root) {
+        this.root = root
         this.seed_color = "#000000"
+        this.seed_scale = 1
         this.line_color = "#000000"
         this.line_segments = 1
-        this.line_radius = 5
+        this.line_radius = 1
+        this.reset()
+    }
+
+    reset() {
+        this.seed_color = "#000000"
+        this.seed_scale = 1
+        this.line_color = "#000000"
+        this.line_segments = 1
+        this.line_radius = this.root.domain.shortest_side / 100
     }
 
     makeObservable() {
         makeAutoObservable(this)
     }
 
-    getSeedsColor() {
-        return this.seed_color
+    getSeedStyle() {
+        return {color: this.seed_color, scale: this.seed_scale}
+    }
+
+    setSeedScale(v){
+        this.seed_scale = v
     }
 
     getLineStyle() {

@@ -12,7 +12,7 @@ class DataContainer {
         this.domain = new DomainSpec(this)
         this.seedbox_config = new SeedboxConfigData(this)
         this.seed_placement_config = new SeedPlacementConfigData(this)
-        this.line_style_config = new LineStyle()
+        this.line_style_config = new LineStyle(this)
         this.line_style_config.makeObservable()
 
         this.trajectories = new Trajectries(this)

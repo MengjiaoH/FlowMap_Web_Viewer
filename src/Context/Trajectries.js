@@ -9,15 +9,12 @@ export class Trajectries {
         makeAutoObservable(this)
     }
 
-    getSeeds() {
-        return [...this.seeds]
-    }
 
     addSeeds(positions) {
         this.seeds = [...this.seeds, ...positions.map(pos => {
             return {
                 seed: pos,
-                color: this.root.line_style_config.seed_color
+                style: this.root.line_style_config.getSeedStyle()
             }
         })]
 
@@ -40,7 +37,7 @@ export class Trajectries {
 
     applyStyle() {
         this.seeds = [...this.seeds.map(s => {
-            return {seed: s.seed, color: this.root.line_style_config.seed_color}
+            return {seed: s.seed, style: this.root.line_style_config.getSeedStyle()}
         })]
         this.paths = [...this.paths.map(p => {
             return {path: p.path, style: this.root.line_style_config.getLineStyle()}
