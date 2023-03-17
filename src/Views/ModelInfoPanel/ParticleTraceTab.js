@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import React, {useContext} from "react";
-import {global_data} from "../Context/DataContainer";
+import {global_data} from "../../Context/DataContainer";
 import FormLabel from "@mui/material/FormLabel";
 import {Typography} from "@mui/material";
 import Box from "@mui/material/Box";

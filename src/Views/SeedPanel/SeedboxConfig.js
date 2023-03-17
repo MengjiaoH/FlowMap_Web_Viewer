@@ -5,10 +5,9 @@ import Switch from '@mui/material/Switch';
 import FormControl from '@mui/material/FormControl';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import {global_data} from "../Context/DataContainer";
-import {Slider, Typography} from "@mui/material";
+import {global_data} from "../../Context/DataContainer";
+import {Slider} from "@mui/material";
 import FormLabel from "@mui/material/FormLabel";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
 function SeedPlacement(props) {

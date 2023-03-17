@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {global_data} from "../Context/DataContainer";
+import {global_data} from "../../Context/DataContainer";
 import {Typography} from "@mui/material";
 import {manual_gen, random_gen, uniform_gen} from "./GenSeeds";
 

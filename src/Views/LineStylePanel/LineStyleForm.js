@@ -1,10 +1,7 @@
 import React, {useContext, useMemo} from 'react'
 import {observer} from "mobx-react";
-import {global_data} from "../Context/DataContainer";
+import {global_data} from "../../Context/DataContainer";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import FormLabel from "@mui/material/FormLabel";
 import {Typography} from "@mui/material";
 import TextField from "@mui/material/TextField";

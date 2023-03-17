@@ -8,7 +8,7 @@ import {DoubleSide} from "three";
 import * as THREE from "three";
 import {observer} from "mobx-react";
 import {Instance, PerspectiveCamera, TrackballControls, GizmoHelper, GizmoViewport} from "@react-three/drei";
-import {global_data} from "../Context/DataContainer";
+import {global_data} from "../../Context/DataContainer";
 import CubeOutline from "./CubeOutline";
 import Seeds from "./SeedsMesh";
 import PathlineMesh from "./PathlineMesh";
