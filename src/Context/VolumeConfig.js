@@ -21,9 +21,14 @@ export default class VolumeConfig {
 
         this.opacity_tf = null
 
+        this.step_size = 0.1
+
+        this.volume_rendering = false
+
         makeAutoObservable(this)
 
         this.updateOtf = this.updateOtf.bind(this)
+        this.setScalars = this.setScalars.bind(this)
     }
 
     updateOtf(otf) {
@@ -36,14 +41,28 @@ export default class VolumeConfig {
 
     setScalars(array, min_v, max_v, dataname, dims) {
         this.scalars = array
-        this.loaded = true
+        this.setLoaded(true)
         this.min_v = min_v
         this.max_v = max_v
         this.data_name = dataname
         this.dims = dims
+        this.step_size = this.root.domain.diag / 1000
 
         this.color_tf = new ColorTransferFunction(this.min_v, this.max_v)
         this.opacity_tf = new OpacityTransferFunction(this.min_v, this.max_v)
+    }
+
+    setLoaded(v) {
+        if (v === true) {
+            this.loaded = true
+        } else {
+            this.setVolumeRendering(false)
+            this.loaded = false
+        }
+    }
+
+    setVolumeRendering(v) {
+        this.volume_rendering = v;
     }
 
 

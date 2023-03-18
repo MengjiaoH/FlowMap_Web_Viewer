@@ -9,6 +9,8 @@ import Box from "@mui/material/Box";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import Button from "@mui/material/Button";
 import vtkXMLImageDataReader from '@kitware/vtk.js/IO/XML/XMLImageDataReader';
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 function VolumeConfigPanel(props) {
     const g_data = useContext(global_data)
@@ -53,6 +55,10 @@ function VolumeConfigPanel(props) {
 
     }
 
+    const setDVRSwitch = (e) => {
+        config.setVolumeRendering(e.target.checked)
+    }
+
     return <FormControl>
         <FormLabel>{title}</FormLabel>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
@@ -78,6 +84,12 @@ function VolumeConfigPanel(props) {
                     <input hidden type="file" onChange={handleUploadDataFile}/>
                 </Button>
             </Stack>
+            <Stack direction="row" alignItems="center" spacing={5}>
+                <FormControlLabel control={<Switch checked={config.volume_rendering} disabled={!config.loaded}/>}
+                                  label={'Volume Rendering'} value={'dvrswitch'} onChange={setDVRSwitch}/>
+
+            </Stack>
+
         </Box>
     </FormControl>
 

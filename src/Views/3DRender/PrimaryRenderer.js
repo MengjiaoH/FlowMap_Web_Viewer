@@ -1,17 +1,13 @@
 import React, {useContext, useEffect, useMemo, useRef, useState} from 'react'
-import {Canvas, useFrame} from '@react-three/fiber'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col'
-import Navbar from 'react-bootstrap/Navbar'
-import {DoubleSide} from "three";
-import * as THREE from "three";
+import {Canvas} from '@react-three/fiber'
 import {observer} from "mobx-react";
-import {Instance, PerspectiveCamera, TrackballControls, GizmoHelper, GizmoViewport} from "@react-three/drei";
+import {PerspectiveCamera, TrackballControls, GizmoHelper, GizmoViewport} from "@react-three/drei";
 import {global_data} from "../../Context/DataContainer";
 import CubeOutline from "./CubeOutline";
 import Seeds from "./SeedsMesh";
 import PathlineMesh from "./PathlineMesh";
+import VolumeMesh from "./dvr/VolumeMesh";
+import {Vector3} from "three";
 
 function PrimaryRenderer(props
 ) {
@@ -24,6 +20,20 @@ function PrimaryRenderer(props
         return [g_data.domain.center, g_data.domain.diag]
     }, [g_data.domain.bounds])
 
+    const [camera_pos, setCameraPos] = useState(new Vector3(center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag))
+
+    useEffect(() => {
+
+    }, [])
+
+    const volume_rendering = useMemo(() => {
+        if (g_data.volume_config.volume_rendering) {
+            return <VolumeMesh camera_pos={camera_pos}/>
+        } else {
+            return null
+        }
+    }, [camera_pos, g_data.volume_config.volume_rendering])
+
 
     const seeds = useMemo(() => {
         if (g_data.trajectories.seeds.length > 0) {
@@ -31,7 +41,7 @@ function PrimaryRenderer(props
         } else {
             return null
         }
-    }, [g_data.trajectories.seeds])
+    }, [g_data.domain.shortest_side, g_data.trajectories.seeds])
 
     const seed_box = useMemo(() => {
         if (g_data.seedbox_config.display) {
@@ -48,12 +58,20 @@ function PrimaryRenderer(props
     }, [g_data.trajectories.paths])
 
 
+    const updateCamera = () => {
+        const pos = control_ref.current.object.position
+        setCameraPos(new Vector3(pos.x, pos.y, pos.z))
+    }
+
     return <Canvas ref={ref} onDoubleClick={function () {
         control_ref.current.reset()
+        const pos = control_ref.current.object.position
+        setCameraPos(new Vector3(pos.x, pos.y, pos.z))
     }}>
         < color attach="background" args={['#FFFFFF']}/>
         <group>
             <CubeOutline bounds={g_data.domain.bounds} color={"rgb(200,200,200)"}/>
+            {volume_rendering}
             {seed_box}
             {seeds}
             {paths}
@@ -66,14 +84,16 @@ function PrimaryRenderer(props
             </GizmoHelper>
         </group>
         <PerspectiveCamera ref={camera_ref} makeDefault={true}
-                           up={[0, 1, 0]}
-                           position={[center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag]}>
+                           up={[0, 1, 0]} position={[center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag]}>
             <directionalLight intensity={0.7}
                               position={[1, 0, 0]}
             />
         </PerspectiveCamera>
-        <TrackballControls ref={control_ref} camera={camera_ref.current} target0={center}
-                           target={center} maxDistance={10 * diag} minDistance={0.05 * diag}/>
+        <TrackballControls ref={control_ref} target0={center}
+                           target={center} maxDistance={1000 * diag} minDistance={0.05 * diag}
+                           staticMoving={true}
+                           onEnd={updateCamera}
+        />
     </Canvas>
 }
 

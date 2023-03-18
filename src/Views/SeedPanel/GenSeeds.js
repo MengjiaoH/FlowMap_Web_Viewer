@@ -1,6 +1,4 @@
-function rescale(v, min, max) {
-    return v * (max - min) + min;
-}
+import {linspace,rescale} from "../../Utils/utils";
 
 
 function random_gen(bounds, n_seeds) {
@@ -13,22 +11,6 @@ function random_gen(bounds, n_seeds) {
             rescale(Math.random(), z_min, z_max)])
     }
     return seeds
-}
-
-
-function linspace(min, max, n) {
-    if (n === 0) {
-        return []
-    } else if (n === 1) {
-        return [(max + min) / 2]
-    } else {
-        const l = []
-        const step = (max - min) / (n - 1)
-        for (let i = 0; i < n; ++i) {
-            l.push(min + i * step)
-        }
-        return l
-    }
 }
 
 function uniform_gen(bounds, x, y, z) {
@@ -76,4 +58,4 @@ function manual_gen(bounds, x, y, z) {
     return [[xv, yv, zv]]
 }
 
-export {random_gen, uniform_gen, manual_gen, linspace}
+export {random_gen, uniform_gen, manual_gen}

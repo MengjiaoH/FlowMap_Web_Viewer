@@ -1,6 +1,6 @@
 import {presets, presetnames} from "./presets"
+import {interpolate, interpolate3} from "../Utils/utils";
 
-import {interpolate, interpolate3} from "./utils";
 
 class BaseTransferFunction {
     constructor(v_min, v_max) {

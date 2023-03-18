@@ -1,3 +1,22 @@
+function linspace(min, max, n) {
+    if (n === 0) {
+        return []
+    } else if (n === 1) {
+        return [(max + min) / 2]
+    } else {
+        const l = []
+        const step = (max - min) / (n - 1)
+        for (let i = 0; i < n; ++i) {
+            l.push(min + i * step)
+        }
+        return l
+    }
+}
+
+function rescale(v,target_min,target_max, input_min = 0, input_max = 1){
+    return (v - input_min) / (input_max - input_min) * (target_max - target_min) + target_min
+}
+
 function interpolate(x, x0, x1, v0, v1) {
     if (x0 === x1) {
         return v0;
@@ -36,4 +55,4 @@ function find_min(arr) {
     return [min_value, idx];
 }
 
-export {interpolate, interpolate3, bilinear_interpolate, find_min}
+export {linspace,rescale,interpolate, interpolate3, bilinear_interpolate, find_min}
