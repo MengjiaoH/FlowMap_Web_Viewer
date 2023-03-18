@@ -42,21 +42,21 @@ class BaseTransferFunction {
         return x;
     }
 
-    update_min(new_min){
+    update_min(new_min) {
         this.control_points[0] = new_min;
         this.v_min = new_min;
-        for (let i = 1; i < this.control_points.length; ++i){
-            if (this.control_points[i] < new_min){
+        for (let i = 1; i < this.control_points.length; ++i) {
+            if (this.control_points[i] < new_min) {
                 this.control_points[i] = new_min;
             }
         }
     }
 
-    update_max(new_max){
-        this.control_points[ this.control_points.length-1] = new_max;
+    update_max(new_max) {
+        this.control_points[this.control_points.length - 1] = new_max;
         this.v_max = new_max;
-        for (let i = 1; i < this.control_points.length-1; ++i){
-            if (this.control_points[i] > new_max){
+        for (let i = 1; i < this.control_points.length - 1; ++i) {
+            if (this.control_points[i] > new_max) {
                 this.control_points[i] = new_max;
             }
         }
@@ -84,7 +84,7 @@ class ColorTransferFunction extends BaseTransferFunction {
 
     colors(array) {
         const color_array = new Array(array.length)
-        for (let i = 0; i < color_array.length; ++i){
+        for (let i = 0; i < color_array.length; ++i) {
             color_array[i] = this.color(array[i])
         }
         return color_array.flat();
@@ -94,7 +94,7 @@ class ColorTransferFunction extends BaseTransferFunction {
         this.control_points = presets[colormap].control_points.map(x =>
             interpolate(x, 0, 1, this.v_min, this.v_max)
         );
-        this.color_points = Object.assign([],presets[colormap].color_points);
+        this.color_points = Object.assign([], presets[colormap].color_points);
     }
 
     inRange(x, idx) {
@@ -139,8 +139,15 @@ class ColorTransferFunction extends BaseTransferFunction {
         return idx;
     }
 
-    invert(){
+    invert() {
         this.color_points.reverse()
+    }
+
+    copy() {
+        const ctf = new ColorTransferFunction(this.v_min, this.v_max)
+        ctf.color_points = [...this.color_points]
+        ctf.control_points = [...this.control_points]
+        return ctf;
     }
 }
 
@@ -228,7 +235,12 @@ class OpacityTransferFunction extends BaseTransferFunction {
         return array.map(x => this.opacity(x))
     }
 
-
+    copy() {
+        const otf = new OpacityTransferFunction(this.v_min, this.v_max)
+        otf.opacity_points = [...this.opacity_points]
+        otf.control_points = [...this.control_points]
+        return otf;
+    }
 }
 
 export {ColorTransferFunction, OpacityTransferFunction}

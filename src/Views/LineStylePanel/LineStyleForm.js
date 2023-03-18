@@ -21,7 +21,7 @@ function LineStyleForm(props) {
         config.setSeedColor(e.target.value)
     }
 
-    const setSeedScale = (e) =>{
+    const setSeedScale = (e) => {
         config.setSeedScale(Number(e.target.value))
     }
 
@@ -49,11 +49,7 @@ function LineStyleForm(props) {
                        inputProps={{min: 0, style: {fontSize: 12}}}
                        value={config.seed_scale} onChange={setSeedScale}
             />
-                <Form.Control
-                    type="color"
-                    value={config.seed_color}
-                    onChange={setSeedColor}
-                />
+            <TextField type="color" value={config.seed_color} onChange={setSeedColor} variant="outlined" size="small"/>
         </Box>
         <FormLabel id="seed_placement_radio_group_label"><Typography>Lines:</Typography></FormLabel>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
@@ -66,11 +62,7 @@ function LineStyleForm(props) {
                        value={config.line_radius} onChange={setLineRadius}
             />
 
-            <Form.Control
-                type="color"
-                value={config.line_color}
-                onChange={setLineColor}
-            />
+            <TextField type="color" value={config.line_color} onChange={setLineColor} variant="outlined" size="small"/>
         </Box>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
             <Button component="label"
