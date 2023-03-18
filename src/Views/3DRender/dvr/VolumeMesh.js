@@ -99,6 +99,11 @@ function VolumeMesh(props) {
     const tf = useMemo(() => {
         const otf = g_data.volume_config.opacity_tf
         const ctf = g_data.volume_config.color_tf
+        const tf = tf_texture(otf, ctf)
+        if (ref && ref.current) {
+            ref.current.material.uniforms.tf.value = tf;
+            ref.current.material.needsUpdate = true;
+        }
         return tf_texture(otf, ctf)
     }, [g_data.volume_config.color_tf, g_data.volume_config.opacity_tf])
 
@@ -111,7 +116,14 @@ function VolumeMesh(props) {
     }, [g_data.volume_config.step_size])
 
 
-    const camera_pos = props.camera_pos
+    const camera_pos = useMemo(() => {
+        const camera_pos = props.camera_pos
+        if (ref && ref.current) {
+            ref.current.material.uniforms.camera_pos.value = camera_pos;
+            ref.current.material.needsUpdate = true;
+        }
+        return camera_pos
+    }, [props.camera_pos])
 
     const [min_bb, max_bb, ext] = useMemo(() => {
         const [min_x, max_x, min_y, max_y, min_z, max_z] = g_data.domain.bounds
@@ -123,7 +135,6 @@ function VolumeMesh(props) {
     console.log(camera_pos)
 
     const uniforms = useMemo(() => {
-        console.log("uniform updates")
         return {
             camera_pos: {value: camera_pos},
             min_bb: {value: min_bb},
@@ -136,15 +147,11 @@ function VolumeMesh(props) {
             min_v: {value: min_v},
             max_v: {value: max_v}
         }
-    }, [camera_pos, max_bb, max_v, min_bb, min_v, normal_map, step_size, tf, volume])
+    }, [])
 
-
-    useFrame(() => {
-        ref.current.material.needsUpdate = true
-    })
 
     return <mesh ref={ref}>
-        <boxGeometry args={[...ext]} position={[min_bb.x, min_bb.y, min_bb.z]} />
+        <boxGeometry args={[...ext]} position={[min_bb.x, min_bb.y, min_bb.z]}/>
 
         <rawShaderMaterial ref={materialRef}
                            attach="material"
@@ -155,7 +162,6 @@ function VolumeMesh(props) {
                            side={THREE.FrontSide}
                            transparent={true}
                            depthTest={true}
-                           needsUpdate={true}
         />
     </mesh>
 }

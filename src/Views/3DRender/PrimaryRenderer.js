@@ -92,7 +92,7 @@ function PrimaryRenderer(props
         <TrackballControls ref={control_ref} target0={center}
                            target={center} maxDistance={1000 * diag} minDistance={0.05 * diag}
                            staticMoving={true}
-                           onEnd={updateCamera}
+                           onChange={updateCamera}
         />
     </Canvas>
 }
