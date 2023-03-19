@@ -20,7 +20,7 @@ export default class ParticleTraceConfig {
 
         const [vx, vy] = [(Math.random() - 0.5) * shortest, (Math.random() - 0.5) * shortest]
         console.log(center, shortest, vx,vy)
-        const step = Math.PI * 2 / 6
+        const step = Math.PI * 2 / 18
 
         const dx = seedpos[0] - (center[0] + vx)
         const dy = seedpos[1] - (center[1] + vy)
