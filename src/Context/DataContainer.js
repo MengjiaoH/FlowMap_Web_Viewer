@@ -3,7 +3,7 @@ import {makeAutoObservable} from 'mobx';
 import SeedPlacementConfigData from "./SeedPlacementConfigData";
 import SeedboxConfigData from "./SeedboxConfigData";
 import LineStyle from "./LineStyle";
-import DomainSpec from "./DomainSpec";
+import ModelInfo from "./ModelInfo";
 import Trajectories from "./Trajectories";
 import ParticleTraceConfig from "./ParticleTraceConfig";
 import VolumeConfig from "./VolumeConfig";
@@ -11,7 +11,7 @@ import VolumeConfig from "./VolumeConfig";
 class DataContainer {
 
     constructor() {
-        this.domain = new DomainSpec(this)
+        this.modelinfo = new ModelInfo(this)
         this.seedbox_config = new SeedboxConfigData(this)
         this.seed_placement_config = new SeedPlacementConfigData(this)
         this.line_style_config = new LineStyle(this)

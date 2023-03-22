@@ -67,7 +67,7 @@ function SeedPlacement(props) {
     }
 
     const addSeeds = () => {
-        const activate_bounds = g_data.seedbox_config.active ? g_data.seedbox_config.getBounds() : g_data.domain.getBounds()
+        const activate_bounds = g_data.seedbox_config.active ? g_data.seedbox_config.getBounds() : g_data.modelinfo.getBounds()
 
         let seeds = []
         if (config.use_random_strategy) {
@@ -89,7 +89,7 @@ function SeedPlacement(props) {
     return <FormControl>
 
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
-            <Stack direction="row" alignItems="center" spacing={0}>
+            <Stack direction="row" spacing={0}>
                 <FormControlLabel value="random" control={
                     <Switch checked={config.use_random_strategy} onChange={setRandomStrategy}/>
                 } label="Random"/>
@@ -101,7 +101,7 @@ function SeedPlacement(props) {
         </Box>
 
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
-            <Stack direction="row" alignItems="center" spacing={0}>
+            <Stack direction="row" spacing={0}>
                 <FormControlLabel value="uniform" control={
                     <Switch checked={config.use_uniform_strategy} onChange={setUniformStrategy}/>
                 } label="Uniform"/>
@@ -122,7 +122,7 @@ function SeedPlacement(props) {
         </Box>
 
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
-            <Stack direction="row" alignItems="center" spacing={0}>
+            <Stack direction="row" spacing={0}>
                 <FormControlLabel value="manual" control={
                     <Switch checked={config.use_manual_strategy} onChange={setManualStrategy}/>
                 } label="Insert Manually"/>
@@ -142,7 +142,7 @@ function SeedPlacement(props) {
         </Box>
 
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
-            <Stack direction="row" alignItems="center" spacing={2}>
+            <Stack direction="row" spacing={2}>
                 <FormLabel id="seed_placement_file_uploader_label">
                     <Typography>Upload Seeds File</Typography>
                 </FormLabel>
@@ -152,7 +152,7 @@ function SeedPlacement(props) {
             </Stack>
         </Box>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
-            <Stack direction="row" alignItems="center" spacing={2}>
+            <Stack direction="row" spacing={2}>
                 <Button component="label" variant="outlined" startIcon={<AddBoxIcon/>} size="small"
                         onClick={addSeeds}> Add Seeds
                 </Button>

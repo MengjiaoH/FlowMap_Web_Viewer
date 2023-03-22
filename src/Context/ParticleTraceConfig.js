@@ -14,12 +14,11 @@ export default class ParticleTraceConfig {
     }
 
     fakeTrace(seedpos) {
-        const center = this.root.domain.center
-        const shortest = this.root.domain.shortest_side
+        const center = this.root.modelinfo.center
+        const shortest = this.root.modelinfo.shortest_side
         const n_steps = 18
 
         const [vx, vy] = [(Math.random() - 0.5) * shortest, (Math.random() - 0.5) * shortest]
-        console.log(center, shortest, vx,vy)
         const step = Math.PI * 2 / 18
 
         const dx = seedpos[0] - (center[0] + vx)
@@ -39,7 +38,6 @@ export default class ParticleTraceConfig {
 
         const rand_v = (Math.random() * 10 + 20)
         const z_factor =  (Math.random()<0.5)?-rand_v:rand_v
-        console.log(z_factor)
 
 
         for (let i = 0; i < n_steps; ++i) {

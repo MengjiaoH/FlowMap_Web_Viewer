@@ -25,57 +25,34 @@ function SeedPlacement(props) {
     }, [g_data.seedbox_config.size])
 
     const [bx_min, bx_max, by_min, by_max, bz_min, bz_max] = useMemo(() => {
-        return g_data.domain.bounds
-    }, [g_data.domain.bounds])
+        return g_data.modelinfo.bounds
+    }, [g_data.modelinfo.bounds])
 
 
-    const [min_pos_x, max_pos_x] = useMemo(() => {
-        return [bx_min, bx_max - size[0]]
-    }, [bx_max, bx_min, size])
+    const [min_pos_x, max_pos_x, disable_pos_x] = useMemo(() => {
+        return [bx_min, bx_max - size[0], Math.abs(bx_max - size[0] - bx_min) < 1e-6 && position[0] === bx_min]
+    }, [bx_max, bx_min, size, position])
 
-    const [min_pos_y, max_pos_y] = useMemo(() => {
-        return [by_min, by_max - size[1]]
-    }, [by_max, by_min, size])
+    const [min_pos_y, max_pos_y, disable_pos_y] = useMemo(() => {
+        return [by_min, by_max - size[1], Math.abs(by_max - size[1] - by_min) < 1e-6 && position[1] === by_min]
+    }, [by_max, by_min, size, position])
 
-    const [min_pos_z, max_pos_z] = useMemo(() => {
-        return [bz_min, bz_max - size[2]]
-    }, [bz_max, bz_min, size])
+    const [min_pos_z, max_pos_z, disable_pos_z] = useMemo(() => {
+        return [bz_min, bz_max - size[2], Math.abs(bz_max - size[2] - bz_min) < 1e-6 && position[2] === bz_min]
+    }, [bz_max, bz_min, size, position])
 
-    const [min_size_x, max_size_x] = useMemo(() => {
-        return [0, bx_max - position[0]]
+    const [min_size_x, max_size_x, disable_size_x] = useMemo(() => {
+        return [0, bx_max - position[0], Math.abs(bx_max - position[0] - 0) < 1e-6 && size[0] === 0]
     }, [bx_max, position, size])
 
-    const [min_size_y, max_size_y] = useMemo(() => {
-        return [0, by_max - position[1]]
+    const [min_size_y, max_size_y, disable_size_y] = useMemo(() => {
+        return [0, by_max - position[1], Math.abs(by_max - position[1] - 0) < 1e-6 && size[1] === 0]
     }, [by_max, position, size])
 
-    const [min_size_z, max_size_z] = useMemo(() => {
-        return [0, bz_max - position[2]]
+    const [min_size_z, max_size_z, disable_size_z] = useMemo(() => {
+        return [0, bz_max - position[2], Math.abs(bz_max - position[2] - 0) < 1e-6 && size[2] === 0]
     }, [bz_max, position, size])
 
-    const disable_pos_x = useMemo(() => {
-        return Math.abs(max_pos_x - min_pos_x) < 1e-6 && position[0] === bx_min
-    })
-
-    const disable_pos_y = useMemo(() => {
-        return Math.abs(max_pos_y - min_pos_y) < 1e-6 && position[1] === by_min
-    })
-
-    const disable_pos_z = useMemo(() => {
-        return Math.abs(max_pos_z - min_pos_z) < 1e-6 && position[2] === bz_min
-    })
-
-    const disable_size_x = useMemo(() => {
-        return Math.abs(max_size_x - min_size_x) < 1e-6 && size[0] === 0
-    })
-
-    const disable_size_y = useMemo(() => {
-        return Math.abs(max_size_y - min_size_y) < 1e-6 && size[1] === 0
-    })
-
-    const disable_size_z = useMemo(() => {
-        return Math.abs(max_size_z - min_size_z) < 1e-6 && size[2] === 0
-    })
 
     const setDisplay = (event) => {
         config.setDisplay(event.target.checked)
@@ -131,7 +108,7 @@ function SeedPlacement(props) {
                         value={position[0]}
                         onChange={setPositionX}
                 />
-                <TextField disabled={disable_pos_x} value={position[0]} size={'small'} alignItem={'center'}
+                <TextField disabled={disable_pos_x} value={position[0]} size={'small'}
                            inputProps={{min: min_pos_x, max: max_pos_x, style: {fontSize: 12}}}
                            onChange={function (e) {
                                let v = Number(e.target.value)
@@ -149,7 +126,7 @@ function SeedPlacement(props) {
                         step={(max_pos_y - min_pos_y) / 100}
                         value={position[1]}
                         onChange={setPositionY}/>
-                <TextField disabled={disable_pos_y} value={position[1]} size={'small'} alignItem={'center'}
+                <TextField disabled={disable_pos_y} value={position[1]} size={'small'}
                            inputProps={{min: min_pos_y, max: max_pos_y, style: {fontSize: 12}}}
                            onChange={function (e) {
                                let v = Number(e.target.value)
@@ -167,7 +144,7 @@ function SeedPlacement(props) {
                         step={(max_pos_z - min_pos_z) / 100}
                         value={position[2]}
                         onChange={setPositionZ}/>
-                <TextField disabled={disable_pos_z} value={position[2]} size={'small'} alignItem={'center'}
+                <TextField disabled={disable_pos_z} value={position[2]} size={'small'}
                            inputProps={{min: min_pos_z, max: max_pos_z, style: {fontSize: 12}}}
                            onChange={function (e) {
                                let v = Number(e.target.value)
@@ -187,7 +164,7 @@ function SeedPlacement(props) {
                         value={size[0]}
                         onChange={setSizeX}
                 />
-                <TextField disabled={disable_size_x} value={size[0]} size={'small'} alignItem={'center'}
+                <TextField disabled={disable_size_x} value={size[0]} size={'small'}
                            inputProps={{min: min_size_x, max: max_size_x, style: {fontSize: 12}}}
                            onChange={function (e) {
                                let v = Number(e.target.value)
@@ -205,7 +182,7 @@ function SeedPlacement(props) {
                         step={(max_size_y - min_size_y) / 1000}
                         value={size[1]}
                         onChange={setSizeY}/>
-                <TextField disabled={disable_size_x} value={size[0]} size={'small'} alignItem={'center'}
+                <TextField disabled={disable_size_x} value={size[1]} size={'small'}
                            inputProps={{min: min_size_y, max: max_size_y, style: {fontSize: 12}}}
                            onChange={function (e) {
                                let v = Number(e.target.value)
@@ -223,7 +200,7 @@ function SeedPlacement(props) {
                         step={(max_size_z - min_size_z) / 100}
                         value={size[2]}
                         onChange={setSizeZ}/>
-                <TextField disabled={disable_size_x} value={size[0]} size={'small'} alignItem={'center'}
+                <TextField disabled={disable_size_x} value={size[2]} size={'small'}
                            inputProps={{min: min_size_z, max: max_size_z, style: {fontSize: 12}}}
                            onChange={function (e) {
                                let v = Number(e.target.value)

@@ -22,7 +22,7 @@ export default class SeedboxConfigData {
     reset() {
         this.display = false
         this.active = false
-        const [x_min, x_max, y_min, y_max, z_min, z_max] = this.root.domain.bounds
+        const [x_min, x_max, y_min, y_max, z_min, z_max] = this.root.modelinfo.bounds
 
         const [dx, dy, dz] = [x_max - x_min, y_max - y_min, z_max - z_min]
         this.position = [dx / 4 + x_min, dy / 4 + y_min, dz / 4 + z_min]

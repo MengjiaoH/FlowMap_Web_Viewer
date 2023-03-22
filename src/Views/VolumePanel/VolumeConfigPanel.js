@@ -62,7 +62,7 @@ function VolumeConfigPanel(props) {
     return <FormControl>
         <FormLabel>{title}</FormLabel>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
-            <Stack direction="row" alignItems="center" spacing={0}>
+            <Stack direction="row" spacing={0}>
                 <FormLabel>Volume Dims</FormLabel>
                 <TextField type="number" label="X" variant="outlined" size="small"
                            inputProps={{min: 1, style: {fontSize: 12}}}
@@ -78,13 +78,13 @@ function VolumeConfigPanel(props) {
                 />
             </Stack>
 
-            <Stack direction="row" alignItems="center" spacing={5}>
+            <Stack direction="row" spacing={5}>
                 <FormLabel>Upload Data</FormLabel>
                 <Button component="label" variant="outlined" startIcon={<UploadFileIcon/>} size="small"> Upload
                     <input hidden type="file" onChange={handleUploadDataFile}/>
                 </Button>
             </Stack>
-            <Stack direction="row" alignItems="center" spacing={5}>
+            <Stack direction="row" spacing={5}>
                 <FormControlLabel control={<Switch checked={config.volume_rendering} disabled={!config.loaded}/>}
                                   label={'Volume Rendering'} value={'dvrswitch'} onChange={setDVRSwitch}/>
 

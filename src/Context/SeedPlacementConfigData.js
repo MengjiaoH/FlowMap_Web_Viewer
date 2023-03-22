@@ -16,7 +16,7 @@ export default class SeedPlacementConfigData {
     }
 
     reset(){
-        const bounds = this.root.domain.bounds
+        const bounds = this.root.modelinfo.bounds
         this.use_random_strategy = true
         this.n_random_seed = 10
         this.use_uniform_strategy = false

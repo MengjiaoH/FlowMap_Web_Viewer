@@ -17,8 +17,8 @@ function PrimaryRenderer(props
     const g_data = useContext(global_data)
 
     const [center, diag] = useMemo(() => {
-        return [g_data.domain.center, g_data.domain.diag]
-    }, [g_data.domain.bounds])
+        return [g_data.modelinfo.center, g_data.modelinfo.diag]
+    }, [g_data.modelinfo.center, g_data.modelinfo.diag])
 
     const [camera_pos, setCameraPos] = useState(new Vector3(center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag))
 
@@ -37,11 +37,11 @@ function PrimaryRenderer(props
 
     const seeds = useMemo(() => {
         if (g_data.trajectories.seeds.length > 0) {
-            return <Seeds seeds={g_data.trajectories.seeds} radius={g_data.domain.shortest_side / 100}/>
+            return <Seeds seeds={g_data.trajectories.seeds} radius={g_data.modelinfo.shortest_side / 100}/>
         } else {
             return null
         }
-    }, [g_data.domain.shortest_side, g_data.trajectories.seeds])
+    }, [g_data.modelinfo.shortest_side, g_data.trajectories.seeds])
 
     const seed_box = useMemo(() => {
         if (g_data.seedbox_config.display) {
@@ -70,7 +70,7 @@ function PrimaryRenderer(props
     }}>
         < color attach="background" args={['#FFFFFF']}/>
         <group>
-            <CubeOutline bounds={g_data.domain.bounds} color={"rgb(200,200,200)"}/>
+            <CubeOutline bounds={g_data.modelinfo.bounds} color={"rgb(200,200,200)"}/>
             {volume_rendering}
             {seed_box}
             {seeds}
@@ -84,7 +84,8 @@ function PrimaryRenderer(props
             </GizmoHelper>
         </group>
         <PerspectiveCamera ref={camera_ref} makeDefault={true}
-                           up={[0, 1, 0]} position={[center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag]}>
+                           up={[0, 1, 0]}
+                           position={[center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag]}>
             <directionalLight intensity={0.7}
                               position={[1, 0, 0]}
             />

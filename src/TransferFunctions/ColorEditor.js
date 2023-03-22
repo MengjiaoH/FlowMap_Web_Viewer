@@ -1,4 +1,3 @@
-import {presetnames} from "./presets";
 import {useEffect, useMemo, useRef, useState} from "react";
 import {Bar} from "react-chartjs-2";
 import * as helpers from "chart.js/helpers"
@@ -130,7 +129,6 @@ function ColorEditor(props) {
     const [displayColorSelector, setDisplayColorSelector] = useState(false)
     const [colorIndex, setColorIndex] = useState(0)
     const [csColor, setCSColor] = useState("rgb(0,0,0)")
-    const [curserPos, setCurserPos] = useState([0, 0])
     const [prevPos, setPrevPos] = useState([0, 0])
     const [csPos,setCSPose] = useState([0,0])
 
@@ -143,7 +141,7 @@ function ColorEditor(props) {
     }
 
     const onContextMenu = (e) => {
-        const [x, y] = getDataPosition(e);
+        const [x] = getDataPosition(e);
         const idx = ctf.find_nearest(x);
         setColorIndex(idx);
         setCSColor(getColorString(idx))
@@ -179,8 +177,8 @@ function ColorEditor(props) {
     }
 
     function onMouseUp(e) {
-        const [px, py] = prevPos;
-        const [x, y] = getDataPosition(e);
+        const [px] = prevPos;
+        const [x] = getDataPosition(e);
 
         if (x !== px) {
             const idx = ctf.find_nearest(px);
@@ -193,7 +191,7 @@ function ColorEditor(props) {
     }
 
     function onDoubleClick(e) {
-        const [x, y] = getDataPosition(e);
+        const [x] = getDataPosition(e);
         const idx = ctf.find_nearest(x)
 
         if (ctf.inRange(x, idx)) {
