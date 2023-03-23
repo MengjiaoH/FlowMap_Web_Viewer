@@ -26,18 +26,6 @@ export default class Trajectories {
                 style: this.root.line_style_config.getLineStyle()
             }
         })]
-
-        console.log("add seeds", this.seeds)
-        console.log("add seeds", this.paths)
-    }
-
-    traceParticles(trace_function) {
-        this.paths = [...this.paths.map((path, i) => {
-            return {
-                path: path.path ? path.path : trace_function(this.seeds[i].seed),
-                style: path.style
-            }
-        })]
     }
 
     initPath(index, n) {

@@ -37,7 +37,6 @@ async function TraceModel(g_data) {
 
     for (let i = 0; i < g_data.trajectories.seeds.length; ++i) {
         if (g_data.trajectories.paths[i].path === null) {
-            console.log(i)
             const s = g_data.trajectories.seeds[i]
             seeds.push(rescale(s.seed[0], min_val, max_val, x_min, x_max),
                 rescale(s.seed[1], min_val, max_val, y_min, y_max),
