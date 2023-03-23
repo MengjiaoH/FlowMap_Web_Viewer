@@ -26,7 +26,6 @@ function ScalarColorLine(props) {
     const radius = props.radius
     const segments = Math.ceil(path.length * props.segments)
     const radius_segments = 6
-    const color = props.color
 
     const [curve,tex_coords] = useMemo(() => {
         const curve = new THREE.CatmullRomCurve3(path)

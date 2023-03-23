@@ -43,7 +43,7 @@ function ScalarFieldPanel(props) {
         <div>
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs value={value} onChange={tabChange} aria-label="basic tabs example" className="drag-handle">
-                    <Tab label="Volume Config" id={'volume_config_tab_0'} aria-controls={'volume_config_tab_panel_0'}/>
+                    <Tab label="Scalars Config" id={'volume_config_tab_0'} aria-controls={'volume_config_tab_panel_0'}/>
                     <Tab label="Transfer Function"
                          id={'volume_config_tab_1'}
                          aria-controls={'volume_config_tab_panel_1'}

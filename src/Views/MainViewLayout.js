@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import SeedPanel from "./SeedPanel/SeedPanel";
 import LineStylePanel from "./LineStylePanel/LineStylePanel";
 import ModelPanel from "./ModelInfoPanel/ModelPanel";
-import VolumePanel from "./VolumePanel/ScalarFieldPanel";
+import ScalarFieldPanel from "./ScalarFieldPanel/ScalarFieldPanel";
 
 function MainViewLayout(props) {
     const ReactGridLayout = useMemo(() => WidthProvider(Responsive), []);
@@ -26,7 +26,7 @@ function MainViewLayout(props) {
             </div>,
             <div key={'volume_panel'} data-grid={{x:16,y:4,w:4,h:4}}>
                 <Paper elevation={5} style={{width:"100%", height: "100%"}}>
-                    <VolumePanel />
+                    <ScalarFieldPanel />
                 </Paper>
             </div>,
             <div key={'seed_config'} data-grid={{x: 20, y: 0, w: 4, h: 4}} >
