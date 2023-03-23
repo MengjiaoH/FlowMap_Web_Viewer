@@ -3,7 +3,7 @@ import {Vector3} from "three";
 import {observer} from "mobx-react";
 import React, {useContext, useMemo} from "react";
 import {global_data} from "../../../Context/DataContainer";
-import {surface_frag_shader, surface_vert_shader} from "../slices/surface_shader";
+import {colorline_frag_shader, colorline_vert_shader} from "./colorline_shader";
 
 function ScalarColorLine(props) {
 
@@ -27,31 +27,19 @@ function ScalarColorLine(props) {
     const segments = Math.ceil(path.length * props.segments)
     const radius_segments = 6
 
-    const [curve,tex_coords] = useMemo(() => {
+    const [curve] = useMemo(() => {
         const curve = new THREE.CatmullRomCurve3(path)
-        const pos = Array((segments + 1) * radius_segments * 3)
-        const coords = curve.getPoints(segments)
-        for (let s = 0; s <= segments; ++s) {
-            for (let r = 0; r < radius_segments; ++r) {
-                const idx = r + s * radius_segments;
-                pos[idx * 3] = coords[s].x
-                pos[idx * 3 + 1] = coords[s].y
-                pos[idx * 3 + 2] = coords[s].z
-            }
-        }
-        return [curve,new Float32Array(pos)]
-    }, [path, segments])
+        return [curve]
+    }, [path])
 
     return <mesh>
         <tubeGeometry args={[curve, segments, radius, radius_segments, false]}>
-            <bufferAttribute attach={'attributes-tex_coords'} count={tex_coords.length / 3} itemSize={3}
-                             array={tex_coords}/>
         </tubeGeometry>
         <rawShaderMaterial attach="material"
                            glslVersion={THREE.GLSL3}
                            uniforms={uniforms}
-                           vertexShader={surface_vert_shader}
-                           fragmentShader={surface_frag_shader}
+                           vertexShader={colorline_vert_shader}
+                           fragmentShader={colorline_frag_shader}
                            side={THREE.DoubleSide}
                            transparent={true}
                            depthTest={true}

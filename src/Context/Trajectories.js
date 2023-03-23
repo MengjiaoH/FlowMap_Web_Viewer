@@ -30,6 +30,8 @@ export default class Trajectories {
 
     initPath(index, n) {
         this.paths[index].path = new Array(n).fill(new Vector3(0,0,0))
+        const spos = this.seeds[index].seed
+        this.paths[index].path[0] = new Vector3(spos[0],spos[1],spos[2])
     }
 
     setPathPos(i, t, pos) {

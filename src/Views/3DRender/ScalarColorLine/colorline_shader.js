@@ -1,10 +1,9 @@
-const coords_vert_shader = `
+const colorline_vert_shader = `
 precision highp float;
 precision highp int;
 precision highp sampler2D;
 
 layout(location = 0) in vec3 position;
-layout(location = 1) in vec3 tex_coords;
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 out vec3 world_pos;
@@ -13,11 +12,11 @@ void main()  {
     vec4 camera_cube = modelViewMatrix * affine_cube;
     vec4 pix_cube = projectionMatrix * camera_cube;
     
-    world_pos = tex_coords;
+    world_pos = affine_cube.xyz;
     gl_Position = pix_cube;
 }
 `
-const coords_frag_shader = `
+const colorline_frag_shader = `
 precision highp float;
 precision highp int;
 precision mediump sampler2D;
@@ -48,9 +47,9 @@ void main()  {
     float sf = texture(volume, tex_coord).x;
     sf = (sf-min_v)/(max_v - min_v);
     vec4 tf_val = texture(tf, vec2(sf,0.f));
-
-    frag_color = tf_val;
+    tf_val.a = 1.f;
+    frag_color = tf_val;    
 }
 `
 
-export {coords_vert_shader, coords_frag_shader}
+export {colorline_vert_shader, colorline_frag_shader}
