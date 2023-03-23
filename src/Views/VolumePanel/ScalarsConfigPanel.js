@@ -11,9 +11,12 @@ import Button from "@mui/material/Button";
 import vtkXMLImageDataReader from '@kitware/vtk.js/IO/XML/XMLImageDataReader';
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import {Slider} from "@mui/material";
 
 function ScalarsConfigPanel(props) {
     const g_data = useContext(global_data)
+
+    const [min_x, max_x, min_y, max_y, min_z, max_z] = useMemo(()=>{return g_data.modelinfo.bounds}, [])
 
     const config = useMemo(() => {
         return g_data.scalars_config
@@ -59,6 +62,30 @@ function ScalarsConfigPanel(props) {
         config.setVolumeRendering(e.target.checked)
     }
 
+    const setShowX = (e) =>{
+        config.setShowXSlice(e.target.checked)
+    }
+
+    const setXValue = (e)=>{
+        config.setXValue(Number(e.target.value))
+    }
+
+    const setShowY = (e) =>{
+        config.setShowYSlice(e.target.checked)
+    }
+
+    const setYValue = (e)=>{
+        config.setYValue(Number(e.target.value))
+    }
+
+    const setShowZ = (e) =>{
+        config.setShowZSlice(e.target.checked)
+    }
+
+    const setZValue = (e)=>{
+        config.setZValue(Number(e.target.value))
+    }
+
     return <FormControl>
         <FormLabel>{title}</FormLabel>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
@@ -88,6 +115,32 @@ function ScalarsConfigPanel(props) {
                 <FormControlLabel control={<Switch checked={config.volume_rendering} disabled={!config.loaded}/>}
                                   label={'Volume Rendering'} value={'dvrswitch'} onChange={setDVRSwitch}/>
 
+            </Stack>
+            <Stack direction={'row'} spacing={0}>
+                <FormControlLabel control={<Switch checked={config.show_x_slice} disabled={!config.loaded}/>}
+                                  label={'x_slice'} value={'xswitch'} onChange={setShowX}/>
+                <Slider valueLabelDisplay={'auto'} min={min_x} max={max_x}
+                        step={(max_x - min_x) / 100}
+                        value={config.x_value}
+                        onChange={setXValue}/>
+            </Stack>
+
+            <Stack direction={'row'} spacing={0}>
+                <FormControlLabel control={<Switch checked={config.show_y_slice} disabled={!config.loaded}/>}
+                                  label={'y_slice'} value={'yswitch'} onChange={setShowY}/>
+                <Slider valueLabelDisplay={'auto'} min={min_y} max={max_y}
+                        step={(max_y - min_y) / 100}
+                        value={config.y_value}
+                        onChange={setYValue}/>
+            </Stack>
+
+            <Stack direction={'row'} spacing={0}>
+                <FormControlLabel control={<Switch checked={config.show_z_slice} disabled={!config.loaded}/>}
+                                  label={'z_slice'} value={'zswitch'} onChange={setShowZ}/>
+                <Slider valueLabelDisplay={'auto'} min={min_z} max={max_z}
+                        step={(max_z - min_z) / 100}
+                        value={config.z_value}
+                        onChange={setZValue}/>
             </Stack>
 
         </Box>

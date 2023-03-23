@@ -37,18 +37,18 @@ function PrimaryRenderer(props
     }, [camera_pos, g_data.scalars_config.show_x_slice, g_data.scalars_config.x_value, light_pos])
 
     const y_slice = useMemo(() => {
-        if (g_data.scalars_config.show_x_slice) {
+        if (g_data.scalars_config.show_y_slice) {
             return <Slice axis={'y'} value={g_data.scalars_config.y_value} camera_pos={camera_pos}
                           light_pos={light_pos}/>
         }
-    }, [camera_pos, g_data.scalars_config.show_x_slice, g_data.scalars_config.x_value, light_pos])
+    }, [camera_pos, g_data.scalars_config.show_y_slice, g_data.scalars_config.y_value, light_pos])
 
     const z_slice = useMemo(() => {
-        if (g_data.scalars_config.show_x_slice) {
+        if (g_data.scalars_config.show_z_slice) {
             return <Slice axis={'z'} value={g_data.scalars_config.z_value} camera_pos={camera_pos}
                           light_pos={light_pos}/>
         }
-    }, [camera_pos, g_data.scalars_config.show_x_slice, g_data.scalars_config.x_value, light_pos])
+    }, [camera_pos, g_data.scalars_config.show_z_slice, g_data.scalars_config.z_value, light_pos])
 
     const volume_rendering = useMemo(() => {
         if (g_data.scalars_config.volume_rendering) {

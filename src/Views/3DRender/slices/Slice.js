@@ -4,6 +4,7 @@ import {Vector3} from "three";
 import {observer} from "mobx-react";
 import React, {useContext, useMemo, useRef} from "react";
 import {global_data} from "../../../Context/DataContainer";
+import {useFrame} from "@react-three/fiber";
 
 
 function Slice(props) {
@@ -61,8 +62,14 @@ function Slice(props) {
         }
     }, [max_bb.x, max_bb.y, max_bb.z, min_bb.x, min_bb.y, min_bb.z, props.axis, props.value])
 
-    return <mesh ref={ref}>
-        <bufferGeometry>
+    useFrame(() => {
+        if (ref.current) {
+            ref.current.attributes.position.needsUpdate = true;
+        }
+    })
+
+    return <mesh>
+        <bufferGeometry  ref={ref}>
             <bufferAttribute attach={'attributes-position'} count={vertices.length / 3} itemSize={3}
                              array={vertices}/>
         </bufferGeometry>

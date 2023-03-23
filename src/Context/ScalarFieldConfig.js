@@ -99,7 +99,7 @@ export default class ScalarFieldConfig {
 
         this.volume_rendering = false
 
-        this.show_x_slice = true
+        this.show_x_slice = false
 
         this.show_y_slice = false
 
@@ -129,6 +129,30 @@ export default class ScalarFieldConfig {
 
         this.updateOtf = this.updateOtf.bind(this)
         this.setScalars = this.setScalars.bind(this)
+    }
+
+    setShowXSlice(v){
+        this.show_x_slice = v
+    }
+
+    setShowYSlice(v){
+        this.show_y_slice = v
+    }
+
+    setShowZSlice(v){
+        this.show_z_slice = v
+    }
+
+    setXValue(v){
+        this.x_value = v
+    }
+
+    setYValue(v){
+        this.y_value = v
+    }
+
+    setZValue(v){
+        this.z_value = v
     }
 
     setCamera(pos) {
