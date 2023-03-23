@@ -42,20 +42,13 @@ void main()  {
     vec3 ray_dir = normalize(world_pos-camera_pos);
     vec3 inv_ray_dir = 1.0/ray_dir;
 
-    vec4 vr_color = vec4(0.0, 0.0, 0.0, 0.0);
-        
     vec3 tex_coord = world_pos;
     tex_coord = (tex_coord-min_bb)/(max_bb-min_bb);
     float sf = texture(volume, tex_coord).x;
-    vec3 normal = normalize(texture(normal_map, tex_coord).xyz);
-    float diffuse = min(max(dot(normal, light_dir), dot(-normal, light_dir)), 1.f);
     sf = (sf-min_v)/(max_v - min_v);
     vec4 tf_val = texture(tf, vec2(sf,0.f));
-    vec3 step_color = tf_val.rgb*diffuse;
-    vr_color.rgb = step_color;
-    vr_color.a = tf_val.a;
 
-    frag_color = vr_color;
+    frag_color = tf_val;
 }
 `
 

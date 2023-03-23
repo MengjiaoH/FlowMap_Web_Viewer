@@ -61,7 +61,9 @@ function PrimaryRenderer(props
 
     const seeds = useMemo(() => {
         if (g_data.trajectories.seeds.length > 0) {
-            return <Seeds seeds={g_data.trajectories.seeds} radius={g_data.modelinfo.shortest_side / 100}/>
+            return <Seeds seeds={g_data.trajectories.seeds} radius={g_data.modelinfo.shortest_side / 100}
+                          g_data={g_data}
+            />
         } else {
             return null
         }
@@ -85,9 +87,6 @@ function PrimaryRenderer(props
     const updateCamera = () => {
         const pos = control_ref.current.object.position
         setCameraPos(new Vector3(pos.x, pos.y, pos.z))
-        const lpos = new Vector3()
-        console.log(light_ref.current.getWorldPosition(lpos))
-        setLightPos(new Vector3(lpos.x, lpos.y, lpos.z))
     }
 
     return <Canvas ref={ref} onDoubleClick={function () {
@@ -115,8 +114,8 @@ function PrimaryRenderer(props
         <PerspectiveCamera ref={camera_ref} makeDefault={true}
                            up={[0, 1, 0]}
                            position={[center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag]}>
-            <directionalLight ref={light_ref}
-                              intensity={0.7}
+            <directionalLight
+                              intensity={1}
                               position={[1, 0, 0]}
             />
         </PerspectiveCamera>

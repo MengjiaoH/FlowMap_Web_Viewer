@@ -8,6 +8,8 @@ import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 
 function LineStyleForm(props) {
@@ -40,6 +42,14 @@ function LineStyleForm(props) {
         g_data.trajectories.applyStyle()
     }
 
+    const switchSeedColorByScalar = (e)=>{
+        config.setSeedColorByScalar(e.target.checked)
+    }
+
+    const switchLineColorByScalar=(e)=>{
+        config.setLineColorByScalar(e.target.checked)
+    }
+
 
     return <FormControl>
         <FormLabel id="seed_placement_radio_group_label"><Typography>Seeds:</Typography></FormLabel>
@@ -49,6 +59,8 @@ function LineStyleForm(props) {
                        value={config.seed_scale} onChange={setSeedScale}
             />
             <TextField type="color" value={config.seed_color} onChange={setSeedColor} variant="outlined" size="small"/>
+            <FormControlLabel control={<Switch checked={config.seed_color_by_scalar} disabled={!g_data.scalars_config.loaded}/>}
+            label={'color by scalar'} value={'seed_cbs_switch'} onChange={switchSeedColorByScalar}/>
         </Box>
         <FormLabel id="seed_placement_radio_group_label"><Typography>Lines:</Typography></FormLabel>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
@@ -62,6 +74,8 @@ function LineStyleForm(props) {
             />
 
             <TextField type="color" value={config.line_color} onChange={setLineColor} variant="outlined" size="small"/>
+            <FormControlLabel control={<Switch checked={config.line_color_by_scalar} disabled={!g_data.scalars_config.loaded}/>}
+                              label={'color by scalar'} value={'line_cbs_switch'} onChange={switchLineColorByScalar}/>
         </Box>
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
             <Button component="label"

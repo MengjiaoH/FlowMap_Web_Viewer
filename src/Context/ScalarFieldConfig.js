@@ -2,7 +2,7 @@ import {ColorTransferFunction, OpacityTransferFunction} from "../TransferFunctio
 import {makeAutoObservable} from "mobx";
 import {Vector3} from "three";
 import * as THREE from "three";
-import {linspace} from "../Utils/utils";
+import {linspace, rescale, trilinear_interpolate} from "../Utils/utils";
 
 function volumeTexture(array, dim_x, dim_y, dim_z) {
     const volume_tex = new THREE.Data3DTexture(array, dim_x, dim_y, dim_z)
@@ -106,11 +106,11 @@ export default class ScalarFieldConfig {
         this.show_z_slice = false
 
         const [x_min, x_max, y_min, y_max, z_min, z_max] = this.root.modelinfo.bounds
-        this.x_value = (x_max + x_min)/2
+        this.x_value = (x_max + x_min) / 2
 
-        this.y_value = (y_max + y_min)/2
+        this.y_value = (y_max + y_min) / 2
 
-        this.z_value = (z_max + z_min)/2
+        this.z_value = (z_max + z_min) / 2
 
         this.uniforms = {
             camera_pos: {value: null},
@@ -129,29 +129,31 @@ export default class ScalarFieldConfig {
 
         this.updateOtf = this.updateOtf.bind(this)
         this.setScalars = this.setScalars.bind(this)
+        this.getScalarAtIndex = this.getScalarAtIndex.bind(this)
+        this.getColorFromPos = this.getColorFromPos.bind(this)
     }
 
-    setShowXSlice(v){
+    setShowXSlice(v) {
         this.show_x_slice = v
     }
 
-    setShowYSlice(v){
+    setShowYSlice(v) {
         this.show_y_slice = v
     }
 
-    setShowZSlice(v){
+    setShowZSlice(v) {
         this.show_z_slice = v
     }
 
-    setXValue(v){
+    setXValue(v) {
         this.x_value = v
     }
 
-    setYValue(v){
+    setYValue(v) {
         this.y_value = v
     }
 
-    setZValue(v){
+    setZValue(v) {
         this.z_value = v
     }
 
@@ -181,10 +183,6 @@ export default class ScalarFieldConfig {
 
     setTfTexure(tex) {
         this.uniforms.tf.value = tex
-    }
-
-    setLightDir(dir) {
-        this.uniforms.light_dir = dir
     }
 
     setStepSize(ss) {
@@ -248,5 +246,47 @@ export default class ScalarFieldConfig {
 
     setDimZ(v) {
         this.dims = [this.dims[0], this.dims[1], v]
+    }
+
+    getScalarAtIndex(x, y, z) {
+        const [x_dim, y_dim] = this.dims
+        return this.scalars[x + y * x_dim + z * x_dim * y_dim]
+    }
+
+    getColorFromPos(pos) {
+        const [x, y, z] = pos
+        const [x_dim, y_dim, z_dim] = this.dims
+        const [x_min, x_max, y_min, y_max, z_min, z_max] = this.root.modelinfo.bounds
+        const xv = rescale(x, 0, x_dim - 1, x_min, x_max)
+        const yv = rescale(y, 0, y_dim - 1, y_min, y_max)
+        const zv = rescale(z, 0, z_dim - 1, z_min, z_max)
+
+        let xi = Math.floor(xv)
+        if (xv === x_dim - 1) {
+            xi -= 1
+        }
+        let yi = Math.floor(yv)
+        if (yv === y_dim - 1) {
+            yi -= 1
+        }
+        let zi = Math.floor(zv)
+        if (zv === z_dim - 1) {
+            zi -= 1
+        }
+
+        const scalar = trilinear_interpolate(xv, xi, xi + 1, yv, yi, yi + 1, zv, zi, zi + 1,
+            this.getScalarAtIndex(xi, yi, zi),
+            this.getScalarAtIndex(xi, yi, zi + 1),
+            this.getScalarAtIndex(xi, yi + 1, zi),
+            this.getScalarAtIndex(xi, yi + 1, zi + 1),
+            this.getScalarAtIndex(xi + 1, yi, zi),
+            this.getScalarAtIndex(xi + 1, yi, zi + 1),
+            this.getScalarAtIndex(xi + 1, yi + 1, zi),
+            this.getScalarAtIndex(xi + 1, yi + 1, zi + 1)
+        )
+
+        const color = this.color_tf.color(scalar)
+        return color
+
     }
 }

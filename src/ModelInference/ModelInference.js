@@ -24,8 +24,6 @@ async function Trace(model, cur_fm, times, num_seeds) {
 }
 
 async function TraceModel(g_data) {
-
-    console.log('start tracing')
     const min_val = -1
     const max_val = 1
 
@@ -42,7 +40,7 @@ async function TraceModel(g_data) {
                 rescale(s.seed[1], min_val, max_val, y_min, y_max),
                 rescale(s.seed[2], min_val, max_val, z_min, z_max))
             indices.push(i)
-            g_data.trajectories.initPath(i,g_data.modelinfo.times.length)
+            g_data.trajectories.initPath(i, g_data.modelinfo.times.length)
         }
     }
 
@@ -55,15 +53,14 @@ async function TraceModel(g_data) {
 
         for (let i = 0; i < n_seeds; ++i) {
             const [x, y, z] = positions[i]
-            g_data.trajectories.setPathPos(indices[i],t,new Vector3(rescale(x, x_min, x_max, min_val, max_val),
-                rescale(y, y_min, y_max, min_val, max_val),
-                rescale(z, z_min, z_max, min_val, max_val)))
+            g_data.trajectories.setPathPos(indices[i], t,
+                new Vector3(rescale(x, x_min, x_max, min_val, max_val),
+                    rescale(y, y_min, y_max, min_val, max_val),
+                    rescale(z, z_min, z_max, min_val, max_val)))
         }
     }
 
     g_data.trajectories.updatePath()
-
-    console.log('end tracing')
 }
 
 export default TraceModel

@@ -51,8 +51,6 @@ void main()  {
     t = min(tmax.xx, tmax.yz);
     float t_exit = min(t.x, t.y);
 
-    vec3 out_pt = camera_pos+t_exit*ray_dir;
-
     int n_steps = int(ceil((t_exit-t_enter)/step_size));
 
     vec4 vr_color = vec4(0.0, 0.0, 0.0, 0.0);
@@ -62,13 +60,12 @@ void main()  {
         vec3 tex_coord = camera_pos+cur_t*ray_dir;
         tex_coord = (tex_coord-min_bb)/(max_bb-min_bb);
         float sf = texture(volume, tex_coord).x;
-        vec3 normal = normalize(texture(normal_map, tex_coord).xyz);
-        float diffuse = min(max(dot(normal, light_dir), dot(-normal, light_dir)), 1.f);
+
         sf = (sf-min_v)/(max_v - min_v);
         vec4 tf_val = texture(tf, vec2(sf,0.f));
-        vec3 step_color = (1.0-vr_color.a)*tf_val.rgb*diffuse*tf_val.a;
+        vec3 step_color = (1.0-vr_color.a)*tf_val.rgb * tf_val.a;
         vr_color.rgb += step_color;
-        vr_color.a += (1.0-vr_color.a)*tf_val.a;
+        vr_color.a += (1.0-vr_color.a) * tf_val.a;
     }
 
     frag_color = vr_color;
