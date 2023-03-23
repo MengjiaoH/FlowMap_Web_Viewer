@@ -80,7 +80,8 @@ function normalMap(array, dim_x, dim_y, dim_z) {
     normal_map.needsUpdate = true
     return normal_map;
 }
-export default class VolumeConfig {
+
+export default class ScalarFieldConfig {
     constructor(root) {
         this.root = root
 
@@ -92,11 +93,24 @@ export default class VolumeConfig {
 
         this.opacity_tf = null
 
-        this.dims = [1,1,1]
+        this.dims = [1, 1, 1]
 
         this.scalars = null
 
         this.volume_rendering = false
+
+        this.show_x_slice = true
+
+        this.show_y_slice = false
+
+        this.show_z_slice = false
+
+        const [x_min, x_max, y_min, y_max, z_min, z_max] = this.root.modelinfo.bounds
+        this.x_value = (x_max + x_min)/2
+
+        this.y_value = (y_max + y_min)/2
+
+        this.z_value = (z_max + z_min)/2
 
         this.uniforms = {
             camera_pos: {value: null},
@@ -105,7 +119,7 @@ export default class VolumeConfig {
             volume: {value: null},
             normal_map: {value: null},
             tf: {value: null},
-            light_dir: {value: new Vector3(0,0,1)},
+            light_dir: {value: new Vector3(0, 0, 1)},
             step_size: {value: null},
             min_v: {value: null},
             max_v: {value: null}
@@ -121,7 +135,7 @@ export default class VolumeConfig {
         this.uniforms.camera_pos.value = pos
     }
 
-    setLight(lpos){
+    setLight(lpos) {
         this.uniforms.light_dir.value = lpos
     }
 
@@ -163,12 +177,12 @@ export default class VolumeConfig {
 
     updateOtf(otf) {
         this.opacity_tf = otf.copy()
-        this.setTfTexure(tf_texture(this.opacity_tf,this.color_tf))
+        this.setTfTexure(tf_texture(this.opacity_tf, this.color_tf))
     }
 
     updateCtf(ctf) {
         this.color_tf = ctf.copy()
-        this.setTfTexure(tf_texture(this.opacity_tf,this.color_tf))
+        this.setTfTexure(tf_texture(this.opacity_tf, this.color_tf))
     }
 
     setScalars(array, min_v, max_v, dataname, dims) {
@@ -179,11 +193,11 @@ export default class VolumeConfig {
         this.data_name = dataname
         this.dims = dims
         this.setStepSize(this.root.modelinfo.diag / 1000)
-        this.setVolumeTexture(volumeTexture(array,...dims))
-        this.setNormalMapTexture(normalMap(array,...dims))
+        this.setVolumeTexture(volumeTexture(array, ...dims))
+        this.setNormalMapTexture(normalMap(array, ...dims))
         this.color_tf = new ColorTransferFunction(this.uniforms.min_v.value, this.uniforms.max_v.value)
         this.opacity_tf = new OpacityTransferFunction(this.uniforms.min_v.value, this.uniforms.max_v.value)
-        this.setTfTexure(tf_texture(this.opacity_tf,this.color_tf))
+        this.setTfTexure(tf_texture(this.opacity_tf, this.color_tf))
     }
 
     setLoaded(v) {

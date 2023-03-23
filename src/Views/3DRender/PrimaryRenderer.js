@@ -8,6 +8,7 @@ import Seeds from "./SeedsMesh";
 import PathlineMesh from "./PathlineMesh";
 import VolumeMesh from "./dvr/VolumeMesh";
 import {Vector3} from "three";
+import Slice from "./slices/Slice";
 
 function PrimaryRenderer(props
 ) {
@@ -28,13 +29,34 @@ function PrimaryRenderer(props
 
     }, [])
 
+    const x_slice = useMemo(() => {
+        if (g_data.scalars_config.show_x_slice) {
+            return <Slice axis={'x'} value={g_data.scalars_config.x_value} camera_pos={camera_pos}
+                          light_pos={light_pos}/>
+        }
+    }, [camera_pos, g_data.scalars_config.show_x_slice, g_data.scalars_config.x_value, light_pos])
+
+    const y_slice = useMemo(() => {
+        if (g_data.scalars_config.show_x_slice) {
+            return <Slice axis={'y'} value={g_data.scalars_config.y_value} camera_pos={camera_pos}
+                          light_pos={light_pos}/>
+        }
+    }, [camera_pos, g_data.scalars_config.show_x_slice, g_data.scalars_config.x_value, light_pos])
+
+    const z_slice = useMemo(() => {
+        if (g_data.scalars_config.show_x_slice) {
+            return <Slice axis={'z'} value={g_data.scalars_config.z_value} camera_pos={camera_pos}
+                          light_pos={light_pos}/>
+        }
+    }, [camera_pos, g_data.scalars_config.show_x_slice, g_data.scalars_config.x_value, light_pos])
+
     const volume_rendering = useMemo(() => {
-        if (g_data.volume_config.volume_rendering) {
+        if (g_data.scalars_config.volume_rendering) {
             return <VolumeMesh camera_pos={camera_pos} light_pos={light_pos}/>
         } else {
             return null
         }
-    }, [camera_pos, g_data.volume_config.volume_rendering])
+    }, [camera_pos, g_data.scalars_config.volume_rendering])
 
 
     const seeds = useMemo(() => {
@@ -64,7 +86,7 @@ function PrimaryRenderer(props
         const pos = control_ref.current.object.position
         setCameraPos(new Vector3(pos.x, pos.y, pos.z))
         const lpos = new Vector3()
-        console.log(light_ref.current.getWorldPosition(lpos) )
+        console.log(light_ref.current.getWorldPosition(lpos))
         setLightPos(new Vector3(lpos.x, lpos.y, lpos.z))
     }
 
@@ -75,6 +97,9 @@ function PrimaryRenderer(props
         < color attach="background" args={['#FFFFFF']}/>
         <group>
             <CubeOutline bounds={g_data.modelinfo.bounds} color={"rgb(200,200,200)"}/>
+            {x_slice}
+            {y_slice}
+            {z_slice}
             {volume_rendering}
             {seed_box}
             {seeds}

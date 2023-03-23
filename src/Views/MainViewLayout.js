@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import SeedPanel from "./SeedPanel/SeedPanel";
 import LineStylePanel from "./LineStylePanel/LineStylePanel";
 import ModelPanel from "./ModelInfoPanel/ModelPanel";
-import VolumePanel from "./VolumePanel/VolumePanel";
+import VolumePanel from "./VolumePanel/ScalarFieldPanel";
 
 function MainViewLayout(props) {
     const ReactGridLayout = useMemo(() => WidthProvider(Responsive), []);

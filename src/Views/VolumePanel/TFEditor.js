@@ -13,38 +13,38 @@ function TFEditor(props) {
     const g_data = useContext(global_data)
 
     const otf = useMemo(() => {
-        return g_data.volume_config.opacity_tf
-    }, [g_data.volume_config.opacity_tf])
+        return g_data.scalars_config.opacity_tf
+    }, [g_data.scalars_config.opacity_tf])
     const ctf = useMemo(() => {
-        return g_data.volume_config.color_tf
-    }, [g_data.volume_config.color_tf])
+        return g_data.scalars_config.color_tf
+    }, [g_data.scalars_config.color_tf])
     const scalars = useMemo(() => {
-        return g_data.volume_config.scalars
-    }, [g_data.volume_config.scalars])
+        return g_data.scalars_config.scalars
+    }, [g_data.scalars_config.scalars])
 
     const dropdown_items = presetnames.map((x, i) => {
         return <Dropdown.Item className={'smallfont'} key={"presets_" + x} onClick={function (event) {
             ctf.loadPreset(x)
-            g_data.volume_config.updateCtf(ctf);
+            g_data.scalars_config.updateCtf(ctf);
         }}>{x}</Dropdown.Item>
     })
 
     return <div>
         <Row style={{height: "200px"}}>
             <OpacityEditor data={scalars} otf={otf} updateOtf={function () {
-                g_data.volume_config.updateOtf(otf)
+                g_data.scalars_config.updateOtf(otf)
             }}/>
         </Row>
         <Row style={{height: "100px"}}>
             <ColorEditor ctf={ctf} updateCtf={() => {
-                g_data.volume_config.updateCtf(ctf)
+                g_data.scalars_config.updateCtf(ctf)
             }}/>
         </Row>
         <Row>
             <Col>
                 <Button onClick={function(event){
                     ctf.invert()
-                    g_data.volume_config.updateCtf(ctf);
+                    g_data.scalars_config.updateCtf(ctf);
                 }}>Invert Colormap</Button>
             </Col>
             <Col>

@@ -6,7 +6,7 @@ import LineStyle from "./LineStyle";
 import ModelInfo from "./ModelInfo";
 import Trajectories from "./Trajectories";
 import ParticleTraceConfig from "./ParticleTraceConfig";
-import VolumeConfig from "./VolumeConfig";
+import ScalarFieldConfig from "./ScalarFieldConfig";
 
 class DataContainer {
 
@@ -18,7 +18,7 @@ class DataContainer {
         this.line_style_config.makeObservable()
         this.particle_trace_config = new ParticleTraceConfig(this)
         this.trajectories = new Trajectories(this)
-        this.volume_config = new VolumeConfig(this)
+        this.scalars_config = new ScalarFieldConfig(this)
         makeAutoObservable(this)
     }
 }

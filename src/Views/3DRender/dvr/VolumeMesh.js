@@ -11,7 +11,7 @@ function VolumeMesh(props) {
     const materialRef = useRef()
 
     const g_data = useContext(global_data)
-    const config = g_data.volume_config
+    const config = g_data.scalars_config
     const uniforms = config.uniforms
 
 

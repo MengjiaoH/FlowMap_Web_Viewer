@@ -12,12 +12,12 @@ import vtkXMLImageDataReader from '@kitware/vtk.js/IO/XML/XMLImageDataReader';
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-function VolumeConfigPanel(props) {
+function ScalarsConfigPanel(props) {
     const g_data = useContext(global_data)
 
     const config = useMemo(() => {
-        return g_data.volume_config
-    }, [g_data.volume_config])
+        return g_data.scalars_config
+    }, [g_data.scalars_config])
 
     const title = useMemo(() => {
         if (config.loaded) {
@@ -95,4 +95,4 @@ function VolumeConfigPanel(props) {
 
 }
 
-export default observer(VolumeConfigPanel)
+export default observer(ScalarsConfigPanel)

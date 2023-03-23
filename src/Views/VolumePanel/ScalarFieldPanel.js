@@ -2,7 +2,7 @@ import React, {useContext, useMemo, useState} from 'react'
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import VolumeConfigPanel from "./VolumeConfigPanel";
+import VolumeConfigPanel from "./ScalarsConfigPanel";
 import {global_data} from "../../Context/DataContainer";
 import {observer} from "mobx-react";
 import TFEditor from "./TFEditor";
@@ -26,11 +26,11 @@ function TabPanel(props) {
     );
 }
 
-function VolumePanel(props) {
+function ScalarFieldPanel(props) {
     const g_data = useContext(global_data)
     const loaded = useMemo(() => {
-        return g_data.volume_config.loaded
-    }, [g_data.volume_config.loaded])
+        return g_data.scalars_config.loaded
+    }, [g_data.scalars_config.loaded])
     const [value, setValue] = useState(0)
 
     const tabChange = useMemo(() => {
@@ -60,4 +60,4 @@ function VolumePanel(props) {
     );
 }
 
-export default observer(VolumePanel)
+export default observer(ScalarFieldPanel)
