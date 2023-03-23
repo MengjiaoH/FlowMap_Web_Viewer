@@ -16,15 +16,15 @@ const init_json = {
     "step_size": 0.01,
     "models": [
         {
-            "filename": "ABC.onnx",
+            "filename": "ABC_new.onnx",
             "start_cycle": 0,
-            "stop_cycle": 500,
-            "bounding_0": 0,
-            "bounding_1": 6.28,
-            "bounding_2": 0,
-            "bounding_3": 6.28,
-            "bounding_4": 0,
-            "bounding_5": 6.28
+            "stop_cycle": 100,
+            "bounding_0": -3.182509899139404297e+00,
+            "bounding_1": 9.471650123596191406e+00,
+            "bounding_2": -2.350120067596435547e+00,
+            "bounding_3": 8.625089645385742188e+00,
+            "bounding_4": -2.735379934310913086e+00,
+            "bounding_5": 8.987680435180664062e+00
         }
     ],
     "global_uniformed_dim_x": "2",
@@ -108,7 +108,7 @@ export default class ModelInfo {
         this.num_models = j['num_models']
         this.setBounds([Number(j['bbox_x_lower']), Number(j['bbox_x_upper']),
             Number(j['bbox_y_lower']), Number(j['bbox_y_upper']),
-            Number(j['bbox_z_lower']), Number(j['bbox_z_upper'])])
+            Number(j['bbox_z_lower']), Number(j['bbox_z_upper'])])      
         this.interval = Number(j['interval'])
         this.step_size = Number(j['step_size'])
         this.model_file_name = "./models/" + this.dataset + "/models/" + j['models'][0]['filename']
@@ -120,7 +120,7 @@ export default class ModelInfo {
             Number(j['models'][0]['bounding_3']),
             Number(j['models'][0]['bounding_4']),
             Number(j['models'][0]['bounding_5'])]
-        this.setNFlowMaps(100)
+        this.setNFlowMaps(20)
 
         this.loadModel(this.model_file_name).then(r=>{
             this.model = r

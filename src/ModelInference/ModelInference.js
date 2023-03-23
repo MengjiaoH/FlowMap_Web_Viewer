@@ -7,18 +7,20 @@ async function Trace(model, cur_fm, times, num_seeds) {
     const input_1 = new Tensor("float32", data_1, [parseInt(num_seeds), 3]);
     const data_2 = Float32Array.from(times)
     const input_2 = new Tensor("float32", data_2, [parseInt(num_seeds), 1]);
-    // // console.log(input_1)
+    // console.log("input_1", input_1)
+    // console.log("input_2", input_2)
     const feeds = {input_1: input_1, input_2: input_2};
     const outputMap = await model.run(feeds);
 
     const predictions = outputMap.output1.data
-    // console.log("prediction", index, predictions.length);
+    // console.log("prediction", predictions.length);
 
     const positions = new Array(num_seeds)
 
     for (let f = 0; f < predictions.length / 3; f++) { // go over each seed
         positions[f] = [predictions[3 * f + 0], predictions[3 * f + 1], predictions[3 * f + 2]]
     }
+    // console.log("positions: ", positions)
 
     return positions
 }
@@ -27,8 +29,9 @@ async function TraceModel(g_data) {
     const min_val = -1
     const max_val = 1
 
-    const [x_min, x_max, y_min, y_max, z_min, z_max] = g_data.modelinfo.bounds
-
+    // const [x_min, x_max, y_min, y_max, z_min, z_max] = g_data.modelinfo.bounds
+    const [x_min, x_max, y_min, y_max, z_min, z_max] = g_data.modelinfo.modelScaleBound
+    // console.log("bounds:", g_data.modelinfo.modelScaleBound)
 
     const indices = []
     const seeds = []
@@ -61,6 +64,7 @@ async function TraceModel(g_data) {
     }
 
     g_data.trajectories.updatePath()
+    // console.log(g_data.trajectories.paths)
 }
 
 export default TraceModel
