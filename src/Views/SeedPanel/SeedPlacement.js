@@ -141,16 +141,16 @@ function SeedPlacement(props) {
             </Stack>
         </Box>
 
-        <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
-            <Stack direction="row" spacing={2}>
-                <FormLabel id="seed_placement_file_uploader_label">
-                    <Typography>Upload Seeds File</Typography>
-                </FormLabel>
-                <Button component="label" variant="outlined" startIcon={<UploadFileIcon/>} size="small"> Upload
-                    <input hidden type="file" onChange={handleUploadSeedFile}/>
-                </Button>
-            </Stack>
-        </Box>
+        {/*<Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">*/}
+        {/*    <Stack direction="row" spacing={2}>*/}
+        {/*        <FormLabel id="seed_placement_file_uploader_label">*/}
+        {/*            <Typography>Upload Seeds File</Typography>*/}
+        {/*        </FormLabel>*/}
+        {/*        <Button component="label" variant="outlined" startIcon={<UploadFileIcon/>} size="small"> Upload*/}
+        {/*            <input hidden type="file" onChange={handleUploadSeedFile}/>*/}
+        {/*        </Button>*/}
+        {/*    </Stack>*/}
+        {/*</Box>*/}
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
             <Stack direction="row" spacing={2}>
                 <Button component="label" variant="outlined" startIcon={<AddBoxIcon/>} size="small"

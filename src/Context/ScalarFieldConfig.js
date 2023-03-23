@@ -113,7 +113,7 @@ export default class ScalarFieldConfig {
         this.z_value = (z_max + z_min) / 2
 
         this.uniforms = {
-            camera_pos: {value: null},
+            camera_pos: {value: new Vector3(0, 0, 1)},
             min_bb: {value: null},
             max_bb: {value: null},
             volume: {value: null},

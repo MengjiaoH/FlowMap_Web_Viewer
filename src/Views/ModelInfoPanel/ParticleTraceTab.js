@@ -9,6 +9,7 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 import FormControl from "@mui/material/FormControl";
 import {Divider, Typography} from "@mui/material";
 import TraceModel from "../../ModelInference/ModelInference";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function ParticleTraceTab(props) {
 
@@ -22,7 +23,9 @@ function ParticleTraceTab(props) {
         TraceModel(g_data)
     }
 
-
+    const deleteTraces = () => {
+        g_data.trajectories.deleteTrace()
+    }
 
 
     return <FormControl>
@@ -40,6 +43,9 @@ function ParticleTraceTab(props) {
                     size="small"
                     onClick={traceParticles}>
                 Trace Particles
+            </Button>
+            <Button component="label" variant="outlined" startIcon={<DeleteIcon/>} onClick={deleteTraces}
+                    size="small"> Delete Traces
             </Button>
         </Box>
 

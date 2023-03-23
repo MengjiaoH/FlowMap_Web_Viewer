@@ -53,4 +53,10 @@ export default class Trajectories {
         this.paths = []
         this.seeds = []
     }
+
+    deleteTrace() {
+        this.paths = [...this.paths.map(s => {
+            return {path: null, style: s.style}
+        })]
+    }
 }
