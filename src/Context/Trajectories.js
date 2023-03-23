@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import {Vector3} from "three";
 
 export default class Trajectories {
 
@@ -25,6 +26,9 @@ export default class Trajectories {
                 style: this.root.line_style_config.getLineStyle()
             }
         })]
+
+        console.log("add seeds", this.seeds)
+        console.log("add seeds", this.paths)
     }
 
     traceParticles(trace_function) {
@@ -37,7 +41,7 @@ export default class Trajectories {
     }
 
     initPath(index, n) {
-        this.paths[index].path = new Array(n)
+        this.paths[index].path = new Array(n).fill(new Vector3(0,0,0))
     }
 
     setPathPos(i, t, pos) {
