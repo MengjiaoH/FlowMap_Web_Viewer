@@ -15,7 +15,6 @@ function PrimaryRenderer(props
     const ref = useRef()
     const camera_ref = useRef()
     const control_ref = useRef()
-    const light_ref = useRef()
     const g_data = useContext(global_data)
 
     const [center, diag] = useMemo(() => {
@@ -25,9 +24,6 @@ function PrimaryRenderer(props
     const [camera_pos, setCameraPos] = useState(new Vector3(center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag))
     const [light_pos, setLightPos] = useState(new Vector3(camera_pos.x + 1, camera_pos.y, camera_pos.z))
 
-    useEffect(() => {
-
-    }, [])
 
     const x_slice = useMemo(() => {
         if (g_data.scalars_config.show_x_slice) {
@@ -80,7 +76,7 @@ function PrimaryRenderer(props
     }, [g_data.seedbox_config.display, g_data.seedbox_config.active, g_data.seedbox_config.size, g_data.seedbox_config.position])
 
     const paths = useMemo(() => {
-        return <PathlineMesh paths={g_data.trajectories.paths}/>
+        return <PathlineMesh paths={g_data.trajectories.paths} radius={g_data.modelinfo.shortest_side / 200}/>
     }, [g_data.trajectories.paths])
 
 

@@ -18,7 +18,7 @@ export default class LineStyle {
         this.line_color = "#000000"
         this.line_color_by_scalar = false
         this.line_segments = 1
-        this.line_radius = this.root.modelinfo.shortest_side / 200
+        this.line_radius = 1
     }
 
     makeObservable() {

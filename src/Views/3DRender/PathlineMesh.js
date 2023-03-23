@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import {DoubleSide} from "three";
+import ScalarColorLine from "./ScalarColorLine/ScalarColorLine";
 
 function Pathline(props) {
     const path = props.path
@@ -19,8 +20,14 @@ function PathlineMesh(props) {
 
     return props.paths.map((path, i) => {
         if (path.path) {
-            return <Pathline path={path.path} radius={path.style.radius} color={path.style.color}
-                             segments={path.style.segments} key={'pathline_' + i}></Pathline>
+            if (path.style.color_by_scalar) {
+                return <ScalarColorLine path={path.path} radius={props.radius * path.style.radius}
+                                        color={path.style.color}
+                                        segments={path.style.segments} key={'pathline_' + i}/>
+            } else {
+                return <Pathline path={path.path} radius={props.radius * path.style.radius} color={path.style.color}
+                                 segments={path.style.segments} key={'pathline_' + i}></Pathline>
+            }
         } else {
             return null
         }
