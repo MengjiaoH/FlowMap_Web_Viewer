@@ -14,6 +14,7 @@ function PrimaryRenderer(props
     const ref = useRef()
     const camera_ref = useRef()
     const control_ref = useRef()
+    const light_ref = useRef()
     const g_data = useContext(global_data)
 
     const [center, diag] = useMemo(() => {
@@ -21,6 +22,7 @@ function PrimaryRenderer(props
     }, [g_data.modelinfo.center, g_data.modelinfo.diag])
 
     const [camera_pos, setCameraPos] = useState(new Vector3(center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag))
+    const [light_pos, setLightPos] = useState(new Vector3(camera_pos.x + 1, camera_pos.y, camera_pos.z))
 
     useEffect(() => {
 
@@ -28,7 +30,7 @@ function PrimaryRenderer(props
 
     const volume_rendering = useMemo(() => {
         if (g_data.volume_config.volume_rendering) {
-            return <VolumeMesh camera_pos={camera_pos}/>
+            return <VolumeMesh camera_pos={camera_pos} light_pos={light_pos}/>
         } else {
             return null
         }
@@ -61,12 +63,14 @@ function PrimaryRenderer(props
     const updateCamera = () => {
         const pos = control_ref.current.object.position
         setCameraPos(new Vector3(pos.x, pos.y, pos.z))
+        const lpos = new Vector3()
+        console.log(light_ref.current.getWorldPosition(lpos) )
+        setLightPos(new Vector3(lpos.x, lpos.y, lpos.z))
     }
 
     return <Canvas ref={ref} onDoubleClick={function () {
         control_ref.current.reset()
-        const pos = control_ref.current.object.position
-        setCameraPos(new Vector3(pos.x, pos.y, pos.z))
+        updateCamera()
     }}>
         < color attach="background" args={['#FFFFFF']}/>
         <group>
@@ -86,7 +90,8 @@ function PrimaryRenderer(props
         <PerspectiveCamera ref={camera_ref} makeDefault={true}
                            up={[0, 1, 0]}
                            position={[center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag]}>
-            <directionalLight intensity={0.7}
+            <directionalLight ref={light_ref}
+                              intensity={0.7}
                               position={[1, 0, 0]}
             />
         </PerspectiveCamera>

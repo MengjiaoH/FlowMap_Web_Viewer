@@ -121,6 +121,10 @@ export default class VolumeConfig {
         this.uniforms.camera_pos.value = pos
     }
 
+    setLight(lpos){
+        this.uniforms.light_dir.value = lpos
+    }
+
     setMinBB(min_bb) {
         this.uniforms.min_bb.value = min_bb
     }
