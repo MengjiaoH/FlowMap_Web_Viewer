@@ -3,6 +3,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import ParticleTraceTab from "./ParticleTraceTab";
+import ModelInfoPanel from "./ModelInfoPanel";
+import {Divider, Typography} from "@mui/material";
 
 function TabPanel(props) {
     const {children, value, index} = props;
@@ -39,12 +41,14 @@ function ModelPanel(props) {
             </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-
+            <ModelInfoPanel/>
         </TabPanel>
 
         <TabPanel value={value} index={1}>
             <ParticleTraceTab/>
         </TabPanel>
+
+
     </div>);
 
 }

@@ -174,7 +174,7 @@ export default class VolumeConfig {
         this.setMaxV(max_v)
         this.data_name = dataname
         this.dims = dims
-        this.setStepSize(this.root.domain.diag / 1000)
+        this.setStepSize(this.root.modelinfo.diag / 1000)
         this.setVolumeTexture(volumeTexture(array,...dims))
         this.setNormalMapTexture(normalMap(array,...dims))
         this.color_tf = new ColorTransferFunction(this.uniforms.min_v.value, this.uniforms.max_v.value)

@@ -2,8 +2,6 @@ import React, {useMemo} from "react";
 import {Responsive, WidthProvider} from "react-grid-layout";
 import MainSceneDisplay from "./3DRender/PrimaryRenderer";
 import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from 'react-bootstrap/Container';
 import Paper from '@mui/material/Paper';
 import SeedPanel from "./SeedPanel/SeedPanel";
@@ -47,21 +45,7 @@ function MainViewLayout(props) {
     return <>
         <Navbar variant="dark" bg="secondary" expand="lg">
             <Container fluid>
-                <Navbar.Brand>{"Neural Flow Web Viewer"}</Navbar.Brand>
-                <Navbar.Collapse id="dataset_dropdown">
-                    <Nav>
-                        <NavDropdown
-                            id="data_file_title"
-                            title="select model"
-                            menuVariant="light"
-                        >
-                            <NavDropdown.Item>place holder model 1</NavDropdown.Item>
-                            <NavDropdown.Item>place holder model 2</NavDropdown.Item>
-                            <NavDropdown.Item>place holder model 3</NavDropdown.Item>
-                            <NavDropdown.Item>place holder model 4</NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                </Navbar.Collapse>
+                <Navbar.Brand>{"Neural Flow Map Web Viewer"}</Navbar.Brand>
             </Container>
         </Navbar>
         <ReactGridLayout margin={[5, 5]} breakpoints={{lg: 1440, md: 1200, sm: 768, xs: 480, xxs: 0}}

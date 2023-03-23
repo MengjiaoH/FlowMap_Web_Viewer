@@ -22,13 +22,64 @@ function VolumeMesh(props) {
         return [min_bb, max_bb, [max_x - min_x, max_y - min_y, max_z - min_z]]
     }, [g_data.modelinfo.bounds])
 
+    console.log(min_bb, max_bb, ext, g_data.modelinfo.center)
+
     config.setMinBB(min_bb)
     config.setMaxBB(max_bb)
-
     config.setCamera(props.camera_pos)
 
+    const vertices = useMemo(() => {
+        // front
+        return new Float32Array([
+            min_bb.x, min_bb.y, max_bb.z,
+            max_bb.x, min_bb.y, max_bb.z,
+            max_bb.x, max_bb.y, max_bb.z,
+            min_bb.x, min_bb.y, max_bb.z,
+            max_bb.x, max_bb.y, max_bb.z,
+            min_bb.x, max_bb.y, max_bb.z,
+            // back
+            min_bb.x, max_bb.y, min_bb.z,
+            max_bb.x, max_bb.y, min_bb.z,
+            min_bb.x, min_bb.y, min_bb.z,
+            max_bb.x, max_bb.y, min_bb.z,
+            max_bb.x, min_bb.y, min_bb.z,
+            min_bb.x, min_bb.y, min_bb.z,
+            // top
+            min_bb.x, max_bb.y, max_bb.z,
+            max_bb.x, max_bb.y, max_bb.z,
+            max_bb.x, max_bb.y, min_bb.z,
+            min_bb.x, max_bb.y, max_bb.z,
+            max_bb.x, max_bb.y, min_bb.z,
+            min_bb.x, max_bb.y, min_bb.z,
+            // bottom
+            min_bb.x, min_bb.y, min_bb.z,
+            max_bb.x, min_bb.y, min_bb.z,
+            min_bb.x, min_bb.y, max_bb.z,
+            max_bb.x, min_bb.y, min_bb.z,
+            max_bb.x, min_bb.y, max_bb.z,
+            min_bb.x, min_bb.y, max_bb.z,
+            // right
+            max_bb.x, min_bb.y, max_bb.z,
+            max_bb.x, min_bb.y, min_bb.z,
+            max_bb.x, max_bb.y, min_bb.z,
+            max_bb.x, min_bb.y, max_bb.z,
+            max_bb.x, max_bb.y, min_bb.z,
+            max_bb.x, max_bb.y, max_bb.z,
+            // left
+            min_bb.x, max_bb.y, max_bb.z,
+            min_bb.x, max_bb.y, min_bb.z,
+            min_bb.x, min_bb.y, max_bb.z,
+            min_bb.x, max_bb.y, min_bb.z,
+            min_bb.x, min_bb.y, min_bb.z,
+            min_bb.x, min_bb.y, max_bb.z
+        ])
+    },[max_bb.x, max_bb.y, max_bb.z, min_bb.x, min_bb.y, min_bb.z])
+
     return <mesh ref={ref}>
-        <boxGeometry args={[...ext]} position={[min_bb.x, min_bb.y, min_bb.z]}/>
+        <bufferGeometry>
+            <bufferAttribute attach={'attributes-position'} count={vertices.length / 3} itemSize={3}
+                             array={vertices}/>
+        </bufferGeometry>
 
         <rawShaderMaterial ref={materialRef}
                            attach="material"

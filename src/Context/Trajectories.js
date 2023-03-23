@@ -7,6 +7,7 @@ export default class Trajectories {
         this.seeds = []
         this.paths = []
         makeAutoObservable(this)
+        this.updatePath = this.updatePath.bind(this)
     }
 
 
@@ -33,6 +34,18 @@ export default class Trajectories {
                 style: path.style
             }
         })]
+    }
+
+    initPath(index, n) {
+        this.paths[index].path = new Array(n)
+    }
+
+    setPathPos(i, t, pos) {
+        this.paths[i].path[t] = pos
+    }
+
+    updatePath(){
+        this.paths = [...this.paths]
     }
 
     applyStyle() {
