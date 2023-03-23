@@ -4,6 +4,7 @@ precision highp int;
 precision highp sampler2D;
 
 layout(location = 0) in vec3 position;
+layout(location = 1) in vec3 tex;
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 out vec3 world_pos;
@@ -12,7 +13,7 @@ void main()  {
     vec4 camera_cube = modelViewMatrix * affine_cube;
     vec4 pix_cube = projectionMatrix * camera_cube;
     
-    world_pos = affine_cube.xyz;
+    world_pos = tex;
     gl_Position = pix_cube;
 }
 `
