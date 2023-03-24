@@ -133,6 +133,7 @@ export default class ModelInfo {
         const json_dir = './models/' + dataset + '/' + dataset + '.json'
         fetch(json_dir).then(response => response.json()).then(json_data => {
             this.loadModelFromJson(json_data)
+            this.root.scalars_config.resetScalarData(this.bounds)
         })
     }
 }
