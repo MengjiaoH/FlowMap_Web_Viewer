@@ -23,8 +23,6 @@ function ScalarColorLine(props) {
     config.setMaxBB(max_bb)
     config.setCamera(props.camera_pos)
     config.setLight(props.light_dir)
-    console.log(props.camera_pos)
-    console.log(props.light_dir)
 
     const path = props.path
     const radius = props.radius
