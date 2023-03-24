@@ -15,6 +15,7 @@ function PrimaryRenderer(props
     const ref = useRef()
     const camera_ref = useRef()
     const control_ref = useRef()
+    const light_ref = useRef()
     const g_data = useContext(global_data)
 
     const [center, diag] = useMemo(() => {
@@ -22,7 +23,7 @@ function PrimaryRenderer(props
     }, [g_data.modelinfo.center, g_data.modelinfo.diag])
 
     const [camera_pos, setCameraPos] = useState(new Vector3(center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag))
-    const [light_pos, setLightPos] = useState(new Vector3(camera_pos.x + 1, camera_pos.y, camera_pos.z))
+    const [light_pos, setLightPos] = useState(new Vector3(camera_pos.x, camera_pos.y, camera_pos.z))
 
 
     const x_slice = useMemo(() => {
@@ -76,13 +77,17 @@ function PrimaryRenderer(props
     }, [g_data.seedbox_config.display, g_data.seedbox_config.active, g_data.seedbox_config.size, g_data.seedbox_config.position])
 
     const paths = useMemo(() => {
-        return <PathlineMesh paths={g_data.trajectories.paths} radius={g_data.modelinfo.shortest_side / 200}/>
-    }, [g_data.trajectories.paths])
+        return <PathlineMesh paths={g_data.trajectories.paths} radius={g_data.modelinfo.shortest_side / 200}
+                             camera_pos={camera_pos} light_dir={light_pos}/>
+    }, [camera_pos, g_data.modelinfo.shortest_side, g_data.trajectories.paths, light_pos])
 
 
     const updateCamera = () => {
         const pos = control_ref.current.object.position
         setCameraPos(new Vector3(pos.x, pos.y, pos.z))
+        const lpos = new Vector3()
+        light_ref.current.getWorldPosition(lpos)
+        setLightPos(new Vector3(lpos.x, lpos.y, lpos.z))
     }
 
     return <Canvas ref={ref} onDoubleClick={function () {
@@ -110,9 +115,10 @@ function PrimaryRenderer(props
         <PerspectiveCamera ref={camera_ref} makeDefault={true}
                            up={[0, 1, 0]}
                            position={[center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag]}>
-            <directionalLight
+            <directionalLight ref={light_ref}
                               intensity={1}
-                              position={[1, 0, 0]}
+                              position={[1, 1, 1]}
+
             />
         </PerspectiveCamera>
         <TrackballControls ref={control_ref} target0={center}

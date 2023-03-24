@@ -21,11 +21,15 @@ function ScalarColorLine(props) {
 
     config.setMinBB(min_bb)
     config.setMaxBB(max_bb)
+    config.setCamera(props.camera_pos)
+    config.setLight(props.light_dir)
+    console.log(props.camera_pos)
+    console.log(props.light_dir)
 
     const path = props.path
     const radius = props.radius
     const segments = Math.ceil(path.length * props.segments)
-    const radius_segments = 6
+    const radius_segments = 12
 
     const [curve, tex_coords] = useMemo(() => {
         const curve = new THREE.CatmullRomCurve3(path)

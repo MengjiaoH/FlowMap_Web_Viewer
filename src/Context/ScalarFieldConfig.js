@@ -1,7 +1,7 @@
 import {ColorTransferFunction, OpacityTransferFunction} from "../TransferFunctions/TransferFunctions";
 import {makeAutoObservable} from "mobx";
-import {Vector3} from "three";
 import * as THREE from "three";
+import {Vector3} from "three";
 import {linspace, rescale, trilinear_interpolate} from "../Utils/utils";
 
 function volumeTexture(array, dim_x, dim_y, dim_z) {
@@ -285,8 +285,7 @@ export default class ScalarFieldConfig {
             this.getScalarAtIndex(xi + 1, yi + 1, zi + 1)
         )
 
-        const color = this.color_tf.color(scalar)
-        return color
+        return this.color_tf.color(scalar)
 
     }
 }

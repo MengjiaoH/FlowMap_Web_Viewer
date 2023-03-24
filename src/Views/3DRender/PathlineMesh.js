@@ -23,7 +23,10 @@ function PathlineMesh(props) {
             if (path.style.color_by_scalar) {
                 return <ScalarColorLine path={path.path} radius={props.radius * path.style.radius}
                                         color={path.style.color}
-                                        segments={path.style.segments} key={'pathline_' + i}/>
+                                        segments={path.style.segments} key={'pathline_' + i}
+                                        camera_pos={props.camera_pos}
+                                        light_dir={props.light_dir}
+                />
             } else {
                 return <Pathline path={path.path} radius={props.radius * path.style.radius} color={path.style.color}
                                  segments={path.style.segments} key={'pathline_' + i}></Pathline>
