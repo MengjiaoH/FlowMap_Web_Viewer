@@ -86,20 +86,8 @@ function SeedPlacement(props) {
         config.setPositionZ(Number(v))
     }
 
-
-    return <FormControl>
-        <Box component="form" sx={{'& > :not(style)': {p: 0, width: '100%'},}} noValidate autoComplete="off">
-            <Stack direction="row" alignItems="center" spacing={5}>
-                <FormControlLabel value="display" control={
-                    <Switch checked={config.display} onChange={setDisplay}/>
-                } label="Display"/>
-                <FormControlLabel value="active" control={
-                    <Switch checked={config.active} onChange={setActive}/>
-                } label="Active"/>
-            </Stack>
-        </Box>
-
-        <Box component="form" sx={{'& > :not(style)': {p: 1, width: '100%'},}} noValidate autoComplete="off">
+    const sampling_forms = useMemo(() => {
+        return <Box component="form" sx={{'& > :not(style)': {p: 1, width: '100%'},}} noValidate autoComplete="off">
             <Stack direction="row" alignItems="center" spacing={5}>
                 <FormLabel>position_x</FormLabel>
                 <Slider valueLabelDisplay={'auto'} min={min_pos_x} max={max_pos_x}
@@ -155,6 +143,22 @@ function SeedPlacement(props) {
                            }}/>
             </Stack>
         </Box>
+    }, [config, disable_pos_x, disable_pos_y, disable_pos_z, max_pos_x, max_pos_y, max_pos_z, min_pos_x, min_pos_y, min_pos_z, position, setPositionX, setPositionY, setPositionZ])
+
+
+    return <FormControl>
+        <Box component="form" sx={{'& > :not(style)': {p: 0, width: '100%'},}} noValidate autoComplete="off">
+            <Stack direction="row" alignItems="center" spacing={5}>
+                <FormControlLabel value="display" control={
+                    <Switch checked={config.display} onChange={setDisplay}/>
+                } label="Display"/>
+                <FormControlLabel value="active" control={
+                    <Switch checked={config.active} onChange={setActive}/>
+                } label="Active"/>
+            </Stack>
+        </Box>
+        {sampling_forms}
+
         <Box component="form" sx={{'& > :not(style)': {p: 1, width: '100%'},}} noValidate autoComplete="off">
             <Stack direction="row" alignItems="center" spacing={5}>
                 <FormLabel>size_x</FormLabel>

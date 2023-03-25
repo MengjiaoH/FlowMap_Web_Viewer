@@ -29,10 +29,7 @@ async function TraceModel(g_data) {
     const min_val = -1
     const max_val = 1
 
-    // const [x_min, x_max, y_min, y_max, z_min, z_max] = g_data.modelinfo.bounds
     const [x_min, x_max, y_min, y_max, z_min, z_max] = g_data.modelinfo.model_bbox
-    // console.log("bounds:", g_data.modelinfo.modelScaleBound)
-
     const indices = []
     const seeds = []
 

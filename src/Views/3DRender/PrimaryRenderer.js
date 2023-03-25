@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useMemo, useRef, useState} from 'react'
 import {Canvas} from '@react-three/fiber'
 import {observer} from "mobx-react";
-import {PerspectiveCamera, TrackballControls, GizmoHelper, GizmoViewport} from "@react-three/drei";
+import {PerspectiveCamera, TrackballControls,OrbitControls, GizmoHelper, GizmoViewport, Stats} from "@react-three/drei";
 import {global_data} from "../../Context/DataContainer";
 import CubeOutline from "./CubeOutline";
 import Seeds from "./SeedsMesh";
@@ -31,21 +31,25 @@ function PrimaryRenderer(props
             return <Slice axis={'x'} value={g_data.scalars_config.x_value} camera_pos={camera_pos}
                           light_pos={light_pos}/>
         }
-    }, [camera_pos, g_data.scalars_config.show_x_slice, g_data.scalars_config.x_value, light_pos])
+    }, [camera_pos, g_data.scalars_config.show_x_slice, g_data.scalars_config.x_value, light_pos
+        , g_data.trajectories.paths, g_data.trajectories.seeds
+    ])
 
     const y_slice = useMemo(() => {
         if (g_data.scalars_config.show_y_slice) {
             return <Slice axis={'y'} value={g_data.scalars_config.y_value} camera_pos={camera_pos}
                           light_pos={light_pos}/>
         }
-    }, [camera_pos, g_data.scalars_config.show_y_slice, g_data.scalars_config.y_value, light_pos])
+    }, [camera_pos, g_data.scalars_config.show_y_slice, g_data.scalars_config.y_value, light_pos
+        , g_data.trajectories.paths, g_data.trajectories.seeds])
 
     const z_slice = useMemo(() => {
         if (g_data.scalars_config.show_z_slice) {
             return <Slice axis={'z'} value={g_data.scalars_config.z_value} camera_pos={camera_pos}
                           light_pos={light_pos}/>
         }
-    }, [camera_pos, g_data.scalars_config.show_z_slice, g_data.scalars_config.z_value, light_pos])
+    }, [camera_pos, g_data.scalars_config.show_z_slice, g_data.scalars_config.z_value, light_pos
+        , g_data.trajectories.paths, g_data.trajectories.seeds])
 
     const volume_rendering = useMemo(() => {
         if (g_data.scalars_config.volume_rendering) {
@@ -126,6 +130,7 @@ function PrimaryRenderer(props
                            staticMoving={true}
                            onChange={updateCamera}
         />
+        <Stats/>
     </Canvas>
 }
 

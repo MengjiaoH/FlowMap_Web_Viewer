@@ -3,6 +3,7 @@ import {observer} from "mobx-react";
 
 
 function Seeds(props) {
+
     return <Instances limit={100000}>
         <sphereGeometry args={[props.radius, 16, 8]}/>
         <meshLambertMaterial

@@ -14,27 +14,27 @@ function MainViewLayout(props) {
 
     const views = useMemo(() => {
         return [
-            <div key={'line_view'} data-grid={{x: 0, y: 0, w: 12, h: 8, isDraggable: false}}>
+            <div key={'line_view'} data-grid={{x: 0, y: 0, w: 16, h: 8, isDraggable: false}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <MainSceneDisplay/>
                 </Paper>
             </div>,
-            <div key={'model_panel'} data-grid={{x: 12, y: 0, w: 6, h: 4}}>
+            <div key={'model_panel'} data-grid={{x: 16, y: 0, w: 4, h: 4}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <ModelPanel />
                 </Paper>
             </div>,
-            <div key={'volume_panel'} data-grid={{x:12,y:4,w:6,h:4}}>
+            <div key={'volume_panel'} data-grid={{x:16,y:4,w:4,h:4}}>
                 <Paper elevation={5} style={{width:"100%", height: "100%"}}>
                     <ScalarFieldPanel />
                 </Paper>
             </div>,
-            <div key={'seed_config'} data-grid={{x: 18, y: 0, w: 6, h: 4}} >
+            <div key={'seed_config'} data-grid={{x: 20, y: 0, w: 4, h: 4}} >
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <SeedPanel/>
                 </Paper>
             </div>,
-            <div key={'line_style_config'} data-grid={{x: 18, y: 4, w: 6, h: 4}}>
+            <div key={'line_style_config'} data-grid={{x: 20, y: 4, w: 4, h: 4}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <LineStylePanel />
                 </Paper>
