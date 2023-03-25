@@ -27,16 +27,21 @@ function ModelInfoPanel(props) {
         return g_data.modelinfo.step_size
     }, [g_data.modelinfo.step_size])
 
+    const loadJsonData = (e) =>  {
+        g_data.modelinfo.loadDataset(e.target.value)
+    }
+
 return <FormControl variant="filled" sx={{ m: 1, width:"100%"}}>
     <InputLabel id="demo-simple-select-label">Model</InputLabel>
     <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={"ABC"}
-        label="Model"
+        value={g_data.modelinfo.dataset}
+        label="Model"  onChange={loadJsonData}
     >
 
         <MenuItem value={"ABC"}>ABC</MenuItem>
+        <MenuItem value={"Hurricane"}>Hurricane</MenuItem>
     </Select>
     <Typography component="div">
         <Box sx={{textAlign: 'left', m: 1}}>

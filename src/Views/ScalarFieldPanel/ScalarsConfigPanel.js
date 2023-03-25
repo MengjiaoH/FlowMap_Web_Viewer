@@ -16,7 +16,9 @@ import {Slider} from "@mui/material";
 function ScalarsConfigPanel(props) {
     const g_data = useContext(global_data)
 
-    const [min_x, max_x, min_y, max_y, min_z, max_z] = useMemo(()=>{return g_data.modelinfo.bounds}, [])
+    const [min_x, max_x, min_y, max_y, min_z, max_z] = useMemo(() => {
+        return g_data.modelinfo.bounds
+    }, [g_data.modelinfo.bounds])
 
     const config = useMemo(() => {
         return g_data.scalars_config
@@ -62,27 +64,27 @@ function ScalarsConfigPanel(props) {
         config.setVolumeRendering(e.target.checked)
     }
 
-    const setShowX = (e) =>{
+    const setShowX = (e) => {
         config.setShowXSlice(e.target.checked)
     }
 
-    const setXValue = (e)=>{
+    const setXValue = (e) => {
         config.setXValue(Number(e.target.value))
     }
 
-    const setShowY = (e) =>{
+    const setShowY = (e) => {
         config.setShowYSlice(e.target.checked)
     }
 
-    const setYValue = (e)=>{
+    const setYValue = (e) => {
         config.setYValue(Number(e.target.value))
     }
 
-    const setShowZ = (e) =>{
+    const setShowZ = (e) => {
         config.setShowZSlice(e.target.checked)
     }
 
-    const setZValue = (e)=>{
+    const setZValue = (e) => {
         config.setZValue(Number(e.target.value))
     }
 
@@ -120,7 +122,7 @@ function ScalarsConfigPanel(props) {
                 <FormControlLabel control={<Switch checked={config.show_x_slice} disabled={!config.loaded}/>}
                                   label={'x_slice'} value={'xswitch'} onChange={setShowX}/>
                 <Slider valueLabelDisplay={'auto'} min={min_x} max={max_x}
-                        step={(max_x - min_x) / 100}
+                        step={(max_x - min_x) / 200}
                         value={config.x_value}
                         onChange={setXValue}/>
             </Stack>
@@ -129,7 +131,7 @@ function ScalarsConfigPanel(props) {
                 <FormControlLabel control={<Switch checked={config.show_y_slice} disabled={!config.loaded}/>}
                                   label={'y_slice'} value={'yswitch'} onChange={setShowY}/>
                 <Slider valueLabelDisplay={'auto'} min={min_y} max={max_y}
-                        step={(max_y - min_y) / 100}
+                        step={(max_y - min_y) / 200}
                         value={config.y_value}
                         onChange={setYValue}/>
             </Stack>
@@ -138,7 +140,7 @@ function ScalarsConfigPanel(props) {
                 <FormControlLabel control={<Switch checked={config.show_z_slice} disabled={!config.loaded}/>}
                                   label={'z_slice'} value={'zswitch'} onChange={setShowZ}/>
                 <Slider valueLabelDisplay={'auto'} min={min_z} max={max_z}
-                        step={(max_z - min_z) / 100}
+                        step={(max_z - min_z) / 200}
                         value={config.z_value}
                         onChange={setZValue}/>
             </Stack>

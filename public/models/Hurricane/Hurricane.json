@@ -1,0 +1,39 @@
+
+{
+    "mode": "long",
+    "num_models": 1,
+    "bbox_x_upper": 455,
+    "bbox_x_lower": 305,
+    "bbox_y_upper": 355,
+    "bbox_y_lower": 205,
+    "bbox_z_upper": 99,
+    "bbox_z_lower": 0,
+    "interval": 1,
+    "step_size": 0.15,
+    "models":[
+        {
+            "filename": "Hurricane.onnx",
+            "start_cycle": 0,
+            "stop_cycle": 30,
+            "bounding_0": 168.4770050048828,
+            "bounding_1": 500.0580139160156,
+            "bounding_2": 121.2020034790039,
+            "bounding_3": 436.82501220703125,
+            "bounding_4": -0.007076070178300142,
+            "bounding_5": 99.25189971923828
+        }
+    ],
+   
+    "global_uniformed_dim_x": "2",
+    "global_uniformed_dim_y": "2",
+    "global_uniformed_dim_z": "2"
+
+}
+
+
+
+
+
+
+
+ 

@@ -85,32 +85,7 @@ export default class ScalarFieldConfig {
     constructor(root) {
         this.root = root
 
-        this.loaded = false
-
-        this.data_name = ""
-
-        this.color_tf = null
-
-        this.opacity_tf = null
-
-        this.dims = [1, 1, 1]
-
-        this.scalars = null
-
-        this.volume_rendering = false
-
-        this.show_x_slice = false
-
-        this.show_y_slice = false
-
-        this.show_z_slice = false
-
-        const [x_min, x_max, y_min, y_max, z_min, z_max] = this.root.modelinfo.bounds
-        this.x_value = (x_max + x_min) / 2
-
-        this.y_value = (y_max + y_min) / 2
-
-        this.z_value = (z_max + z_min) / 2
+        this.resetScalarData(this.root.modelinfo.bounds)
 
         this.uniforms = {
             camera_pos: {value: new Vector3(0, 0, 1)},
@@ -205,6 +180,24 @@ export default class ScalarFieldConfig {
     updateCtf(ctf) {
         this.color_tf = ctf.copy()
         this.setTfTexure(tf_texture(this.opacity_tf, this.color_tf))
+    }
+
+    resetScalarData(bounds) {
+        this.loaded = false
+        this.data_name = ""
+        this.color_tf = null
+        this.opacity_tf = null
+        this.dims = [1, 1, 1]
+        this.scalars = null
+        this.volume_rendering = false
+        this.data_name = ""
+        this.show_x_slice = false
+        this.show_y_slice = false
+        this.show_z_slice = false
+        const [x_min, x_max, y_min, y_max, z_min, z_max] = bounds
+        this.x_value = (x_max + x_min) / 2
+        this.y_value = (y_max + y_min) / 2
+        this.z_value = (z_max + z_min) / 2
     }
 
     setScalars(array, min_v, max_v, dataname, dims) {
