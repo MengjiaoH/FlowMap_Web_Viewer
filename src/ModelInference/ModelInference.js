@@ -26,6 +26,7 @@ async function Trace(model, cur_fm, times, num_seeds) {
 }
 
 async function TraceModel(g_data) {
+    const t_processing_start = performance.now()
     const min_val = -1
     const max_val = 1
 
@@ -61,7 +62,9 @@ async function TraceModel(g_data) {
     }
 
     g_data.trajectories.updatePath()
-    // console.log(g_data.trajectories.paths)
+
+    const t_processing_end = performance.now()
+    console.log("processing time: ", t_processing_end - t_processing_start)
 }
 
 export default TraceModel
