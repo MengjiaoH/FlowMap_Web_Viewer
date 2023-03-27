@@ -1,5 +1,6 @@
 import React, {useMemo} from "react";
 import {Responsive, WidthProvider} from "react-grid-layout";
+import Grid from '@mui/material/Grid';
 import MainSceneDisplay from "./3DRender/PrimaryRenderer";
 import Navbar from "react-bootstrap/Navbar";
 import Container from 'react-bootstrap/Container';
@@ -45,7 +46,14 @@ function MainViewLayout(props) {
     return <>
         <Navbar variant="dark" bg="secondary" expand="lg">
             <Container fluid>
-                <Navbar.Brand>{"Neural Flow Map Web Viewer"}</Navbar.Brand>
+            <Grid container spacing={2}>
+                <Grid item xs={8}>
+               
+                </Grid>
+                <Grid item xs={8}>
+                    <Navbar.Brand>{"Neural Flow Map Web Viewer"}</Navbar.Brand>
+                </Grid>
+            </Grid>
             </Container>
         </Navbar>
         <ReactGridLayout margin={[5, 5]} breakpoints={{lg: 1440, md: 1200, sm: 768, xs: 480, xxs: 0}}
