@@ -1,7 +1,7 @@
-import React, {useContext, useEffect, useMemo, useRef, useState} from 'react'
+import React, {useContext, useMemo, useRef, useState} from 'react'
 import {Canvas} from '@react-three/fiber'
 import {observer} from "mobx-react";
-import {PerspectiveCamera, TrackballControls,OrbitControls, GizmoHelper, GizmoViewport, Stats} from "@react-three/drei";
+import {PerspectiveCamera, TrackballControls,GizmoHelper, GizmoViewport, Stats} from "@react-three/drei";
 import {global_data} from "../../Context/DataContainer";
 import CubeOutline from "./CubeOutline";
 import Seeds from "./SeedsMesh";

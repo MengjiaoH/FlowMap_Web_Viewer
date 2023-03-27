@@ -47,7 +47,7 @@ return <FormControl variant="filled" sx={{ m: 1, width:"100%"}}>
         <Box sx={{textAlign: 'left', m: 1}}>
             <Typography variant="h6" fontFamily='sans-serif'>Bounds: </Typography>
         </Box>
-        <Box sx={{textAlign: 'left', m: 1}}>
+        <Box sx={{textAlign: 'left', ml: 4}}>
             <Typography variant="body1" fontFamily='sans-serif'>X Range:[{bounds[0]}, {bounds[1]}]</Typography>
             <Typography variant="body1" fontFamily='sans-serif'>Y Range:[{bounds[2]}, {bounds[3]}]</Typography>
             <Typography variant="body1" fontFamily='sans-serif'>Z Range:[{bounds[4]}, {bounds[5]}]</Typography>
@@ -56,7 +56,7 @@ return <FormControl variant="filled" sx={{ m: 1, width:"100%"}}>
         <Box sx={{textAlign: 'left', m: 1}}>
             <Typography variant="h6" fontFamily='sans-serif'>Flow Maps: </Typography>
         </Box>
-        <Box sx={{textAlign: 'left', m: 1}}>
+        <Box sx={{textAlign: 'left', ml: 4}}>
             <Typography variant="body1" fontFamily='sans-serif'>Start Cycle: {start_cycle}</Typography>
             <Typography variant="body1" fontFamily='sans-serif'>Stop Cycle: {stop_cycle}</Typography>
             <Typography variant="body1" fontFamily='sans-serif'>Interval: {interval}</Typography>

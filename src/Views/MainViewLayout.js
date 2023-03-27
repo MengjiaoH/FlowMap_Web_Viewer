@@ -1,9 +1,7 @@
 import React, {useMemo} from "react";
 import {Responsive, WidthProvider} from "react-grid-layout";
-import Grid from '@mui/material/Grid';
 import MainSceneDisplay from "./3DRender/PrimaryRenderer";
 import Navbar from "react-bootstrap/Navbar";
-import Container from 'react-bootstrap/Container';
 import Paper from '@mui/material/Paper';
 import SeedPanel from "./SeedPanel/SeedPanel";
 import LineStylePanel from "./LineStylePanel/LineStylePanel";
@@ -25,11 +23,6 @@ function MainViewLayout(props) {
                     <ModelPanel/>
                 </Paper>
             </div>,
-            <div key={'volume_panel'} data-grid={{x: 16, y: 4, w: 4, h: 4}}>
-                <Paper elevation={5} style={{width: "100%", height: "100%"}}>
-                    <ScalarFieldPanel/>
-                </Paper>
-            </div>,
             <div key={'seed_config'} data-grid={{x: 20, y: 0, w: 4, h: 4}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <SeedPanel/>
@@ -39,7 +32,12 @@ function MainViewLayout(props) {
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <LineStylePanel/>
                 </Paper>
-            </div>
+            </div>,
+            <div key={'volume_panel'} data-grid={{x: 16, y: 4, w: 4, h: 4}}>
+                <Paper elevation={5} style={{width: "100%", height: "100%"}}>
+                    <ScalarFieldPanel/>
+                </Paper>
+            </div>,
         ]
     }, [])
 
