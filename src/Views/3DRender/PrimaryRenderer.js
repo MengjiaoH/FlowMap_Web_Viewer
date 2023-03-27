@@ -6,9 +6,9 @@ import {global_data} from "../../Context/DataContainer";
 import CubeOutline from "./CubeOutline";
 import Seeds from "./SeedsMesh";
 import PathlineMesh from "./PathlineMesh";
-import VolumeMesh from "./dvr/VolumeMesh";
+import VolumeMesh from "./DVR/VolumeMesh";
 import {Vector3} from "three";
-import Slice from "./slices/Slice";
+import Slice from "./Slices/Slice";
 
 function PrimaryRenderer(props
 ) {
