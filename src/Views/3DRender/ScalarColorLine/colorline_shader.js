@@ -57,7 +57,7 @@ void main()  {
     float sf = texture(volume, tex_nc).x;
     sf = (sf-min_v)/(max_v - min_v);
     vec4 tf_val = texture(tf, vec2(sf,0.f));
-    vec3 step_color = tf_val.rgb * diffuse;
+    vec3 step_color = vec3(0.15) + tf_val.rgb * diffuse;
     // vec3 step_color = tf_val.rgb;
     frag_color = vec4(step_color,1);    
 }

@@ -21,7 +21,7 @@ function PrimaryRenderer(props
     const [center, diag, near, far] = useMemo(() => {
         const center = g_data.modelinfo.center
         const diag = g_data.modelinfo.diag
-        return [center, g_data.modelinfo.diag, 1e-5, 1e3 * diag]
+        return [center, g_data.modelinfo.diag, 1e-2, 5 * diag]
     }, [g_data.modelinfo.center, g_data.modelinfo.diag])
 
     const [camera_pos, setCameraPos] = useState(new Vector3(center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag))
@@ -127,7 +127,7 @@ function PrimaryRenderer(props
         <PerspectiveCamera ref={camera_ref} makeDefault={true}
                            position={[center[0] , center[1] , center[2] + 1 * diag]}
                            near={near}
-                           far={far}>
+                           far={2*far}>
             <directionalLight ref={light_ref}
                               intensity={1}
                               position={[1, 1, 1]}
@@ -135,7 +135,7 @@ function PrimaryRenderer(props
             />
         </PerspectiveCamera>
         <TrackballControls ref={control_ref} target0={center} position0={[center[0] , center[1] , center[2] + 1 * diag]}
-                           target={center} maxDistance={far} minDistance={near}
+                           target={center} maxDistance={far} minDistance={near*10}
                            staticMoving={true}
                            onChange={updateCamera}
         />
