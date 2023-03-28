@@ -28,7 +28,10 @@ function ModelInfoPanel(props) {
     }, [g_data.modelinfo.step_size])
 
     const loadJsonData = (e) =>  {
+        g_data.trajectories.reset()
         g_data.modelinfo.loadDataset(e.target.value)
+        g_data.seedbox_config.reset()
+
     }
 
 return <FormControl variant="filled" sx={{ m: 1, width:"100%"}}>

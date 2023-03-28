@@ -5,7 +5,6 @@ import {observer} from "mobx-react";
 import React, {useContext, useMemo, useRef} from "react";
 import {global_data} from "../../../Context/DataContainer";
 
-
 function VolumeMesh(props) {
     const ref = useRef()
     const materialRef = useRef()
@@ -14,14 +13,12 @@ function VolumeMesh(props) {
     const config = g_data.scalars_config
     const uniforms = config.uniforms
 
-
     const [min_bb, max_bb] = useMemo(() => {
         const [min_x, max_x, min_y, max_y, min_z, max_z] = g_data.modelinfo.bounds
         const [min_bb, max_bb] = [new Vector3(min_x, min_y, min_z), new Vector3(max_x, max_y, max_z)]
 
         return [min_bb, max_bb]
     }, [g_data.modelinfo.bounds])
-
 
     config.setMinBB(min_bb)
     config.setMaxBB(max_bb)
@@ -73,7 +70,7 @@ function VolumeMesh(props) {
             min_bb.x, min_bb.y, min_bb.z,
             min_bb.x, min_bb.y, max_bb.z
         ])
-    },[max_bb.x, max_bb.y, max_bb.z, min_bb.x, min_bb.y, min_bb.z])
+    }, [max_bb.x, max_bb.y, max_bb.z, min_bb.x, min_bb.y, min_bb.z])
 
     return <mesh ref={ref}>
         <bufferGeometry>

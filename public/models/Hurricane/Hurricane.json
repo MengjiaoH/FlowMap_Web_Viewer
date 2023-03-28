@@ -12,7 +12,7 @@
     "step_size": 0.15,
     "models":[
         {
-            "filename": "Hurricane.onnx",
+            "filename": "hurricane.onnx",
             "start_cycle": 0,
             "stop_cycle": 30,
             "bounding_0": 168.4770050048828,

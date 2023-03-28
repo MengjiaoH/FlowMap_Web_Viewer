@@ -1,5 +1,5 @@
 import React, {useContext, useMemo, useRef, useState} from 'react'
-import {Canvas} from '@react-three/fiber'
+import {Canvas, useFrame} from '@react-three/fiber'
 import {observer} from "mobx-react";
 import {PerspectiveCamera, TrackballControls,GizmoHelper, GizmoViewport, Stats} from "@react-three/drei";
 import {global_data} from "../../Context/DataContainer";
@@ -18,8 +18,10 @@ function PrimaryRenderer(props
     const light_ref = useRef()
     const g_data = useContext(global_data)
 
-    const [center, diag] = useMemo(() => {
-        return [g_data.modelinfo.center, g_data.modelinfo.diag]
+    const [center, diag, near, far] = useMemo(() => {
+        const center = g_data.modelinfo.center
+        const diag = g_data.modelinfo.diag
+        return [center, g_data.modelinfo.diag, 1e-5, 1e3 * diag]
     }, [g_data.modelinfo.center, g_data.modelinfo.diag])
 
     const [camera_pos, setCameraPos] = useState(new Vector3(center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag))
@@ -59,6 +61,10 @@ function PrimaryRenderer(props
         }
     }, [camera_pos, g_data.scalars_config.volume_rendering])
 
+    const paths = useMemo(() => {
+        return <PathlineMesh paths={g_data.trajectories.paths} radius={g_data.modelinfo.shortest_side / 200}
+                             camera_pos={camera_pos} light_dir={light_pos}/>
+    }, [camera_pos, g_data.modelinfo.shortest_side, g_data.trajectories.paths, light_pos])
 
     const seeds = useMemo(() => {
         if (g_data.trajectories.seeds.length > 0) {
@@ -80,10 +86,9 @@ function PrimaryRenderer(props
         }
     }, [g_data.seedbox_config.display, g_data.seedbox_config.active, g_data.seedbox_config.size, g_data.seedbox_config.position])
 
-    const paths = useMemo(() => {
-        return <PathlineMesh paths={g_data.trajectories.paths} radius={g_data.modelinfo.shortest_side / 200}
-                             camera_pos={camera_pos} light_dir={light_pos}/>
-    }, [camera_pos, g_data.modelinfo.shortest_side, g_data.trajectories.paths, light_pos])
+    const outline = useMemo(()=>{
+        return <CubeOutline bounds={g_data.modelinfo.bounds} color={"rgb(200,200,200)"}/>
+    },[g_data.modelinfo.bounds])
 
 
     const updateCamera = () => {
@@ -94,20 +99,23 @@ function PrimaryRenderer(props
         setLightPos(new Vector3(lpos.x, lpos.y, lpos.z))
     }
 
+
     return <Canvas ref={ref} onDoubleClick={function () {
+        console.log(camera_ref.current.near)
         control_ref.current.reset()
         updateCamera()
     }}>
         < color attach="background" args={['#FFFFFF']}/>
         <group>
-            <CubeOutline bounds={g_data.modelinfo.bounds} color={"rgb(200,200,200)"}/>
+            {seed_box}
+            {outline}
             {x_slice}
             {y_slice}
             {z_slice}
             {volume_rendering}
-            {seed_box}
             {seeds}
             {paths}
+
             <GizmoHelper alignment={'bottom-right'} margin={[80, 80]}>
                 <GizmoViewport {...{
                     axisColors: ['orange', 'yellow', 'cyan'],
@@ -117,16 +125,17 @@ function PrimaryRenderer(props
             </GizmoHelper>
         </group>
         <PerspectiveCamera ref={camera_ref} makeDefault={true}
-                           up={[0, 1, 0]}
-                           position={[center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag]}>
+                           position={[center[0] , center[1] , center[2] + 1 * diag]}
+                           near={near}
+                           far={far}>
             <directionalLight ref={light_ref}
                               intensity={1}
                               position={[1, 1, 1]}
 
             />
         </PerspectiveCamera>
-        <TrackballControls ref={control_ref} target0={center}
-                           target={center} maxDistance={1000 * diag} minDistance={0.05 * diag}
+        <TrackballControls ref={control_ref} target0={center} position0={[center[0] , center[1] , center[2] + 1 * diag]}
+                           target={center} maxDistance={far} minDistance={near}
                            staticMoving={true}
                            onChange={updateCamera}
         />

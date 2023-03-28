@@ -1,7 +1,6 @@
 import {Instances, Instance} from "@react-three/drei";
 import {observer} from "mobx-react";
 
-
 function Seeds(props) {
 
     return <Instances limit={100000}>

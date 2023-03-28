@@ -14,7 +14,7 @@ import {useFrame} from "@react-three/fiber";
  */
 function CubeOutline(props) {
 
-    const ref = useRef()
+    const geom_ref = useRef()
     const vertices = useMemo(() => {
         const [x_min, x_max, y_min, y_max, z_min, z_max] = props.bounds
 
@@ -54,14 +54,15 @@ function CubeOutline(props) {
     }, [props.linewidth])
 
     useFrame(() => {
-        if (ref.current) {
-            ref.current.attributes.position.needsUpdate = true;
+        if (geom_ref.current) {
+            geom_ref.current.attributes.position.needsUpdate = true;
+            geom_ref.current.computeBoundingBox()
         }
     })
 
-    return <mesh>
-        <lineSegments>
-            <bufferGeometry ref={ref}>
+    return <mesh >
+        <lineSegments frustumCulled={false}>
+            <bufferGeometry ref={geom_ref}>
                 <bufferAttribute attach={'attributes-position'} count={vertices.length / 3} itemSize={3}
                                  array={vertices}/>
                 <bufferAttribute attach={'index'} count={indices.length} itemSize={1} array={indices}/>
@@ -69,6 +70,7 @@ function CubeOutline(props) {
             <lineBasicMaterial
                 linewidth={linewidth}
                 color={props.color}
+                transparent={false}
             />
         </lineSegments>
     </mesh>
