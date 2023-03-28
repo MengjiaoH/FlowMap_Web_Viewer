@@ -50,14 +50,14 @@ uniform float max_v;
 void main()  {
     vec3 ray_dir = normalize(world_pos-camera_pos);
     vec3 inv_ray_dir = 1.0/ray_dir;
-    vec3 light = normalize(light_dir);
+    vec3 light = normalize(light_dir-world_pos);
 
     vec3 tex_nc = (tex_coords-min_bb)/(max_bb-min_bb);
     float diffuse = min(max(dot(vnorm, light), dot(-vnorm, light)), 1.f);
     float sf = texture(volume, tex_nc).x;
     sf = (sf-min_v)/(max_v - min_v);
     vec4 tf_val = texture(tf, vec2(sf,0.f));
-    vec3 step_color = vec3(0.15) + tf_val.rgb * diffuse;
+    vec3 step_color = vec3(0.2) + tf_val.rgb * diffuse;
     // vec3 step_color = tf_val.rgb;
     frag_color = vec4(step_color,1);    
 }
