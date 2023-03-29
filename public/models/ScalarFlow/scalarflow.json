@@ -1,0 +1,50 @@
+
+{
+    "mode": "long",
+    "num_models": 3,
+    "bbox_x_upper": 64,
+    "bbox_x_lower": 44,
+    "bbox_y_upper": 7,
+    "bbox_y_lower": 0,
+    "bbox_z_upper": 58,
+    "bbox_z_lower": 38,
+    "interval": 1,
+    "step_size": 0.0167,
+    
+    "models":[
+        {
+            "filename": "scalar_flow_0.onnx",
+            "start_cycle": 0,
+            "stop_cycle": 30,
+            "bounding_0": 36.82310104370117,
+            "bounding_1": 71.68820190429688,
+            "bounding_2": -1.0578999519348145,
+            "bounding_3": 48.36159896850586,
+            "bounding_4": 30.778400421142578,
+            "bounding_5": 70.95770263671875
+        },
+        {
+            "filename": "scalar_flow_1.onnx",
+            "start_cycle": 30,
+            "stop_cycle": 60,
+            "bounding_0": 33.8588981628418,
+            "bounding_1": 78.43419647216797,
+            "bounding_2": -1.230780005455017,
+            "bounding_3": 77.78060150146484,
+            "bounding_4": 21.50749969482422,
+            "bounding_5": 78.93479919433594
+        },
+        {
+            "filename": "scalar_flow_1.onnx",
+            "start_cycle": 60,
+            "stop_cycle": 90,
+            "bounding_0": 29.890600204467773,
+            "bounding_1": 80.39189910888672,
+            "bounding_2": -1.230780005455017,
+            "bounding_3": 103.9280014038086,
+            "bounding_4": 8.890649795532227,
+            "bounding_5": 85.49520111083984
+        }
+    ]
+
+}
