@@ -12,12 +12,12 @@ function ModelInfoPanel(props) {
     }, [g_data.modelinfo.bounds])
 
     const start_cycle = useMemo(() => {
-        return g_data.modelinfo.start_cycle
-    }, [g_data.modelinfo.start_cycle])
+        return g_data.modelinfo.models.map(x=>x.start_cycle)
+    }, [g_data.modelinfo.models])
 
     const stop_cycle = useMemo(() => {
-        return g_data.modelinfo.stop_cycle
-    }, [g_data.modelinfo.stop_cycle])
+        return g_data.modelinfo.models.map(x=>x.stop_cycle)
+    }, [g_data.modelinfo.models])
 
     const interval = useMemo(() => {
         return g_data.modelinfo.interval
@@ -61,8 +61,8 @@ return <FormControl variant="filled" sx={{ m: 1, width:"100%"}}>
             <Typography variant="h6" fontFamily='sans-serif'>Flow Maps: </Typography>
         </Box>
         <Box sx={{textAlign: 'left', ml: 4}}>
-            <Typography variant="body1" fontFamily='sans-serif'>Start Cycle: {start_cycle}</Typography>
-            <Typography variant="body1" fontFamily='sans-serif'>Stop Cycle: {stop_cycle}</Typography>
+            <Typography variant="body1" fontFamily='sans-serif'>Start Cycle: {start_cycle.join(',')}</Typography>
+            <Typography variant="body1" fontFamily='sans-serif'>Stop Cycle: {stop_cycle.join(',')}</Typography>
             <Typography variant="body1" fontFamily='sans-serif'>Interval: {interval}</Typography>
             <Typography variant="body1" fontFamily='sans-serif'>Step Size: {step_size}</Typography>
         </Box>

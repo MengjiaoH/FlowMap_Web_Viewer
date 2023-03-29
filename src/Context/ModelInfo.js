@@ -39,7 +39,6 @@ export default class ModelInfo {
         this.root = root
         this.dataset = "ABC"
         this.loadModelFromJson(init_json)
-        this.model_available = false
         makeAutoObservable(this)
         this.loadDataset = this.loadDataset.bind(this)
         this.loadModelFromJson = this.loadModelFromJson.bind(this)
@@ -72,9 +71,7 @@ export default class ModelInfo {
 
     setNFlowMaps(n) {
         this.n_flow_maps = n
-        const t_start = this.interval * this.step_size;
-        const t_end = this.n_flow_maps * this.step_size * this.interval;
-        this.times = linspace(t_start,t_end,this.n_flow_maps).map(x=>rescale(x,-1,1,t_start,t_end))
+        this.times = linspace(-1, 1, this.n_flow_maps)
     }
 
     async warmupModel(model) {
@@ -95,7 +92,7 @@ export default class ModelInfo {
 
         const session = await InferenceSession.create(model_dir, {executionProviders: ['wasm']})
         await this.warmupModel(session).then(() => {
-           return null
+            return null
         })
         return session
     }
@@ -107,23 +104,34 @@ export default class ModelInfo {
         this.num_models = j['num_models']
         this.setBounds([Number(j['bbox_x_lower']), Number(j['bbox_x_upper']),
             Number(j['bbox_y_lower']), Number(j['bbox_y_upper']),
-            Number(j['bbox_z_lower']), Number(j['bbox_z_upper'])])      
+            Number(j['bbox_z_lower']), Number(j['bbox_z_upper'])])
         this.interval = Number(j['interval'])
         this.step_size = Number(j['step_size'])
-        this.model_file_name = "./models/" + this.dataset + "/models/" + j['models'][0]['filename']
-        this.start_cycle = j['models'][0]['start_cycle']
-        this.stop_cycle = j['models'][0]['stop_cycle']
-        this.model_bbox = [Number(j['models'][0]['bounding_0']),
-            Number(j['models'][0]['bounding_1']),
-            Number(j['models'][0]['bounding_2']),
-            Number(j['models'][0]['bounding_3']),
-            Number(j['models'][0]['bounding_4']),
-            Number(j['models'][0]['bounding_5'])]
+
+        this.models = new Array(this.num_models).fill(null).map((x, i) => {
+            const file_name = "./models/" + this.dataset + "/models/" + j['models'][i]['filename']
+            const start_cycle = j['models'][i]['start_cycle']
+            const stop_cycle = j['models'][i]['stop_cycle']
+            const model_bbox = [Number(j['models'][i]['bounding_0']),
+                Number(j['models'][i]['bounding_1']),
+                Number(j['models'][i]['bounding_2']),
+                Number(j['models'][i]['bounding_3']),
+                Number(j['models'][i]['bounding_4']),
+                Number(j['models'][i]['bounding_5'])]
+            return {
+                model_file_name: file_name,
+                start_cycle: start_cycle,
+                stop_cycle: stop_cycle,
+                model_bbox: model_bbox
+            }
+        })
         this.setNFlowMaps(20)
 
-        this.loadModel(this.model_file_name).then(r=>{
-            this.model = r
-            this.model_available = true
+        this.models.forEach((x, i) => {
+            this.loadModel(x.model_file_name).then(r => {
+                this.models[i].model = r
+                console.log(this.models)
+            })
         })
     }
 

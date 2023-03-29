@@ -7,21 +7,13 @@ async function Trace(model, cur_fm, times, num_seeds) {
     const input_1 = new Tensor("float32", data_1, [parseInt(num_seeds), 3]);
     const data_2 = Float32Array.from(times)
     const input_2 = new Tensor("float32", data_2, [parseInt(num_seeds), 1]);
-    // console.log("input_1", input_1)
-    // console.log("input_2", input_2)
     const feeds = {input_1: input_1, input_2: input_2};
     const outputMap = await model.run(feeds);
-
     const predictions = outputMap.output1.data
-    // console.log("prediction", predictions.length);
-
     const positions = new Array(num_seeds)
-
     for (let f = 0; f < predictions.length / 3; f++) { // go over each seed
         positions[f] = [predictions[3 * f + 0], predictions[3 * f + 1], predictions[3 * f + 2]]
     }
-    // console.log("positions: ", positions)
-
     return positions
 }
 
@@ -29,39 +21,48 @@ async function TraceModel(g_data) {
     const t_processing_start = performance.now()
     const min_val = -1
     const max_val = 1
+    const modelinfo = g_data.modelinfo;
+    const trajectories = g_data.trajectories;
 
-    const [x_min, x_max, y_min, y_max, z_min, z_max] = g_data.modelinfo.model_bbox
     const indices = []
     const seeds = []
 
-    for (let i = 0; i < g_data.trajectories.seeds.length; ++i) {
-        if (g_data.trajectories.paths[i].path === null) {
-            const s = g_data.trajectories.seeds[i]
-            seeds.push(rescale(s.seed[0], min_val, max_val, x_min, x_max),
-                rescale(s.seed[1], min_val, max_val, y_min, y_max),
-                rescale(s.seed[2], min_val, max_val, z_min, z_max))
+    for (let i = 0; i < trajectories.seeds.length; ++i) {
+        if (trajectories.paths[i].path === null) {
+            const s = trajectories.seeds[i]
+            seeds.push(s.seed[0], s.seed[1], s.seed[2])
             indices.push(i)
-            g_data.trajectories.initPath(i, g_data.modelinfo.times.length+1)
+            trajectories.initPath(i, modelinfo.times.length * modelinfo.num_models + 1)
         }
     }
 
-    const n_seeds = indices.length
-    const model = g_data.modelinfo.model
+    for (let mdx = 0; mdx < modelinfo.num_models; ++mdx) {
+        const [x_min, x_max, y_min, y_max, z_min, z_max] = modelinfo.models[mdx].model_bbox
+        const rescaled_seeds = new Array(seeds.length)
+        for (let i = 0; i < seeds.length; i += 3) {
+            rescaled_seeds[i] = rescale(seeds[i], min_val, max_val, x_min, x_max)
+            rescaled_seeds[i + 1] = rescale(seeds[i + 1], min_val, max_val, y_min, y_max)
+            rescaled_seeds[i + 2] = rescale(seeds[i + 2], min_val, max_val, z_min, z_max)
+        }
 
-    for (let t = 0; t < g_data.modelinfo.times.length; ++t) {
-        const times = new Array(n_seeds).fill(g_data.modelinfo.times[t])
-        const positions = await Trace(model, seeds, times, n_seeds)
+        const n_seeds = indices.length
+        const model = modelinfo.models[mdx].model
 
-        for (let i = 0; i < n_seeds; ++i) {
-            const [x, y, z] = positions[i]
-            g_data.trajectories.setPathPos(indices[i], t+1,
-                new Vector3(rescale(x, x_min, x_max, min_val, max_val),
-                    rescale(y, y_min, y_max, min_val, max_val),
-                    rescale(z, z_min, z_max, min_val, max_val)))
+        for (let t = 0; t < modelinfo.times.length; ++t) {
+            const times = new Array(n_seeds).fill(modelinfo.times[t])
+            const positions = await Trace(model, rescaled_seeds, times, n_seeds)
+
+            for (let i = 0; i < n_seeds; ++i) {
+                const [x, y, z] = positions[i]
+                trajectories.setPathPos(indices[i], modelinfo.times.length * mdx + t + 1,
+                    new Vector3(rescale(x, x_min, x_max, min_val, max_val),
+                        rescale(y, y_min, y_max, min_val, max_val),
+                        rescale(z, z_min, z_max, min_val, max_val)))
+            }
         }
     }
 
-    g_data.trajectories.updatePath()
+    trajectories.updatePath()
 
     const t_processing_end = performance.now()
     console.log("processing time: ", t_processing_end - t_processing_start)
