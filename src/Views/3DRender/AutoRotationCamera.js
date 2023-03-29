@@ -14,7 +14,7 @@ function AutoRotationCamera(props) {
 
 
     useFrame(({clock}) => {
-        if (control_ref.current) {
+        if (control_ref.current && rotate) {
             const scope = control_ref.current
             let angle = move_dir.length()
             _eye.copy(scope.object.position).sub(scope.target)
@@ -25,14 +25,13 @@ function AutoRotationCamera(props) {
             objectSidewaysDirection.setLength(move_dir.x)
             move_dir.copy(objectUpDirection.add( objectSidewaysDirection ))
             axis.crossVectors(move_dir,_eye).normalize()
-            angle *= scope.rotateSpeed*clock.getDelta()*30
+            angle *= scope.rotateSpeed*clock.getDelta() * 1
             quaternion.setFromAxisAngle(axis,angle)
             _eye.applyQuaternion(quaternion)
             scope.object.up.applyQuaternion(quaternion)
             scope.object.position.addVectors(scope.target, _eye)
             scope.object.lookAt(scope.target)
             scope.dispatchEvent({ type: 'change' })
-
         }
     })
     return null
