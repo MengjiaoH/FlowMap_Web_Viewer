@@ -11,16 +11,6 @@ function ScalarColorLine(props) {
     const config = g_data.scalars_config
     const uniforms = config.uniforms
 
-    const [min_bb, max_bb] = useMemo(() => {
-        const [min_x, max_x, min_y, max_y, min_z, max_z] = g_data.modelinfo.bounds
-        const [min_bb, max_bb] = [new Vector3(min_x, min_y, min_z), new Vector3(max_x, max_y, max_z)]
-
-        return [min_bb, max_bb]
-    }, [g_data.modelinfo.bounds])
-
-
-    config.setMinBB(min_bb)
-    config.setMaxBB(max_bb)
     config.setCamera(props.camera_pos)
     config.setLight(props.light_dir)
 

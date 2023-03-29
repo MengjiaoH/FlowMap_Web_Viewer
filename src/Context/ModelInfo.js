@@ -1,5 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {InferenceSession, Tensor} from 'onnxruntime-web';
+import {linspace, rescale} from "../Utils/utils";
 
 const ort = require('onnxruntime-web');
 
@@ -72,10 +73,8 @@ export default class ModelInfo {
     setNFlowMaps(n) {
         this.n_flow_maps = n
         const t_start = this.interval * this.step_size;
-        const t_end = (this.n_flow_maps / this.num_models) * this.step_size * this.interval;
-        this.times = new Array(this.n_flow_maps / this.num_models).fill(0).map((u, i) =>
-            ((i + 1) * this.interval * this.step_size - t_start) / (t_end - t_start) * (1 - (-1)) + (-1)
-        )
+        const t_end = this.n_flow_maps * this.step_size * this.interval;
+        this.times = linspace(t_start,t_end,this.n_flow_maps).map(x=>rescale(x,-1,1,t_start,t_end))
     }
 
     async warmupModel(model) {

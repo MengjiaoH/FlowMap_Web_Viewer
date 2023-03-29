@@ -35,7 +35,7 @@
             "bounding_5": 78.93479919433594
         },
         {
-            "filename": "scalar_flow_1.onnx",
+            "filename": "scalar_flow_2.onnx",
             "start_cycle": 60,
             "stop_cycle": 90,
             "bounding_0": 29.890600204467773,

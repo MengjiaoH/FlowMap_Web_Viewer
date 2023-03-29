@@ -85,7 +85,7 @@ export default class ScalarFieldConfig {
     constructor(root) {
         this.root = root
 
-        this.resetScalarData(this.root.modelinfo.bounds)
+        this.resetScalarData()
 
         this.uniforms = {
             camera_pos: {value: new Vector3(0, 0, 1)},
@@ -182,31 +182,38 @@ export default class ScalarFieldConfig {
         this.setTfTexure(tf_texture(this.opacity_tf, this.color_tf))
     }
 
-    resetScalarData(bounds) {
+    resetScalarData() {
         this.loaded = false
         this.data_name = ""
         this.color_tf = null
         this.opacity_tf = null
         this.dims = [1, 1, 1]
+        this.bounds = [0,1,0,1,0,1]
         this.scalars = null
         this.volume_rendering = false
         this.data_name = ""
         this.show_x_slice = false
         this.show_y_slice = false
         this.show_z_slice = false
-        const [x_min, x_max, y_min, y_max, z_min, z_max] = bounds
+        const [x_min, x_max, y_min, y_max, z_min, z_max] = this.bounds
         this.x_value = (x_max + x_min) / 2
         this.y_value = (y_max + y_min) / 2
         this.z_value = (z_max + z_min) / 2
     }
 
-    setScalars(array, min_v, max_v, dataname, dims) {
+    setScalars(array, min_v, max_v, dataname, dims, bounds) {
         this.scalars = array
         this.setLoaded(true)
         this.setMinV(min_v)
         this.setMaxV(max_v)
         this.data_name = dataname
         this.dims = dims
+        this.bounds = bounds
+        this.setMinBB(new Vector3(bounds[0], bounds[2], bounds[4]))
+        this.setMaxBB(new Vector3(bounds[1], bounds[3], bounds[5]))
+        this.setXValue(bounds[0])
+        this.setYValue(bounds[2])
+        this.setZValue(bounds[4])
         this.setStepSize(this.root.modelinfo.diag / 1000)
         this.setVolumeTexture(volumeTexture(array, ...dims))
         this.setNormalMapTexture(normalMap(array, ...dims))

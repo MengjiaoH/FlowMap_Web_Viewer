@@ -45,6 +45,7 @@ return <FormControl variant="filled" sx={{ m: 1, width:"100%"}}>
 
         <MenuItem value={"ABC"}>ABC</MenuItem>
         <MenuItem value={"Hurricane"}>Hurricane</MenuItem>
+        <MenuItem value={"ScalarFlow"}>ScalarFLow</MenuItem>
     </Select>
     <Typography component="div">
         <Box sx={{textAlign: 'left', m: 1}}>

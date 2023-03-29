@@ -17,8 +17,8 @@ function ScalarsConfigPanel(props) {
     const g_data = useContext(global_data)
 
     const [min_x, max_x, min_y, max_y, min_z, max_z] = useMemo(() => {
-        return g_data.modelinfo.bounds
-    }, [g_data.modelinfo.bounds])
+        return g_data.scalars_config.bounds
+    }, [ g_data.scalars_config.bounds])
 
     const config = useMemo(() => {
         return g_data.scalars_config
@@ -52,9 +52,10 @@ function ScalarsConfigPanel(props) {
             vti_reader.parseAsArrayBuffer(reader.result)
             const source = vti_reader.getOutputData(0);
             const dims = source.getDimensions()
+            const bounds = source.getBounds()
             const data_array = source.getPointData().getScalars() || source.getPointData().getArrays()[0];
             const [min_v, max_v] = data_array.getRange();
-            config.setScalars(data_array.getData(), min_v, max_v, filename.name, dims)
+            config.setScalars(data_array.getData(), min_v, max_v, filename.name, dims,bounds)
         }
         reader.readAsArrayBuffer(filename)
 

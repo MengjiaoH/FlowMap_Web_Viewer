@@ -9,6 +9,7 @@ import PathlineMesh from "./PathlineMesh";
 import VolumeMesh from "./DVR/VolumeMesh";
 import {Vector3} from "three";
 import Slice from "./Slices/Slice";
+import AutoRotationCamera from "./AutoRotationCamera";
 
 function PrimaryRenderer(props
 ) {
@@ -21,7 +22,7 @@ function PrimaryRenderer(props
     const [center, diag, near, far] = useMemo(() => {
         const center = g_data.modelinfo.center
         const diag = g_data.modelinfo.diag
-        return [center, g_data.modelinfo.diag, 1e-2, 5 * diag]
+        return [center, g_data.modelinfo.diag, 1e-2, 10 * diag]
     }, [g_data.modelinfo.center, g_data.modelinfo.diag])
 
     const [camera_pos, setCameraPos] = useState(new Vector3(center[0] + 0.5 * diag, center[1] + 0.1 * diag, center[2] + 1 * diag))
@@ -105,7 +106,7 @@ function PrimaryRenderer(props
         control_ref.current.reset()
         updateCamera()
     }}>
-        < color attach="background" args={['#FFFFFF']}/>
+        <color attach="background" args={['#FFFFFF']}/>
         <group>
             {seed_box}
             {outline}
@@ -139,6 +140,7 @@ function PrimaryRenderer(props
                            staticMoving={true}
                            onChange={updateCamera}
         />
+        <AutoRotationCamera camera_ref={camera_ref} rotate={false}/>
         <Stats/>
     </Canvas>
 }
