@@ -140,7 +140,7 @@ function PrimaryRenderer(props
                            staticMoving={true}
                            onChange={updateCamera}
         />
-        <AutoRotationCamera camera_ref={camera_ref} rotate={false}/>
+        <AutoRotationCamera control_ref={control_ref} rotate={false}/>
         <Stats/>
     </Canvas>
 }

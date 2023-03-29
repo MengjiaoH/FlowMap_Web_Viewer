@@ -1,14 +1,38 @@
 import {useFrame} from "@react-three/fiber";
-import {Vector3} from "three";
+import {Quaternion, Vector3} from "three";
 
-function AutoRotationCamera(props){
-    const camera_ref = props.camera_ref
+function AutoRotationCamera(props) {
+    const control_ref = props.control_ref
     const rotate = props.rotate
+    const move_dir = new Vector3(1,0.2,0)
+    const axis = new Vector3(),
+        quaternion = new Quaternion(),
+        eyeDirection = new Vector3(),
+        objectUpDirection = new Vector3(),
+        objectSidewaysDirection = new Vector3(),
+        _eye = new Vector3()
 
-    const move_dir = new Vector3(1,0,0)
-    useFrame(({clock})=>{
-        if (camera_ref.current){
-            const camera = camera_ref.current
+
+    useFrame(({clock}) => {
+        if (control_ref.current) {
+            const scope = control_ref.current
+            let angle = move_dir.length()
+            _eye.copy(scope.object.position).sub(scope.target)
+            eyeDirection.copy(_eye).normalize()
+            objectUpDirection.copy(scope.object.up).normalize()
+            objectSidewaysDirection.crossVectors(objectUpDirection, eyeDirection).normalize()
+            objectUpDirection.setLength(move_dir.y)
+            objectSidewaysDirection.setLength(move_dir.x)
+            move_dir.copy(objectUpDirection.add( objectSidewaysDirection ))
+            axis.crossVectors(move_dir,_eye).normalize()
+            angle *= scope.rotateSpeed*clock.getDelta()*30
+            quaternion.setFromAxisAngle(axis,angle)
+            _eye.applyQuaternion(quaternion)
+            scope.object.up.applyQuaternion(quaternion)
+            scope.object.position.addVectors(scope.target, _eye)
+            scope.object.lookAt(scope.target)
+            scope.dispatchEvent({ type: 'change' })
+
         }
     })
     return null
