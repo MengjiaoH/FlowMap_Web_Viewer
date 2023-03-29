@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import React, {useMemo, useContext} from "react";
+import React, { useContext} from "react";
 import {global_data} from "../../Context/DataContainer";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import BoltIcon from '@mui/icons-material/Bolt';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import FormControl from "@mui/material/FormControl";
-import {Divider, Typography} from "@mui/material";
 import TraceModel from "../../ModelInference/ModelInference";
 import DeleteIcon from "@mui/icons-material/Delete";
 
