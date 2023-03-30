@@ -43,7 +43,7 @@ function MainViewLayout(props) {
 
     return <>
         <Navbar variant="dark" bg="secondary" expand="lg">
-            <Navbar.Brand className={"navbar-brand mx-auto"}>{"Neural Flow Map Web Viewer"}</Navbar.Brand>
+            <Navbar.Brand className={"navbar-brand mx-auto"}>{"Lagrangian-Based Flow Field Explorer"}</Navbar.Brand>
         </Navbar>
         <ReactGridLayout margin={[5, 5]} breakpoints={{lg: 1440, md: 1200, sm: 768, xs: 480, xxs: 0}}
                          cols={{lg: 24, md: 12, sm: 8, xs: 4, xxs: 1}}

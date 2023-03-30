@@ -13,6 +13,10 @@ function linspace(min, max, n) {
     }
 }
 
+function range(n) {
+    return new Array(n).fill(0).map((x, i) => i)
+}
+
 function rescale(v, target_min, target_max, input_min = 0, input_max = 1) {
     return (v - input_min) / (input_max - input_min) * (target_max - target_min) + target_min
 }
@@ -73,4 +77,15 @@ function find_min(arr) {
     return [min_value, idx];
 }
 
-export {linspace, rescale, interpolate, interpolate3, bilinear_interpolate,bilinear_interpolate3,trilinear_interpolate,trilinear_interpolate3, find_min}
+export {
+    linspace,
+    range,
+    rescale,
+    interpolate,
+    interpolate3,
+    bilinear_interpolate,
+    bilinear_interpolate3,
+    trilinear_interpolate,
+    trilinear_interpolate3,
+    find_min
+}

@@ -75,7 +75,7 @@ function Slice(props) {
                            vertexShader={surface_vert_shader}
                            fragmentShader={surface_frag_shader}
                            side={THREE.DoubleSide}
-                           transparent={true}
+                           transparent={false}
                            depthTest={true}
         />
     </mesh>

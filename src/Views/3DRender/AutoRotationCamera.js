@@ -4,7 +4,7 @@ import {Quaternion, Vector3} from "three";
 function AutoRotationCamera(props) {
     const control_ref = props.control_ref
     const rotate = props.rotate
-    const move_dir = new Vector3(1,0.2,0)
+    const move_dir = new Vector3(1,0,0)
     const axis = new Vector3(),
         quaternion = new Quaternion(),
         eyeDirection = new Vector3(),

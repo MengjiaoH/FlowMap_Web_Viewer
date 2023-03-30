@@ -27,15 +27,21 @@ async function TraceModel(g_data) {
     const indices = []
     const seeds = []
 
+    const t_length = modelinfo.models.reduce((acc, cur) => {
+        return acc + cur.times.length
+    }, 0)
+    console.log('time length',t_length)
+
     for (let i = 0; i < trajectories.seeds.length; ++i) {
         if (trajectories.paths[i].path === null) {
             const s = trajectories.seeds[i]
             seeds.push(s.seed[0], s.seed[1], s.seed[2])
             indices.push(i)
-            trajectories.initPath(i, modelinfo.times.length * modelinfo.num_models + 1)
+            trajectories.initPath(i, t_length + 1)
         }
     }
 
+    let count = 1;
     for (let mdx = 0; mdx < modelinfo.num_models; ++mdx) {
         const [x_min, x_max, y_min, y_max, z_min, z_max] = modelinfo.models[mdx].model_bbox
         const rescaled_seeds = new Array(seeds.length)
@@ -47,18 +53,20 @@ async function TraceModel(g_data) {
 
         const n_seeds = indices.length
         const model = modelinfo.models[mdx].model
+        const model_times = modelinfo.models[mdx].times
 
-        for (let t = 0; t < modelinfo.times.length; ++t) {
-            const times = new Array(n_seeds).fill(modelinfo.times[t])
+        for (let t = 0; t < model_times.length; ++t) {
+            const times = new Array(n_seeds).fill(model_times[t])
             const positions = await Trace(model, rescaled_seeds, times, n_seeds)
 
             for (let i = 0; i < n_seeds; ++i) {
                 const [x, y, z] = positions[i]
-                trajectories.setPathPos(indices[i], modelinfo.times.length * mdx + t + 1,
+                trajectories.setPathPos(indices[i], count,
                     new Vector3(rescale(x, x_min, x_max, min_val, max_val),
                         rescale(y, y_min, y_max, min_val, max_val),
                         rescale(z, z_min, z_max, min_val, max_val)))
             }
+            count += 1
         }
     }
 

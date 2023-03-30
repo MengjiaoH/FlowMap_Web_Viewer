@@ -47,6 +47,7 @@ void main()  {
     float sf = texture(volume, tex_coord).x;
     sf = (sf-min_v)/(max_v - min_v);
     vec4 tf_val = texture(tf, vec2(sf,0.f));
+    tf_val.a = 1.0;
     frag_color = tf_val;    
 }
 `

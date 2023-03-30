@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {InferenceSession, Tensor} from 'onnxruntime-web';
-import {linspace, rescale} from "../Utils/utils";
+import {linspace, range, rescale} from "../Utils/utils";
 
 const ort = require('onnxruntime-web');
 
@@ -71,7 +71,8 @@ export default class ModelInfo {
 
     setNFlowMaps(n) {
         this.n_flow_maps = n
-        this.times = linspace(-1, 1, this.n_flow_maps)
+        this.times = linspace(-1, 1, this.n_flow_maps * this.num_models)
+        console.log('size of times', this.times.length)
     }
 
     async warmupModel(model) {
@@ -118,19 +119,23 @@ export default class ModelInfo {
                 Number(j['models'][i]['bounding_3']),
                 Number(j['models'][i]['bounding_4']),
                 Number(j['models'][i]['bounding_5'])]
+            const n_flow_maps = stop_cycle - start_cycle
+            const times = range(n_flow_maps).map(x => rescale(x, -1, 1, start_cycle, stop_cycle - 1))
+            console.log('model',i,'times:',times)
             return {
                 model_file_name: file_name,
                 start_cycle: start_cycle,
                 stop_cycle: stop_cycle,
+                n_flow_maps: stop_cycle - start_cycle,
+                times: times,
                 model_bbox: model_bbox
             }
         })
-        this.setNFlowMaps(20)
 
         this.models.forEach((x, i) => {
             this.loadModel(x.model_file_name).then(r => {
                 this.models[i].model = r
-                console.log(this.models)
+                console.log('model',i,'loaded')
             })
         })
     }
