@@ -1,8 +1,13 @@
 import {observer} from "mobx-react";
-import FormControl from "@mui/material/FormControl";
-import {Divider, InputLabel, MenuItem, Select, Typography} from "@mui/material";
+import { Divider, InputLabel, MenuItem, Select, Typography} from "@mui/material";
 import React, {useContext, useMemo} from "react";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import BoltIcon from '@mui/icons-material/Bolt';
+import TimelineIcon from '@mui/icons-material/Timeline';
+import FormControl from "@mui/material/FormControl";
+import TraceModel from "../../ModelInference/ModelInference";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {global_data} from "../../Context/DataContainer";
 
 function ModelInfoPanel(props) {
@@ -33,8 +38,15 @@ function ModelInfoPanel(props) {
         g_data.seedbox_config.reset()
 
     }
+    const traceParticles = () => {
+        TraceModel(g_data)
+    }
 
-return <FormControl variant="filled" sx={{ m: 1, width:"100%"}}>
+    const deleteTraces = () => {
+        g_data.trajectories.deleteTrace()
+    }
+
+    return <FormControl variant="filled" sx={{ m: 1, width:"100%"}}>
     <InputLabel id="demo-simple-select-label">Model</InputLabel>
     <Select
         labelId="demo-simple-select-label"
@@ -67,6 +79,19 @@ return <FormControl variant="filled" sx={{ m: 1, width:"100%"}}>
             <Typography variant="body1" fontFamily='sans-serif'>Step Size: {step_size}</Typography>
         </Box>
     </Typography>
+    <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
+        <Button component="label"
+                variant="outlined"
+                startIcon={<BoltIcon/>}
+                endIcon={<TimelineIcon/>}
+                size="small"
+                onClick={traceParticles}>
+            Trace Particles
+        </Button>
+        <Button component="label" variant="outlined" startIcon={<DeleteIcon/>} onClick={deleteTraces}
+                size="small"> Delete Traces
+        </Button>
+    </Box>
 </FormControl>
 
 }

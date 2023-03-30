@@ -35,20 +35,11 @@ function ModelPanel(props) {
             <Tabs value={value} onChange={tabChange} aria-label="basic tabs example" className="drag-handle">
                 <Tab label="Model Info" id={'model_info_tab_0'}
                      aria-controls={'model_info_tab_panel_0'}/>
-
-                <Tab label="Particle Trace" id={'model_info_tab_1'}
-                     aria-controls={'model_info_tab_panel_1'}/>
             </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
             <ModelInfoPanel/>
         </TabPanel>
-
-        <TabPanel value={value} index={1}>
-            <ParticleTraceTab/>
-        </TabPanel>
-
-
     </div>);
 
 }

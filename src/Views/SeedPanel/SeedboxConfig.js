@@ -8,7 +8,11 @@ import Stack from '@mui/material/Stack';
 import {global_data} from "../../Context/DataContainer";
 import {Slider} from "@mui/material";
 import FormLabel from "@mui/material/FormLabel";
+import Button from '@mui/material/Button';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from "@mui/material/TextField";
+import {manual_gen, random_gen, uniform_gen} from "./GenSeeds";
 
 function SeedPlacement(props) {
     const g_data = useContext(global_data)
@@ -84,6 +88,26 @@ function SeedPlacement(props) {
 
     const setPositionZ = (e, v) => {
         config.setPositionZ(Number(v))
+    }
+
+    const addSeeds = () => {
+        const activate_bounds = g_data.seedbox_config.active ? g_data.seedbox_config.getBounds() : g_data.modelinfo.getBounds()
+
+        let seeds = []
+        if (config.use_random_strategy) {
+            seeds = seeds.concat(random_gen(activate_bounds, config.n_random_seed))
+        }
+        if (config.use_uniform_strategy) {
+            seeds = seeds.concat(uniform_gen(activate_bounds, ...config.uniform))
+        }
+        if (config.use_manual_strategy) {
+            seeds = seeds.concat(manual_gen(activate_bounds, ...config.manual))
+        }
+        g_data.trajectories.addSeeds(seeds)
+    }
+
+    const deleteSeeds = () => {
+        g_data.trajectories.reset()
     }
 
     const sampling_forms = useMemo(() => {
@@ -213,6 +237,16 @@ function SeedPlacement(props) {
                                if (v > max_size_z) v = max_size_z
                                config.setSizeZ(v)
                            }}/>
+            </Stack>
+        </Box>
+        <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
+            <Stack direction="row" spacing={2}>
+                <Button component="label" variant="outlined" startIcon={<AddBoxIcon/>} size="small"
+                        onClick={addSeeds}> Add Seeds
+                </Button>
+                <Button component="label" variant="outlined" startIcon={<DeleteIcon/>} onClick={deleteSeeds}
+                        size="small"> Delete Seeds
+                </Button>
             </Stack>
         </Box>
     </FormControl>

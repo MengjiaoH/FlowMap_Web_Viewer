@@ -3,16 +3,13 @@ import {observer} from "mobx-react";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {global_data} from "../../Context/DataContainer";
-import {Typography} from "@mui/material";
 import {manual_gen, random_gen, uniform_gen} from "./GenSeeds";
 
 function SeedPlacement(props) {
@@ -140,17 +137,6 @@ function SeedPlacement(props) {
                 />
             </Stack>
         </Box>
-
-        {/*<Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">*/}
-        {/*    <Stack direction="row" spacing={2}>*/}
-        {/*        <FormLabel id="seed_placement_file_uploader_label">*/}
-        {/*            <Typography>Upload Seeds File</Typography>*/}
-        {/*        </FormLabel>*/}
-        {/*        <Button component="label" variant="outlined" startIcon={<UploadFileIcon/>} size="small"> Upload*/}
-        {/*            <input hidden type="file" onChange={handleUploadSeedFile}/>*/}
-        {/*        </Button>*/}
-        {/*    </Stack>*/}
-        {/*</Box>*/}
         <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
             <Stack direction="row" spacing={2}>
                 <Button component="label" variant="outlined" startIcon={<AddBoxIcon/>} size="small"

@@ -38,10 +38,6 @@ function ParticleTraceTab(props) {
                     size="small"> Delete Traces
             </Button>
         </Box>
-
-
-
-
     </FormControl>
 }
 
