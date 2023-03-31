@@ -94,14 +94,14 @@ function SeedPlacement(props) {
         const activate_bounds = g_data.seedbox_config.active ? g_data.seedbox_config.getBounds() : g_data.modelinfo.getBounds()
 
         let seeds = []
-        if (config.use_random_strategy) {
-            seeds = seeds.concat(random_gen(activate_bounds, config.n_random_seed))
+        if (g_data.seed_placement_config.use_random_strategy) {
+            seeds = seeds.concat(random_gen(activate_bounds, g_data.seed_placement_config.n_random_seed))
         }
-        if (config.use_uniform_strategy) {
-            seeds = seeds.concat(uniform_gen(activate_bounds, ...config.uniform))
+        if (g_data.seed_placement_config.use_uniform_strategy) {
+            seeds = seeds.concat(uniform_gen(activate_bounds, ...g_data.seed_placement_config.uniform))
         }
-        if (config.use_manual_strategy) {
-            seeds = seeds.concat(manual_gen(activate_bounds, ...config.manual))
+        if (g_data.seed_placement_config.use_manual_strategy) {
+            seeds = seeds.concat(manual_gen(activate_bounds, ...g_data.seed_placement_config.manual))
         }
         g_data.trajectories.addSeeds(seeds)
     }

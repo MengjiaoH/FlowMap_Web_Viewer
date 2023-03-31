@@ -34,6 +34,7 @@ function ModelInfoPanel(props) {
 
     const loadJsonData = (e) =>  {
         g_data.trajectories.reset()
+        g_data.line_style_config.reset()
         g_data.modelinfo.loadDataset(e.target.value)
         g_data.seedbox_config.reset()
 
@@ -57,7 +58,8 @@ function ModelInfoPanel(props) {
 
         <MenuItem value={"ABC"}>ABC</MenuItem>
         <MenuItem value={"Hurricane"}>Hurricane</MenuItem>
-        <MenuItem value={"ScalarFlow"}>ScalarFLow</MenuItem>
+        <MenuItem value={"ScalarFlow"}>ScalarFlow</MenuItem>
+        <MenuItem value={"HalfCylinder"}>Half Cylinder</MenuItem>
     </Select>
     <Typography component="div">
         <Box sx={{textAlign: 'left', m: 1}}>

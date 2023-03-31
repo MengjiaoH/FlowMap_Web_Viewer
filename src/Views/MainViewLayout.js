@@ -13,27 +13,27 @@ function MainViewLayout(props) {
 
     const views = useMemo(() => {
         return [
-            <div key={'line_view'} data-grid={{x: 0, y: 0, w: 16, h: 8, isDraggable: false}}>
+            <div key={'line_view'} data-grid={{x: 0, y: 0, w: 16, h: 22, isDraggable: false}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <MainSceneDisplay/>
                 </Paper>
             </div>,
-            <div key={'model_panel'} data-grid={{x: 16, y: 0, w: 4, h: 4}}>
+            <div key={'model_panel'} data-grid={{x: 16, y: 0, w: 4, h: 11}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <ModelPanel/>
                 </Paper>
             </div>,
-            <div key={'seed_config'} data-grid={{x: 20, y: 0, w: 4, h: 4}}>
+            <div key={'seed_config'} data-grid={{x: 20, y: 0, w: 4, h: 11}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <SeedPanel/>
                 </Paper>
             </div>,
-            <div key={'line_style_config'} data-grid={{x: 20, y: 4, w: 4, h: 4}}>
+            <div key={'line_style_config'} data-grid={{x: 20, y: 11, w: 4, h: 11}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <LineStylePanel/>
                 </Paper>
             </div>,
-            <div key={'volume_panel'} data-grid={{x: 16, y: 4, w: 4, h: 4}}>
+            <div key={'volume_panel'} data-grid={{x: 16, y: 11, w: 4, h: 11}}>
                 <Paper elevation={5} style={{width: "100%", height: "100%"}}>
                     <ScalarFieldPanel/>
                 </Paper>
@@ -43,10 +43,12 @@ function MainViewLayout(props) {
 
     return <>
         <Navbar variant="dark" bg="secondary" expand="lg">
-            <Navbar.Brand className={"navbar-brand mx-auto"}><h2><b>{"Lagrangian-Based Flow Field Explorer"}</b></h2></Navbar.Brand>
+            <Navbar.Brand className={"navbar-brand mx-auto"}><h2><b>{"Lagrangian-Based Flow Field Explorer"}</b></h2>
+            </Navbar.Brand>
         </Navbar>
-        <ReactGridLayout margin={[5, 5]} breakpoints={{lg: 1440, md: 1200, sm: 768, xs: 480, xxs: 0}}
-                         cols={{lg: 24, md: 12, sm: 8, xs: 4, xxs: 1}}
+        <ReactGridLayout margin={[5, 5]} breakpoints={{lg: 2880, md: 1440, sm: 768, xs: 480, xxs: 0}}
+                         cols={{lg: 24, md: 24, sm: 8, xs: 4, xxs: 1}}
+                         rowHeight={50}
                          draggableHandle={".drag-handle"}>
             {views}
         </ReactGridLayout>

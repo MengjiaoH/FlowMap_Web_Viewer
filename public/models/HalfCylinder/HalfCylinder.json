@@ -1,0 +1,71 @@
+
+{
+    "mode": "long",
+    "num_models": 5,
+    "bbox_x_upper": 0.5,
+    "bbox_x_lower": -0.5,
+    "bbox_y_upper": 0.5,
+    "bbox_y_lower": -0.5,
+    "bbox_z_upper": 0.5,
+    "bbox_z_lower": -0.5,
+    "interval": 1,
+    "step_size": 0.1,
+    "new_time_format": true,
+    "models":[
+        {
+            "filename": "halfcylinder0.onnx",
+            "start_cycle": 0,
+            "stop_cycle": 20,
+            "bounding_0": -0.5,
+            "bounding_1": 2.49330997467041,
+            "bounding_2": -0.529321014881134,
+            "bounding_3": 0.5288820266723633,
+            "bounding_4": -0.5085729956626892,
+            "bounding_5": 0.5002300143241882
+        },
+        {
+            "filename": "halfcylinder1.onnx",
+            "start_cycle": 20,
+            "stop_cycle": 40,
+            "bounding_0": -0.5,
+            "bounding_1": 4.491909980773926,
+            "bounding_2": -0.5073969960212708,
+            "bounding_3": 0.5123680233955383,
+            "bounding_4": -0.5085729956626892,
+            "bounding_5": 0.5002300143241882
+        },
+        {
+            "filename": "halfcylinder2.onnx",
+            "start_cycle": 40,
+            "stop_cycle": 60,
+            "bounding_0": -0.5,
+            "bounding_1":  6.491720199584961,
+            "bounding_2": -0.5073969960212708,
+            "bounding_3":  0.5123680233955383,
+            "bounding_4": -0.5085729956626892,
+            "bounding_5": 0.5005670189857483
+        },
+        {
+            "filename": "halfcylinder3.onnx",
+            "start_cycle": 60,
+            "stop_cycle": 80,
+            "bounding_0": -0.5,
+            "bounding_1": 7.600269794464111,
+            "bounding_2": -0.7313910126686096,
+            "bounding_3": 0.821707010269165,
+            "bounding_4": -0.5085729956626892,
+            "bounding_5": 0.5027099847793579
+        },
+        {
+            "filename": "halfcylinder4.onnx",
+            "start_cycle": 80,
+            "stop_cycle": 100,
+            "bounding_0": -0.5,
+            "bounding_1": 7.600269794464111,
+            "bounding_2": -1.1165800094604492,
+            "bounding_3": 1.1100000143051147,
+            "bounding_4": -0.5085729956626892,
+            "bounding_5": 0.5038890242576599
+        }
+    ]
+}

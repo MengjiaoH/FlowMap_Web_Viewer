@@ -9,6 +9,7 @@
   "bbox_z_lower": 38,
   "interval": 1,
   "step_size": 0.0167,
+  "new_time_format": false,
   "models": [
     {
       "filename": "scalar_flow_0.onnx",

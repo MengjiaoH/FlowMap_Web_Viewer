@@ -108,6 +108,7 @@ export default class ModelInfo {
             Number(j['bbox_z_lower']), Number(j['bbox_z_upper'])])
         this.interval = Number(j['interval'])
         this.step_size = Number(j['step_size'])
+        this.new_time_format = j['new_time_format']
 
         this.models = new Array(this.num_models).fill(null).map((x, i) => {
             const file_name = "./models/" + this.dataset + "/models/" + j['models'][i]['filename']
@@ -120,8 +121,13 @@ export default class ModelInfo {
                 Number(j['models'][i]['bounding_4']),
                 Number(j['models'][i]['bounding_5'])]
             const n_flow_maps = stop_cycle - start_cycle
-            const times = range(n_flow_maps).map(x => rescale(x, -1, 1, start_cycle, stop_cycle - 1))
-            console.log('model',i,'times:',times)
+            let times;
+            if (this.new_time_format) {
+                times = range(n_flow_maps).map(x => rescale(x, -1, 1, 0, n_flow_maps - 1))
+            } else {
+                times = range(n_flow_maps).map(x => rescale(x, -1, 1, start_cycle, stop_cycle - 1))
+            }
+            console.log('model', i, 'times:', times)
             return {
                 model_file_name: file_name,
                 start_cycle: start_cycle,
@@ -135,7 +141,7 @@ export default class ModelInfo {
         this.models.forEach((x, i) => {
             this.loadModel(x.model_file_name).then(r => {
                 this.models[i].model = r
-                console.log('model',i,'loaded')
+                console.log('model', i, 'loaded')
             })
         })
     }
