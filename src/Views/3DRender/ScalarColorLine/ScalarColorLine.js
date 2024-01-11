@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import {Vector3} from "three";
 import {observer} from "mobx-react";
 import React, {useContext, useMemo} from "react";
 import {global_data} from "../../../Context/DataContainer";

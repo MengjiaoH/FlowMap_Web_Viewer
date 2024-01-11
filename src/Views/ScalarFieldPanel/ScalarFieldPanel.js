@@ -39,6 +39,8 @@ function ScalarFieldPanel(props) {
         }
     }, [])
 
+    const content_style = {display: 'flex', flexDirection: 'column', flex: 1, m: 2, overflow:'auto'};
+
     return (
         <div>
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
@@ -50,7 +52,7 @@ function ScalarFieldPanel(props) {
                          disabled={!loaded}/>
                 </Tabs>
             </Box>
-            <TabPanel value={value} index={0}>
+            <TabPanel value={value} index={0} >
                 <VolumeConfigPanel/>
             </TabPanel>
             <TabPanel value={value} index={1}>

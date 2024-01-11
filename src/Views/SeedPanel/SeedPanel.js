@@ -6,7 +6,7 @@ import SeedPlacement from "./SeedPlacement";
 import SeedboxConfig from "./SeedboxConfig";
 
 function TabPanel(props) {
-    const { children, value, index} = props;
+    const {children, value, index} = props;
 
     return (
         <div
@@ -16,7 +16,7 @@ function TabPanel(props) {
             aria-labelledby={`seed_config_tab_${index}`}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{p: 3}}>
                     {children}
                 </Box>
             )}
@@ -33,6 +33,7 @@ function SeedPanel(props) {
         }
     }, [])
 
+
     return (
         <div>
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
@@ -42,10 +43,10 @@ function SeedPanel(props) {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <SeedPlacement />
+                <SeedPlacement/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <SeedboxConfig />
+                <SeedboxConfig/>
             </TabPanel>
         </div>
     );

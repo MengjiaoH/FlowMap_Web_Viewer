@@ -10,6 +10,7 @@ import VolumeMesh from "./DVR/VolumeMesh";
 import {Vector3} from "three";
 import Slice from "./Slices/Slice";
 import AutoRotationCamera from "./AutoRotationCamera";
+import TimePointsMesh from "./TimePoints";
 
 function PrimaryRenderer(props
 ) {
@@ -77,6 +78,10 @@ function PrimaryRenderer(props
         }
     }, [g_data.modelinfo.shortest_side, g_data.trajectories.seeds])
 
+    const time_points = useMemo(()=>{
+        return <TimePointsMesh g_data={g_data}/>
+    },[g_data.trajectories.paths, g_data.trajectories.display_time])
+
     const seed_box = useMemo(() => {
         if (g_data.seedbox_config.display) {
             const color = g_data.seedbox_config.active ? "rgb(255,0,0)" : "rgb(0,0,0)"
@@ -116,6 +121,7 @@ function PrimaryRenderer(props
             {volume_rendering}
             {seeds}
             {paths}
+            {time_points}
 
             <GizmoHelper alignment={'bottom-right'} margin={[80, 80]}>
                 <GizmoViewport {...{
@@ -140,8 +146,8 @@ function PrimaryRenderer(props
                            staticMoving={true}
                            onChange={updateCamera}
         />
-        <AutoRotationCamera control_ref={control_ref} rotate={false}/>
-        {/*<Stats/>*/}
+        <AutoRotationCamera control_ref={control_ref} rotate={true}/>
+        <Stats/>
     </Canvas>
 }
 

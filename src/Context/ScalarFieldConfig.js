@@ -257,9 +257,10 @@ export default class ScalarFieldConfig {
         const [x, y, z] = pos
         const [x_dim, y_dim, z_dim] = this.dims
         const [x_min, x_max, y_min, y_max, z_min, z_max] = this.root.modelinfo.bounds
-        const xv = rescale(x, 0, x_dim - 1, x_min, x_max)
-        const yv = rescale(y, 0, y_dim - 1, y_min, y_max)
-        const zv = rescale(z, 0, z_dim - 1, z_min, z_max)
+        const xv = Math.max(Math.min(rescale(x, 0, x_dim - 1, x_min, x_max),x_dim-1),0)
+        const yv = Math.max(Math.min(rescale(y, 0, y_dim - 1, y_min, y_max),x_dim-1),0)
+        const zv = Math.max(Math.min(rescale(z, 0, z_dim - 1, z_min, z_max),x_dim-1),0)
+
 
         let xi = Math.floor(xv)
         if (xv === x_dim - 1) {

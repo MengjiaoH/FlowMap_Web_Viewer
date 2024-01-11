@@ -146,7 +146,6 @@ function ColorEditor(props) {
         setColorIndex(idx);
         setCSColor(getColorString(idx))
         setCSPose([e.nativeEvent.offsetX, e.nativeEvent.offsetY])
-        console.log(e)
 
         if (ctf.inRange(x, idx)) {
             setDisplayColorSelector(true)

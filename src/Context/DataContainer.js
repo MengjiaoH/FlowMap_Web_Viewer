@@ -17,6 +17,7 @@ class DataContainer {
         this.line_style_config.makeObservable()
         this.trajectories = new Trajectories(this)
         this.scalars_config = new ScalarFieldConfig(this)
+
         makeAutoObservable(this)
     }
 }

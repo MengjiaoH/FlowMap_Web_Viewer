@@ -7,8 +7,23 @@ export default class Trajectories {
         this.root = root
         this.seeds = []
         this.paths = []
+        this.display_time = 0
         makeAutoObservable(this)
         this.updatePath = this.updatePath.bind(this)
+        this.updateDisplayTime = this.updateDisplayTime.bind(this)
+    }
+
+    updateDisplayTime(time) {
+        this.display_time = time
+        console.log(this.display_time, this.getMaxTime())
+    }
+
+    getMaxTime() {
+        if (this.paths.length === 0 || this.paths[0].path == null) {
+            return 0;
+        } else {
+            return this.paths[0].path.length
+        }
     }
 
 
@@ -31,14 +46,14 @@ export default class Trajectories {
     initPath(index, n) {
         this.paths[index].path = new Array(n).fill(null)
         const spos = this.seeds[index].seed
-        this.paths[index].path[0] = new Vector3(spos[0],spos[1],spos[2])
+        this.paths[index].path[0] = new Vector3(spos[0], spos[1], spos[2])
     }
 
     setPathPos(i, t, pos) {
         this.paths[i].path[t] = pos
     }
 
-    updatePath(){
+    updatePath() {
         this.paths = [...this.paths]
     }
 
@@ -52,6 +67,7 @@ export default class Trajectories {
     }
 
     reset() {
+        this.display_time = 0
         this.paths = []
         this.seeds = []
     }
