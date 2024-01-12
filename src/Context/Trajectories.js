@@ -15,7 +15,6 @@ export default class Trajectories {
 
     updateDisplayTime(time) {
         this.display_time = time
-        console.log(this.display_time, this.getMaxTime())
     }
 
     getMaxTime() {

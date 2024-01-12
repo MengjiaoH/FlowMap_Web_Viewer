@@ -8,12 +8,12 @@ uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 out vec3 world_pos;
 void main()  {
-    vec4 affine_cube = vec4(position.x,position.y,position.z,1.0);
-    vec4 camera_cube = modelViewMatrix * affine_cube;
-    vec4 pix_cube = projectionMatrix * camera_cube;
+    vec4 affine_pos = vec4(position.x,position.y,position.z,1.0);
+    vec4 mv_pos = modelViewMatrix * affine_pos;
+    vec4 mvp_pos = projectionMatrix * mv_pos;
     
-    world_pos = affine_cube.xyz;
-    gl_Position = pix_cube;
+    world_pos = affine_pos.xyz;
+    gl_Position = mvp_pos;
 }
 `
 const surface_frag_shader = `

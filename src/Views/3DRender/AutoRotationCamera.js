@@ -63,6 +63,7 @@ function AutoRotationCamera(props) {
                 trajectories.updateDisplayTime(display_time +1)
             }else{
                 trajectories.updateDisplayTime(0)
+                // trajectories.updateDisplayTime(display_time - time_max/10)
             }
 
         }

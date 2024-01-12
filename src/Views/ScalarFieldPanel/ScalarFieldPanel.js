@@ -39,8 +39,6 @@ function ScalarFieldPanel(props) {
         }
     }, [])
 
-    const content_style = {display: 'flex', flexDirection: 'column', flex: 1, m: 2, overflow:'auto'};
-
     return (
         <div>
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>

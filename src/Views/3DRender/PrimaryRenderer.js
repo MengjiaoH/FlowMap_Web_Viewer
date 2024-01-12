@@ -1,5 +1,5 @@
 import React, {useContext, useMemo, useRef, useState} from 'react'
-import {Canvas, useFrame} from '@react-three/fiber'
+import {Canvas} from '@react-three/fiber'
 import {observer} from "mobx-react";
 import {PerspectiveCamera, TrackballControls,GizmoHelper, GizmoViewport, Stats} from "@react-three/drei";
 import {global_data} from "../../Context/DataContainer";
@@ -10,7 +10,7 @@ import VolumeMesh from "./DVR/VolumeMesh";
 import {Vector3} from "three";
 import Slice from "./Slices/Slice";
 import AutoRotationCamera from "./AutoRotationCamera";
-import TimePointsMesh from "./TimePoints";
+import TimePointsMesh from "./TimePoints/TimePoints";
 
 function PrimaryRenderer(props
 ) {
@@ -61,7 +61,7 @@ function PrimaryRenderer(props
         } else {
             return null
         }
-    }, [camera_pos, g_data.scalars_config.volume_rendering])
+    }, [camera_pos, light_pos, g_data.scalars_config.volume_rendering])
 
     const paths = useMemo(() => {
         return <PathlineMesh paths={g_data.trajectories.paths} radius={g_data.modelinfo.shortest_side / 200}
@@ -71,12 +71,12 @@ function PrimaryRenderer(props
     const seeds = useMemo(() => {
         if (g_data.trajectories.seeds.length > 0) {
             return <Seeds seeds={g_data.trajectories.seeds} radius={g_data.modelinfo.shortest_side / 100}
-                          g_data={g_data}
+                          g_data={g_data} camera_pos={camera_pos} light_dir={light_pos}
             />
         } else {
             return null
         }
-    }, [g_data.modelinfo.shortest_side, g_data.trajectories.seeds])
+    }, [g_data.modelinfo.shortest_side, g_data.trajectories.seeds, g_data, camera_pos, light_pos])
 
     const time_points = useMemo(()=>{
         return <TimePointsMesh g_data={g_data} camera_pos={camera_pos} light_dir={light_pos}/>
