@@ -11,6 +11,8 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {global_data} from "../../Context/DataContainer";
 import {manual_gen, random_gen, uniform_gen} from "./GenSeeds";
+import FormLabel from "@mui/material/FormLabel";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 function SeedPlacement(props) {
     const g_data = useContext(global_data)
@@ -58,9 +60,14 @@ function SeedPlacement(props) {
         event.preventDefault();
         event.stopPropagation();
         const reader = new FileReader()
-        reader.onload = async (event) => {
+        reader.onload = () => {
+            const text = reader.result;
+            const lines = text.trim().split('\n')
+            const coords = lines.map(line => line.trim().split(' ').map(x=>Number(x)));
+            g_data.trajectories.addSeeds(coords)
         };
         reader.readAsText(event.target.files[0])
+
     }
 
     const addSeeds = () => {
@@ -144,6 +151,14 @@ function SeedPlacement(props) {
                 </Button>
                 <Button component="label" variant="outlined" startIcon={<DeleteIcon/>} onClick={deleteSeeds}
                         size="small"> Delete Seeds
+                </Button>
+            </Stack>
+        </Box>
+        <Box component="form" sx={{'& > :not(style)': {m: 1, width: '100%'},}} noValidate autoComplete="off">
+            <Stack direction="row" spacing={2}>
+                <FormLabel>Upload Seed File</FormLabel>
+                <Button component="label" variant="outlined" startIcon={<UploadFileIcon/>} size="small"> Upload
+                    <input hidden type="file" onChange={handleUploadSeedFile}/>
                 </Button>
             </Stack>
         </Box>
