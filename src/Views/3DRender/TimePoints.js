@@ -15,7 +15,7 @@ function TimePointsMesh(props) {
                     const point = path.path[display_time];
                     const seed = seeds[i]
                     const color = seed.style.color_by_scalar ? props.g_data.scalars_config.getColorFromPos(point) : seed.style.color
-                    return <Instance position={point} color={color} scale={path.style.scale} key={'time_point_i_' + i}/>
+                    return <Instance position={point} color={color} scale={seed.style.scale} key={'time_point_i_' + i}/>
                 })
             }
         </Instances>

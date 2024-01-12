@@ -14,7 +14,7 @@
     {
       "filename": "scalar_flow_0.onnx",
       "start_cycle": 0,
-      "stop_cycle": 30,
+      "stop_cycle": 60,
       "bounding_0": 36.82310104370117,
       "bounding_1": 71.68820190429688,
       "bounding_2": -1.0578999519348145,
@@ -24,8 +24,8 @@
     },
     {
       "filename": "scalar_flow_1.onnx",
-      "start_cycle": 30,
-      "stop_cycle": 60,
+      "start_cycle": 60,
+      "stop_cycle": 120,
       "bounding_0": 33.8588981628418,
       "bounding_1": 78.43419647216797,
       "bounding_2": -1.230780005455017,
@@ -35,8 +35,8 @@
     },
     {
       "filename": "scalar_flow_2.onnx",
-      "start_cycle": 60,
-      "stop_cycle": 90,
+      "start_cycle": 120,
+      "stop_cycle": 180,
       "bounding_0": 29.890600204467773,
       "bounding_1": 80.39189910888672,
       "bounding_2": -1.230780005455017,

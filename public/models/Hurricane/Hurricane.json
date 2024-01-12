@@ -15,7 +15,7 @@
         {
             "filename": "hurricane.onnx",
             "start_cycle": 0,
-            "stop_cycle": 30,
+            "stop_cycle": 90,
             "bounding_0": 168.4770050048828,
             "bounding_1": 500.0580139160156,
             "bounding_2": 121.2020034790039,

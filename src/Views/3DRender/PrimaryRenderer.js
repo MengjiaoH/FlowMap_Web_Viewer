@@ -79,7 +79,7 @@ function PrimaryRenderer(props
     }, [g_data.modelinfo.shortest_side, g_data.trajectories.seeds])
 
     const time_points = useMemo(()=>{
-        return <TimePointsMesh g_data={g_data}/>
+        return <TimePointsMesh g_data={g_data} camera_pos={camera_pos} light_dir={light_pos}/>
     },[g_data.trajectories.paths, g_data.trajectories.display_time])
 
     const seed_box = useMemo(() => {
